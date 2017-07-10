@@ -912,7 +912,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
         final int point = recordData.getPoint();
         final TransUploadRequest request = new TransUploadRequest();
 
-        String orderId = CommonFunc.getNewClientSn(this, payType);
+        String orderId = CommonFunc.getNewClientSn();
 
         request.setAction("2");
         request.setOld_trade_order_num(oldOrderNo);
@@ -920,6 +920,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
         request.setPayType(payType);
         request.setAuthCode(authCode);
         request.setT(t);
+        request.setSid(data.getSid());
 
         this.sbsAction.transCancelRefund(this, request, new ActionCallbackListener<String>() {
             @Override
@@ -988,7 +989,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
 
         final TransUploadRequest request = new TransUploadRequest();
 
-        String orderId = CommonFunc.getNewClientSn(this, payType);
+        String orderId = CommonFunc.getNewClientSn();
 
         request.setAction("2");
         request.setOld_trade_order_num(oldOrderNo);

@@ -401,7 +401,7 @@ public class SbsAction {
         paramsMap.put("old_trade_order_num", request.getOld_trade_order_num());
         paramsMap.put("new_trade_order_num", request.getNew_trade_order_num());
         paramsMap.put("action", request.getAction());
-        paramsMap.put("payType", request.getPayType() + "");
+        paramsMap.put("payType", request.getPayType());
         paramsMap.put("authCode", request.getAuthCode());
         paramsMap.put("t", request.getT());
         paramsMap.put("operator_num", SPUtils.get(context, Constants.USER_NAME, ""));

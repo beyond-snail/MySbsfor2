@@ -595,14 +595,16 @@ public class MyOkHttp {
                         public void run() {
                             try {
                                 Gson gson = new GsonBuilder()
-
                                         .serializeNulls()
                                         .create();
+
 
                                 ((GsonResponseHandler) mResponseHandler).onSuccess(response.code(),
                                         gson.fromJson(response_body, ((GsonResponseHandler) mResponseHandler).getType()));
                             } catch (Exception e) {
                                 LogUtils.e("onResponse fail parse gson, body=" + response_body);
+
+                                e.printStackTrace();
                                 if (response_body == null){
                                     mResponseHandler.onFailure(response.code(), "数据返回为空");
                                 }else {

@@ -53,6 +53,7 @@ import com.zfsbs.model.LoginApiResponse;
 import com.zfsbs.model.MemberTransAmountResponse;
 import com.zfsbs.model.RicherGetMember;
 import com.zfsbs.model.SbsPrinterData;
+import com.zfsbs.model.SetClientOrder;
 import com.zfsbs.model.TransUploadRequest;
 import com.zfsbs.model.TransUploadResponse;
 import com.zfsbs.model.ZfQbResponse;
@@ -66,6 +67,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import static com.zfsbs.common.CommonFunc.getNewClientSn;
 import static com.zfsbs.common.CommonFunc.startAction;
 import static com.zfsbs.common.CommonFunc.startResultAction;
 import static com.zfsbs.config.Constants.PAY_FY_ALY;
@@ -120,6 +122,12 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
 //	private boolean isYxfUpload = false; //是否上送流水
 
     private int app_type = 0;
+
+
+
+
+    private String clientNo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,6 +202,24 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
                 ll_payType.setVisibility(View.GONE);
             }
         }
+
+
+        //获取订单号
+        SetClientOrder setClientOrder = CommonFunc.recoveryClientOrderNo(this);
+        if (setClientOrder != null){
+            if (setClientOrder.isStatus()){
+                //是会员
+                clientNo = setClientOrder.getClientNo();
+            }else {
+                //是会员 但 不使用权益 ，和 不是会员一样处理
+                clientNo = getNewClientSn();
+            }
+        }else{
+            clientNo = getNewClientSn();
+        }
+
+
+
 
 
         bat = new BATPay(this);
@@ -369,7 +395,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
 
             //设置流水上送参数
             TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-                    CommonFunc.getNewClientSn(this, printerData.getPayType()), "", ""
+                    clientNo, "", ""
             );
 
             //打印订单号与流水上送统一
@@ -381,7 +407,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
 
             //设置流水上送参数
             TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-                    CommonFunc.getNewClientSn(this, printerData.getPayType()), "", ""
+                    clientNo, "", ""
             );
 
             //打印订单号与流水上送统一
@@ -395,7 +421,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
                 sendYxf(printerData);
             } else {
                 printerData.setApp_type(app_type);
-                printerData.setClientOrderNo(CommonFunc.getNewClientSn(ZfPayActivity.this, printerData.getPayType()));
+                printerData.setClientOrderNo(clientNo);
                 PrinterDataSave();
                 Printer.getInstance(ZfPayActivity.this).print(printerData, ZfPayActivity.this);
                 showLayout();
@@ -406,7 +432,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
             if (isMember) {
                 //设置流水上送参数
                 TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-                        CommonFunc.getNewClientSn(this, printerData.getPayType()), "", ""
+                        clientNo, "", ""
                 );
 
                 //打印订单号与流水上送统一
@@ -417,7 +443,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
             }else {
                 printerData.setApp_type(app_type);
                 printerData.setMember(isMember);
-                printerData.setClientOrderNo(CommonFunc.getNewClientSn(ZfPayActivity.this, printerData.getPayType()));
+                printerData.setClientOrderNo(clientNo);
                 PrinterDataSave();
                 Printer.getInstance(ZfPayActivity.this).print(printerData, ZfPayActivity.this);
                 showLayout();
@@ -504,7 +530,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
             return;
         }
         // 设置订单号
-        bat.setMyOrderId(CommonFunc.getNewClientSn(this, type));
+        bat.setMyOrderId(clientNo);
         bat.pay(type, CommonFunc.recoveryMemberInfo(this).getRealMoney(), new BatInterface() {
 
             @Override
@@ -571,7 +597,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
                     //设置流水上送需要上送的参数
                     TransUploadRequest request = CommonFunc.setTransUploadData(printerData,
                             CommonFunc.recoveryMemberInfo(ZfPayActivity.this),
-                            CommonFunc.getNewClientSn(ZfPayActivity.this, printerData.getPayType()),
+                            clientNo,
                             printerData.getVoucherNo(), printerData.getReferNo());
 
                     //打印的订单号与流水上送的统一
@@ -583,7 +609,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
                     //设置流水上送需要上送的参数
                     TransUploadRequest request = CommonFunc.setTransUploadData(printerData,
                             CommonFunc.recoveryMemberInfo(ZfPayActivity.this),
-                            CommonFunc.getNewClientSn(ZfPayActivity.this, printerData.getPayType()),
+                            clientNo,
                             printerData.getVoucherNo(), printerData.getReferNo());
 
                     //打印的订单号与流水上送的统一
@@ -597,7 +623,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
                         sendYxf(printerData);
                     } else {
                         printerData.setApp_type(app_type);
-                        printerData.setClientOrderNo(CommonFunc.getNewClientSn(ZfPayActivity.this, printerData.getPayType()));
+                        printerData.setClientOrderNo(clientNo);
                         PrinterDataSave();
                         Printer.getInstance(ZfPayActivity.this).print(printerData, ZfPayActivity.this);
                         showLayout();
@@ -608,7 +634,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
                         //设置流水上送需要上送的参数
                         TransUploadRequest request = CommonFunc.setTransUploadData(printerData,
                                 CommonFunc.recoveryMemberInfo(ZfPayActivity.this),
-                                CommonFunc.getNewClientSn(ZfPayActivity.this, printerData.getPayType()),
+                                clientNo,
                                 printerData.getVoucherNo(), printerData.getReferNo());
                         printerData.setMember(isMember);
                         //打印的订单号与流水上送的统一
@@ -619,7 +645,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
                     }else {
                         printerData.setApp_type(app_type);
                         printerData.setMember(isMember);
-                        printerData.setClientOrderNo(CommonFunc.getNewClientSn(ZfPayActivity.this, printerData.getPayType()));
+                        printerData.setClientOrderNo(clientNo);
                         PrinterDataSave();
                         Printer.getInstance(ZfPayActivity.this).print(printerData, ZfPayActivity.this);
                         showLayout();
@@ -658,7 +684,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
         if (app_type == Config.APP_SBS) {
             //设置流水上送参数
             TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-                    CommonFunc.getNewClientSn(this, printerData.getPayType()), "", ""
+                    clientNo, "", ""
             );
 
             //打印订单号与流水上送统一
@@ -669,7 +695,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
         } else if (app_type == Config.APP_Richer_e) {
             //设置流水上送参数
             TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-                    CommonFunc.getNewClientSn(this, printerData.getPayType()), "", ""
+                    clientNo, "", ""
             );
 
             //打印订单号与流水上送统一
@@ -682,7 +708,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
                 sendYxf(printerData);
             } else {
                 printerData.setApp_type(app_type);
-                printerData.setClientOrderNo(CommonFunc.getNewClientSn(ZfPayActivity.this, printerData.getPayType()));
+                printerData.setClientOrderNo(clientNo);
                 PrinterDataSave();
                 Printer.getInstance(ZfPayActivity.this).print(printerData, ZfPayActivity.this);
                 showLayout();
@@ -692,7 +718,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
             if (isMember) {
                 //设置流水上送参数
                 TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-                        CommonFunc.getNewClientSn(this, printerData.getPayType()), "", ""
+                        clientNo, "", ""
                 );
 
                 //打印订单号与流水上送统一
@@ -703,7 +729,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
             }else {
                 printerData.setApp_type(app_type);
                 printerData.setMember(isMember);
-                printerData.setClientOrderNo(CommonFunc.getNewClientSn(this, printerData.getPayType()));
+                printerData.setClientOrderNo(clientNo);
                 PrinterDataSave();
                 Printer.getInstance(ZfPayActivity.this).print(printerData, ZfPayActivity.this);
                 showLayout();
@@ -751,14 +777,14 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
 
     private void FyWxPay1(String code) {
         printerData.setPayType(Constants.PAY_WAY_WX);
-        printerData.setClientOrderNo(CommonFunc.getNewClientSn(this, printerData.getPayType()));
+        printerData.setClientOrderNo(clientNo);
         fybat.pay1(code, PAY_FY_WX, printerData.getClientOrderNo(), CommonFunc.recoveryMemberInfo(this).getRealMoney());
     }
 
 
     private void FyAlyPay1(String code) {
         printerData.setPayType(Constants.PAY_WAY_ALY);
-        printerData.setClientOrderNo(CommonFunc.getNewClientSn(this, printerData.getPayType()));
+        printerData.setClientOrderNo(clientNo);
         fybat.pay1(code, PAY_FY_ALY, printerData.getClientOrderNo(), CommonFunc.recoveryMemberInfo(this).getRealMoney());
     }
 
@@ -770,7 +796,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
             return;
         }
         int sid = MyApplication.getInstance().getLoginData().getSid();
-        final String orderNo = CommonFunc.getNewClientSn(this, Constants.PAY_WAY_QB);
+        final String orderNo = clientNo;
         final String time = StringUtils.getFormatCurTime();
         final String traceNum = StringUtils.getFormatCurTime() + StringUtils.createRandomNumStr(5);
         this.qbpay.qbAction1(sid, orderNo, CommonFunc.recoveryMemberInfo(this).getRealMoney() + "", time, traceNum, result_qb, new ActionCallbackListener<ZfQbResponse>() {
@@ -964,14 +990,14 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
 
         if (app_type == Config.APP_SBS) {
             TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-                    CommonFunc.getNewClientSn(this, printerData.getPayType()), printerData.getTransNo(), printerData.getAuthCode()
+                    orderNo, printerData.getTransNo(), printerData.getAuthCode()
             );
             //这个地方保持和支付的时候一直
             request.setClientOrderNo(orderNo);
             transUploadAction1(request);
         } else if (app_type == Config.APP_Richer_e) {
             TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-                    CommonFunc.getNewClientSn(this, printerData.getPayType()), printerData.getTransNo(), printerData.getAuthCode()
+                    orderNo, printerData.getTransNo(), printerData.getAuthCode()
             );
             printerData.setClientOrderNo(request.getClientOrderNo());
 
@@ -983,7 +1009,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
                 sendYxf(printerData);
             } else {
                 printerData.setApp_type(app_type);
-                printerData.setClientOrderNo(CommonFunc.getNewClientSn(ZfPayActivity.this, printerData.getPayType()));
+                printerData.setClientOrderNo(orderNo);
                 PrinterDataSave();
                 Printer.getInstance(ZfPayActivity.this).print(printerData, ZfPayActivity.this);
                 showLayout();
@@ -993,7 +1019,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
             boolean isMember = (boolean) SPUtils.get(this, Config.isHdMember, false);
             if (isMember) {
                 TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-                        CommonFunc.getNewClientSn(this, printerData.getPayType()), printerData.getTransNo(), printerData.getAuthCode()
+                        orderNo, printerData.getTransNo(), printerData.getAuthCode()
                 );
                 //这个地方保持和支付的时候一直
                 request.setClientOrderNo(orderNo);
@@ -1002,7 +1028,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
             }else {
                 printerData.setApp_type(app_type);
                 printerData.setMember(isMember);
-                printerData.setClientOrderNo(CommonFunc.getNewClientSn(ZfPayActivity.this, printerData.getPayType()));
+                printerData.setClientOrderNo(orderNo);
                 PrinterDataSave();
                 Printer.getInstance(ZfPayActivity.this).print(printerData, ZfPayActivity.this);
                 showLayout();
@@ -1100,13 +1126,13 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
 
         if (app_type == Config.APP_SBS) {
             TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-                    CommonFunc.getNewClientSn(this, printerData.getPayType()), printerData.getTransNo(), printerData.getAuthCode()
+                    clientNo, printerData.getTransNo(), printerData.getAuthCode()
             );
             printerData.setClientOrderNo(request.getClientOrderNo());
             transUploadAction1(request);
         } else if (app_type == Config.APP_Richer_e) {
             TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-                    CommonFunc.getNewClientSn(this, printerData.getPayType()), printerData.getTransNo(), printerData.getAuthCode()
+                    clientNo, printerData.getTransNo(), printerData.getAuthCode()
             );
             printerData.setClientOrderNo(request.getClientOrderNo());
 
@@ -1118,7 +1144,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
                 sendYxf(printerData);
             } else {
                 printerData.setApp_type(app_type);
-                printerData.setClientOrderNo(CommonFunc.getNewClientSn(ZfPayActivity.this, printerData.getPayType()));
+                printerData.setClientOrderNo(clientNo);
                 PrinterDataSave();
                 Printer.getInstance(ZfPayActivity.this).print(printerData, ZfPayActivity.this);
                 showLayout();
@@ -1128,7 +1154,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
             boolean isMember = (boolean) SPUtils.get(this, Config.isHdMember, false);
             if (isMember) {
                 TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-                        CommonFunc.getNewClientSn(this, printerData.getPayType()), printerData.getTransNo(), printerData.getAuthCode()
+                        clientNo, printerData.getTransNo(), printerData.getAuthCode()
                 );
                 printerData.setClientOrderNo(request.getClientOrderNo());
                 printerData.setMember(isMember);
@@ -1136,7 +1162,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
             }else {
                 printerData.setApp_type(app_type);
                 printerData.setMember(isMember);
-                printerData.setClientOrderNo(CommonFunc.getNewClientSn(ZfPayActivity.this, printerData.getPayType()));
+                printerData.setClientOrderNo(clientNo);
                 PrinterDataSave();
                 Printer.getInstance(ZfPayActivity.this).print(printerData, ZfPayActivity.this);
                 showLayout();
@@ -1167,13 +1193,13 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
 
         if (app_type == Config.APP_SBS) {
             TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-                    CommonFunc.getNewClientSn(this, printerData.getPayType()), printerData.getTransNo(), printerData.getAuthCode()
+                    clientNo, printerData.getTransNo(), printerData.getAuthCode()
             );
             printerData.setClientOrderNo(request.getClientOrderNo());
             transUploadAction1(request);
         } else if (app_type == Config.APP_Richer_e) {
             TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-                    CommonFunc.getNewClientSn(this, printerData.getPayType()), printerData.getTransNo(), printerData.getAuthCode()
+                    clientNo, printerData.getTransNo(), printerData.getAuthCode()
             );
             printerData.setClientOrderNo(request.getClientOrderNo());
 
@@ -1184,7 +1210,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
                 sendYxf(printerData);
             } else {
                 printerData.setApp_type(app_type);
-                printerData.setClientOrderNo(CommonFunc.getNewClientSn(ZfPayActivity.this, printerData.getPayType()));
+                printerData.setClientOrderNo(clientNo);
                 PrinterDataSave();
                 Printer.getInstance(ZfPayActivity.this).print(printerData, ZfPayActivity.this);
                 showLayout();
@@ -1194,7 +1220,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
             boolean isMember = (boolean) SPUtils.get(this, Config.isHdMember, false);
             if (isMember) {
                 TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-                        CommonFunc.getNewClientSn(this, printerData.getPayType()), printerData.getTransNo(), printerData.getAuthCode()
+                        clientNo, printerData.getTransNo(), printerData.getAuthCode()
                 );
                 printerData.setClientOrderNo(request.getClientOrderNo());
                 printerData.setMember(isMember);
@@ -1202,7 +1228,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
             }else {
                 printerData.setApp_type(app_type);
                 printerData.setMember(isMember);
-                printerData.setClientOrderNo(CommonFunc.getNewClientSn(ZfPayActivity.this, printerData.getPayType()));
+                printerData.setClientOrderNo(clientNo);
                 PrinterDataSave();
                 Printer.getInstance(ZfPayActivity.this).print(printerData, ZfPayActivity.this);
                 showLayout();

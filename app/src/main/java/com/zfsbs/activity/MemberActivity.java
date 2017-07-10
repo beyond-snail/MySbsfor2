@@ -28,6 +28,7 @@ import com.zfsbs.model.Coupons;
 import com.zfsbs.model.CouponsResponse;
 import com.zfsbs.model.MemberTransAmountRequest;
 import com.zfsbs.model.MemberTransAmountResponse;
+import com.zfsbs.model.SetClientOrder;
 import com.zfsbs.myapplication.MyApplication;
 import com.zfsbs.view.ConponsDialog;
 
@@ -35,6 +36,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.zfsbs.common.CommonFunc.getNewClientSn;
 import static com.zfsbs.common.CommonFunc.startAction;
 
 public class MemberActivity extends BaseActivity implements View.OnClickListener {
@@ -248,7 +250,7 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
 
 
     private void memberTransAmountAction() {
-        MemberTransAmountRequest request = new MemberTransAmountRequest();
+        final MemberTransAmountRequest request = new MemberTransAmountRequest();
         request.setSid(MyApplication.getInstance().getLoginData().getSid());
         request.setMemberCardNo(couponResponse.getMemberCardNo());
         request.setPassword(pass);
@@ -256,19 +258,24 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
         request.setPoint(point);
         request.setCouponSn(getSn());
         request.setMemberName(couponResponse.getMemberName());
+        request.setClientOrderNo(getNewClientSn());
 
         this.sbsAction.memberTransAmount(MemberActivity.this, request, new ActionCallbackListener<MemberTransAmountResponse>() {
             @Override
             public void onSuccess(MemberTransAmountResponse data) {
-//                Bundle bundle = new Bundle();
-//                data.setPoint((int) point);
-//                data.setPass(pass);
-//                bundle.putSerializable("memberTransAmount", data);
-//                startAction(MemberActivity.this, ZfPayActivity.class, bundle, true);
+
+
+                //备份订单号
+                SetClientOrder order = new SetClientOrder();
+                order.setStatus(true);
+                order.setClientNo(request.getClientOrderNo());
+                CommonFunc.setMemberClientOrderNo(MemberActivity.this, order);
+
 
                 data.setPoint(point);
                 data.setPass(pass);
                 CommonFunc.setBackMemberInfo(MemberActivity.this, data);
+
                 startAction(MemberActivity.this, ZfPayActivity.class, true);
             }
 

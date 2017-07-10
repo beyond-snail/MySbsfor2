@@ -49,6 +49,7 @@ import com.zfsbs.core.myinterface.ActionCallbackListener;
 import com.zfsbs.model.FailureData;
 import com.zfsbs.model.MemberTransAmountResponse;
 import com.zfsbs.model.SbsPrinterData;
+import com.zfsbs.model.SetClientOrder;
 import com.zfsbs.model.ShiftRoomSave;
 import com.zfsbs.model.TransUploadRequest;
 import com.zfsbs.model.ZfQbResponse;
@@ -115,19 +116,30 @@ public class CommonFunc {
         return a;
     }
 
-
-
-    public static String getNewClientSn(Context context, int PayType) {
-        String orderNo = "";
+    /**
+     * 获取订单号
+     * @return
+     */
+    public static String getNewClientSn() {
         String device = "2"; // 1:手机 2:Pos机
-        String payType = "" + PayType;
         String timestamp = StringUtils.getFormatCurTime();
         String randomNum = StringUtils.createRandomNumStr(3);
-        String activateCode = getActivateCode(PayType);
+        String serial_no = StringUtils.getSerial();
 
-        orderNo = device + payType + timestamp + randomNum + activateCode;
-        return orderNo;
+        return device + timestamp + randomNum + serial_no;
     }
+
+//    public static String getNewClientSn(Context context, int PayType) {
+//        String orderNo = "";
+//        String device = "2"; // 1:手机 2:Pos机
+//        String payType = "" + PayType;
+//        String timestamp = StringUtils.getFormatCurTime();
+//        String randomNum = StringUtils.createRandomNumStr(3);
+//        String activateCode = getActivateCode(PayType);
+//
+//        orderNo = device + payType + timestamp + randomNum + activateCode;
+//        return orderNo;
+//    }
 
     public static String getActivateCode(int payType) {
         String activateCode = "";
@@ -294,6 +306,33 @@ public class CommonFunc {
 
         context.startActivityForResult(intent, requestCode);
     }
+
+
+    /**
+     * 设置会员的订单号
+     * @param context
+     * @param orderNo
+     */
+    public static void setMemberClientOrderNo(Context context, SetClientOrder orderNo){
+        //清空
+        SPUtils.remove(context, "clientNo");
+        String data = new Gson().toJson(orderNo);
+        SPUtils.put(context, "clientNo", data);
+    }
+
+
+    /**
+     * 获取订单号
+     * @param context
+     * @return
+     */
+    public static SetClientOrder recoveryClientOrderNo(Context context){
+        String data = (String) SPUtils.get(context, "clientNo", "");
+        return StringUtils.isEmpty(data) ? null : new Gson().fromJson(data, SetClientOrder.class);
+    }
+
+
+
 
 
     /**

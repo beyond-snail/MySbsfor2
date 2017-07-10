@@ -757,14 +757,14 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
 
         if (CommonFunc.recoveryFailureInfo(this).getApp_type() == Config.APP_SBS) {
             TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-                    CommonFunc.getNewClientSn(this, printerData.getPayType()), printerData.getTransNo(), printerData.getAuthCode()
+                    CommonFunc.getNewClientSn(), printerData.getTransNo(), printerData.getAuthCode()
             );
             //这个地方保持和支付的时候一直
             request.setClientOrderNo(orderNo);
             transUploadAction1(request);
         } else if (CommonFunc.recoveryFailureInfo(this).getApp_type() == Config.APP_HD) {
             TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-                    CommonFunc.getNewClientSn(this, printerData.getPayType()), printerData.getTransNo(), printerData.getAuthCode()
+                    CommonFunc.getNewClientSn(), printerData.getTransNo(), printerData.getAuthCode()
             );
             //这个地方保持和支付的时候一直
             request.setClientOrderNo(orderNo);
@@ -1077,10 +1077,10 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
             if (!StringUtils.isEmpty(sm_type) && StringUtils.isEquals(sm_type, Constants.SM_TYPE_SQB)) {
 //                orderId = bat.getMyOrderId();
             } else if (!StringUtils.isEmpty(sm_type) && StringUtils.isEquals(sm_type, Constants.SM_TYPE_FY)) {
-                orderId = CommonFunc.getNewClientSn(this, PayType);
+                orderId = CommonFunc.getNewClientSn();
             }
         } else {
-            orderId = CommonFunc.getNewClientSn(this, PayType);
+            orderId = CommonFunc.getNewClientSn();
         }
 
         return orderId;

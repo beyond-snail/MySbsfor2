@@ -255,7 +255,7 @@ public class HsSaleManagerActivity extends BaseActivity implements OnClickListen
      */
     private void setTransCancel() {
         final TransUploadRequest request = new TransUploadRequest();
-        String orderId = CommonFunc.getNewClientSn(this, Constants.PAY_WAY_UNDO);
+        String orderId = CommonFunc.getNewClientSn();
         printerData.setClientOrderNo(orderId);
         printerData.setOldOrderId(orderNo);
         request.setAction("2");
@@ -373,7 +373,7 @@ public class HsSaleManagerActivity extends BaseActivity implements OnClickListen
      */
     private void Richer_setTransCancel() {
         final TransUploadRequest request = new TransUploadRequest();
-        String orderId = CommonFunc.getNewClientSn(this, Constants.PAY_WAY_UNDO);
+        String orderId = CommonFunc.getNewClientSn();
         printerData.setClientOrderNo(orderId);
         printerData.setOldOrderId(orderNo);
         request.setAction("2");

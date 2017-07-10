@@ -37,38 +37,31 @@ import java.io.Serializable;
 
 /**********************************************************
  *                                                        *
- *                  Created by wucongpeng on 2017/3/27.        *
+ *                  Created by wucongpeng on 2017/7/10.        *
  **********************************************************/
 
 
-public class OperatorBean implements Serializable {
+/**
+ * 记录订单号
+ */
+public class SetClientOrder implements Serializable{
 
-    private String operator_num;
-    private String operator_password;
+    private boolean isStatus;
+    private String clientNo;
 
-
-
-    public String getOperator_num() {
-        return operator_num;
+    public boolean isStatus() {
+        return isStatus;
     }
 
-    public void setOperator_num(String operator_num) {
-        this.operator_num = operator_num;
+    public void setStatus(boolean status) {
+        isStatus = status;
     }
 
-    public String getOperator_password() {
-        return operator_password;
+    public String getClientNo() {
+        return clientNo;
     }
 
-    public void setOperator_password(String operator_password) {
-        this.operator_password = operator_password;
-    }
-
-    @Override
-    public String toString() {
-        return "OperatorBean{" +
-                "operator_num='" + operator_num + '\'' +
-                ", operator_password='" + operator_password + '\'' +
-                '}';
+    public void setClientNo(String clientNo) {
+        this.clientNo = clientNo;
     }
 }

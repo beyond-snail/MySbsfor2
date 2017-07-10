@@ -163,7 +163,7 @@ public class SaleUndoActivity extends BaseActivity implements OnClickListener {
                     setTransCancel();
                 } else if (app_type == Config.APP_YXF) {
 //                    if (StringUtils.isEmpty(phone)){
-                        String orderId = CommonFunc.getNewClientSn(SaleUndoActivity.this, Constants.PAY_WAY_UNDO);
+                        String orderId = CommonFunc.getNewClientSn();
                         printerData.setClientOrderNo(orderId);
                         printerData.setOldOrderId(StringUtils.isEmpty(oldOrderId)? "" : oldOrderId);
                         printerData.setRefundUpload(true);
@@ -179,7 +179,7 @@ public class SaleUndoActivity extends BaseActivity implements OnClickListener {
                     if (isMember){
                         setTransCancel();
                     }else {
-                        String orderId = CommonFunc.getNewClientSn(SaleUndoActivity.this, Constants.PAY_WAY_UNDO);
+                        String orderId = CommonFunc.getNewClientSn();
                         printerData.setClientOrderNo(orderId);
                         printerData.setOldOrderId(StringUtils.isEmpty(oldOrderId)? "" : oldOrderId);
                         printerData.setRefundUpload(true);
@@ -249,7 +249,7 @@ public class SaleUndoActivity extends BaseActivity implements OnClickListener {
      */
     private void setTransCancel() {
         final TransUploadRequest request = new TransUploadRequest();
-        String orderId = CommonFunc.getNewClientSn(this, Constants.PAY_WAY_UNDO);
+        String orderId = CommonFunc.getNewClientSn();
         printerData.setClientOrderNo(orderId);
         printerData.setOldOrderId(orderNo);
         request.setAction("2");
@@ -540,7 +540,7 @@ public class SaleUndoActivity extends BaseActivity implements OnClickListener {
      */
     private void Richer_setTransCancel() {
         final TransUploadRequest request = new TransUploadRequest();
-        String orderId = CommonFunc.getNewClientSn(this, Constants.PAY_WAY_UNDO);
+        String orderId = CommonFunc.getNewClientSn();
         printerData.setClientOrderNo(orderId);
         printerData.setOldOrderId(orderNo);
         request.setAction("2");

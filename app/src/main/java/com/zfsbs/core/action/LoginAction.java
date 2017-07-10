@@ -84,7 +84,7 @@ public class LoginAction {
                 //判断当前的操作员是否存在返回列表中
                 List<OperatorBean> lists = data.getOperator_list();
 
-                if (!(checkOpertorUserName(lists, username) && checkOptertorPsw(lists, password))){
+                if (lists != null && !(checkOpertorUserName(lists, username) && checkOptertorPsw(lists, password))){
                     ToastUtils.CustomShow(mContext, "操作员账号或者密码错误");
                     return;
                 }
