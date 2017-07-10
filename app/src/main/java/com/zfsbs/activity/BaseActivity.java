@@ -115,6 +115,8 @@ public abstract class BaseActivity extends Activity {
 
         long DAY = 1000L * 60 * 60 * 24;
 
+
+
         // 进行闹铃注册
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
