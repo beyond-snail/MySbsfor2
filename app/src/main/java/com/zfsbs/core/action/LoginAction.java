@@ -3,7 +3,9 @@ package com.zfsbs.core.action;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentValues;
+import android.graphics.Bitmap;
 
+import com.bumptech.glide.Glide;
 import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
@@ -22,6 +24,7 @@ import com.zfsbs.myapplication.MyApplication;
 import org.litepal.crud.DataSupport;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class LoginAction {
 
@@ -84,12 +87,10 @@ public class LoginAction {
                 //判断当前的操作员是否存在返回列表中
                 List<OperatorBean> lists = data.getOperator_list();
 
-                if (lists != null && !(checkOpertorUserName(lists, username) && checkOptertorPsw(lists, password))){
+                if (lists != null && !(checkOpertorUserName(lists, username) && checkOptertorPsw(lists, password))) {
                     ToastUtils.CustomShow(mContext, "操作员账号或者密码错误");
                     return;
                 }
-
-
 
 
                 loginSave(data);
@@ -131,22 +132,21 @@ public class LoginAction {
 
     private boolean checkOpertorUserName(List<OperatorBean> lists, String username) {
         for (OperatorBean operatorBean : lists) {
-            if (StringUtils.isEquals(username, operatorBean.getOperator_num())){
+            if (StringUtils.isEquals(username, operatorBean.getOperator_num())) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean checkOptertorPsw(List<OperatorBean> lists, String password){
-        for (OperatorBean operatorBean : lists){
-            if (StringUtils.isEquals(password, operatorBean.getOperator_password())){
+    private boolean checkOptertorPsw(List<OperatorBean> lists, String password) {
+        for (OperatorBean operatorBean : lists) {
+            if (StringUtils.isEquals(password, operatorBean.getOperator_password())) {
                 return true;
             }
         }
         return false;
     }
-
 
 
     /**
@@ -240,7 +240,10 @@ public class LoginAction {
 
                 // 更新其他到数据库
                 ContentValues values = new ContentValues();
+
                 values.put("sid", data.getSid());
+                values.put("printPic", data.getPrintPic());
+                values.put("printContent", data.getPrintContent());
                 values.put("licenseNo", data.getLicenseNo());
                 values.put("accountName", data.getAccountName());
                 values.put("accountBank", data.getAccountBank());
@@ -260,6 +263,8 @@ public class LoginAction {
 
                 // 更新当前使用数据
                 temp.setSid(data.getSid());
+                temp.setPrintContent(data.getPrintContent());
+                temp.setPrintPic(data.getPrintPic());
                 temp.setLicenseNo(data.getLicenseNo());
                 temp.setAccountName(data.getAccountName());
                 temp.setAccountBank(data.getAccountBank());
@@ -315,6 +320,36 @@ public class LoginAction {
 
     private void Save(LoginApiResponse data) {
         MyApplication.getInstance().setLoginData(data);
+
+        SPUtils.put(mContext, "printContent", data.getPrintContent());
+
+        //下载图片
+//        Bitmap bitmap = Constants.ImageLoad(MyApplication.getInstance().getLoginData().getPrintPic());
+//        if (bitmap != null){
+//            SPUtils.saveDrawable(this, bitmap);
+//        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Bitmap bitmap = Glide.with(mContext)
+                            .load(MyApplication.getInstance().getLoginData().getPrintPic())
+                            .asBitmap()
+                            .centerCrop()
+                            .into(400, 400).get();
+
+                    if (bitmap != null) {
+                        SPUtils.saveDrawable(mContext, bitmap);
+                    }
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 //
 //    private void Save0(LoginApiResponse data) {

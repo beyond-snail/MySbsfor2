@@ -56,7 +56,7 @@ public class MyOkHttp {
     public static final MediaType TEXT = MediaType.parse("text/html; charset=utf-8");
 
     //超时时间
-    public static final int TIMEOUT = 60;
+    public static final int TIMEOUT = 30;
 
     public MyOkHttp() {
         client = new OkHttpClient().newBuilder().connectTimeout(TIMEOUT, TimeUnit.SECONDS)
@@ -594,13 +594,21 @@ public class MyOkHttp {
                         @Override
                         public void run() {
                             try {
+
                                 Gson gson = new GsonBuilder()
                                         .serializeNulls()
                                         .create();
 
+                                Object object = gson.fromJson(response_body, ((GsonResponseHandler) mResponseHandler).getType());
+                                ((GsonResponseHandler) mResponseHandler).onSuccess(response.code(), object);
 
-                                ((GsonResponseHandler) mResponseHandler).onSuccess(response.code(),
-                                        gson.fromJson(response_body, ((GsonResponseHandler) mResponseHandler).getType()));
+//                                Gson gson = new GsonBuilder()
+//                                        .serializeNulls()
+//                                        .create();
+//
+//
+//                                ((GsonResponseHandler) mResponseHandler).onSuccess(response.code(),
+//                                        gson.fromJson(response_body, ((GsonResponseHandler) mResponseHandler).getType()));
                             } catch (Exception e) {
                                 LogUtils.e("onResponse fail parse gson, body=" + response_body);
 

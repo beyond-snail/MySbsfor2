@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.hd.core.HdAction;
 import com.hd.model.HdAdjustScoreResponse;
 import com.mycommonlib.core.PayCommon;
@@ -36,6 +37,7 @@ import com.zfsbs.core.action.FyBat;
 import com.zfsbs.core.action.Printer;
 import com.zfsbs.core.action.RicherQb;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
+import com.zfsbs.model.Couponsn;
 import com.zfsbs.model.FailureData;
 import com.zfsbs.model.FyMicropayRequest;
 import com.zfsbs.model.FyMicropayResponse;
@@ -60,7 +62,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 
-
 public class SaleMainActivity extends BaseActivity implements OnClickListener {
 
     private RelativeLayout btnSale;
@@ -76,6 +77,7 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
     private RelativeLayout btnEndQuery;
     private RelativeLayout btnShitRoom;
     private RelativeLayout btnRicher_e_qb;
+    private RelativeLayout btnVerification;
 
 
     private List<View> views = null;
@@ -107,6 +109,8 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
                 }
             });
         }
+
+
 
 
     }
@@ -184,6 +188,7 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
             btnShitRoom = (RelativeLayout) view2.findViewById(R.id.id_ll_shiftroom);
             btnyxfSale = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale);
             btnyxfSaleManager = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale_manager);
+            btnVerification = (RelativeLayout) view2.findViewById(R.id.id_ll_id_sn_verification);
 
 
             btnyxfSale.setVisibility(View.INVISIBLE);
@@ -300,6 +305,7 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
     private void addLinstener() {
         if (Config.APP_UI != Config.APP_SBS_UI_YXF) {
             btnSale.setOnClickListener(this);
+            btnVerification.setOnClickListener(this);
         }
 
         btnyxfSale.setOnClickListener(this);
@@ -321,6 +327,9 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.id_ll_id_sn_verification:
+                CommonFunc.startAction(this, InputAmountActivity.class, false);
+                break;
             case R.id.id_ll_sale:
                 SPUtils.put(this, Config.APP_TYPE, Config.APP_SBS);
 //                if (getLoginDataNoMember()) {
@@ -518,7 +527,7 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
                 FailureData failureData = CommonFunc.recoveryFailureInfo(SaleMainActivity.this);
                 //流水上送
                 setQbPay1(data, failureData.getOrderNo(),
-                        failureData.getTime(), failureData.getTraceNum());
+                        failureData.getTime(), failureData.getTraceNum(), failureData.getCardNo());
             }
 
             @Override
@@ -739,11 +748,12 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
      * @param time
      * @param traceNum
      */
-    private void setQbPay1(ZfQbResponse data, String orderNo, String time, String traceNum) {
+    private void setQbPay1(ZfQbResponse data, String orderNo, String time, String traceNum, String cardNo) {
         printerData.setMerchantName(MyApplication.getInstance().getLoginData().getTerminalName());
         printerData.setMerchantNo(data.getGroupId());
         printerData.setTerminalId(StringUtils.getSerial());
         printerData.setOperatorNo((String) SPUtils.get(this, Constants.USER_NAME, ""));
+        printerData.setCardNo(cardNo);
         printerData.setDateTime(time);
         printerData.setClientOrderNo(orderNo);
         printerData.setTransNo(traceNum);
@@ -761,6 +771,9 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
             );
             //这个地方保持和支付的时候一直
             request.setClientOrderNo(orderNo);
+            if (StringUtils.isEmpty(request.getCardNo())){
+                request.setCardNo(cardNo);
+            }
             transUploadAction1(request);
         } else if (CommonFunc.recoveryFailureInfo(this).getApp_type() == Config.APP_HD) {
             TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
@@ -1002,13 +1015,20 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
     };
 
 
+    private void setCounponData(List<Couponsn> data){
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        String counponStr = gson.toJson(data);
+        printerData.setCouponData(counponStr);
+    }
+
     protected void setTransUpdateResponse(final TransUploadResponse data, final LoadingDialog dialog, boolean flag) {
         printerData.setPoint_url(data.getPoint_url());
         printerData.setPoint(data.getPoint());
         printerData.setPointCurrent(data.getPointCurrent());
-        printerData.setCoupon(data.getCoupon());
-        printerData.setTitle_url(data.getTitle_url());
-        printerData.setMoney(data.getMoney());
+        setCounponData(data.getCoupon());
+//        printerData.setCoupon(data.getCoupon());
+//        printerData.setTitle_url(data.getTitle_url());
+//        printerData.setMoney(data.getMoney());
         printerData.setBackAmt(data.getBackAmt());
         printerData.setApp_type(CommonFunc.recoveryFailureInfo(this).getApp_type());
         if (flag) {
@@ -1021,7 +1041,7 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
             public void run() {
 
                 Bitmap point_bitmap = Constants.ImageLoad(data.getPoint_url());
-                Bitmap title_bitmap = Constants.ImageLoad(data.getCoupon());
+                Bitmap title_bitmap = Constants.ImageLoad(data.getCoupon_url());
 //				LogUtils.e(point_bitmap.getByteCount()+"");
 //				LogUtils.e(title_bitmap.getByteCount()+"");
                 dialog.dismiss();

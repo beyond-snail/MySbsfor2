@@ -54,6 +54,7 @@ import com.zfsbs.model.MemberTransAmountRequest;
 import com.zfsbs.model.MemberTransAmountResponse;
 import com.zfsbs.model.QueryScanReturn;
 import com.zfsbs.model.ShiftRoom;
+import com.zfsbs.model.TicektResponse;
 import com.zfsbs.model.TransUploadRequest;
 import com.zfsbs.model.TransUploadResponse;
 
@@ -62,7 +63,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-
 
 
 /**********************************************************
@@ -444,56 +444,95 @@ public class SbsAction {
 
     }
 
-//    public void transPacketCancelRefund(final Context context, TransUploadRequest request,
-//                                        final ActionCallbackListener<String> listener) {
-//
-//        final LoadingDialog dialog = new LoadingDialog(context);
-//        dialog.show("正在上送退款信息...");
-//
-//        Map<String, Object> paramsMap = new HashMap<String, Object>();
-//        paramsMap.put("old_trade_order_num", request.getOld_trade_order_num());
-//        paramsMap.put("new_trade_order_num", request.getNew_trade_order_num());
-//        paramsMap.put("action", request.getAction());
-//        paramsMap.put("payType", request.getPayType()+"");
-//        paramsMap.put("sid", request.getSid());
-//        paramsMap.put("operator_num", SPUtils.get(context, Constants.USER_NAME, ""));
-//        String data = CommonFunc.getJsonStr("trade_packet_cancel", paramsMap, "verify", Config.md5_key);
-//        MyOkHttp.get().postJson(context, Config.SBS_URL, data, new JsonResponseHandler() {
-//            @Override
-//            public void onSuccess(int statusCode, JSONObject response) {
+    public void transPacketCancelRefund(final Context context, TransUploadRequest request,
+                                        final ActionCallbackListener<String> listener) {
+
+        final LoadingDialog dialog = new LoadingDialog(context);
+        dialog.show("正在上送退款信息...");
+
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("sid", request.getSid());
+        paramsMap.put("old_trade_order_num", request.getOld_trade_order_num());
+        paramsMap.put("new_trade_order_num", request.getNew_trade_order_num());
+        paramsMap.put("action", request.getAction());
+        paramsMap.put("payType", request.getPayType());
+//        paramsMap.put("authCode", request.getAuthCode());
+        paramsMap.put("t", request.getT());
+        paramsMap.put("operator_num", SPUtils.get(context, Constants.USER_NAME, ""));
+
+        String data = CommonFunc.getJsonStr("trade_packet_cancel", paramsMap, "verify", Config.md5_key);
+        MyOkHttp.get().postJson(context, Config.SBS_URL, data, new JsonResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, JSONObject response) {
+                dialog.dismiss();
+                if (response == null) {
+                    listener.onFailure("", "链接服务器异常");
+                } else {
+                    LogUtils.e(TAG, response.toString());
+                    try {
+                        String code = response.getString("code");
+                        String msg = response.getString("msg");
+
+                        if (code.equals("A00006")) {
+                            listener.onSuccess(msg);
+                        } else {
+                            listener.onFailure("", msg);
+                        }
+
+                    } catch (JSONException e) {
+                        listener.onFailure("", "数据解析失败");
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, String error_msg) {
+                dialog.dismiss();
+                listener.onFailure("" + statusCode, error_msg);
+            }
+
+
+        });
+
+    }
+
+
+    /**
+     * 商博士-取消订单
+     *
+     */
+    public void OrderCancel(final Context context, String orderNo){//,  final ActionCallbackListener<String> listener) {
+
+        final LoadingDialog dialog = new LoadingDialog(context);
+//        dialog.show("正在取消订单...");
+
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("orderNo", orderNo);
+        String data = CommonFunc.getJsonStr("orderCancel", paramsMap, "verify", Config.md5_key);
+        LogUtils.e(TAG, Config.SBS_URL);
+        MyOkHttp.get().postJson(context, Config.SBS_URL, data, new GsonResponseHandler<ApiResponse<String>>() {
+            @Override
+            public void onSuccess(int statusCode, ApiResponse<String> response) {
 //                dialog.dismiss();
-//                if (response == null) {
+                if (response != null) {
+                    if (response.getCode().equals("A00006")) {
+//                        listener.onSuccess(response.getResult());
+                    } else {
+//                        listener.onFailure(response.getCode(), response.getMsg());
+                    }
+                } else {
 //                    listener.onFailure("", "链接服务器异常");
-//                } else {
-//                    LogUtils.e(TAG, response.toString());
-//                    try {
-//                        String code = response.getString("code");
-//                        String msg = response.getString("msg");
-//
-//                        if (code.equals("A00006")) {
-//                            listener.onSuccess(msg);
-//                        } else {
-//                            listener.onFailure("", msg);
-//                        }
-//
-//                    } catch (JSONException e) {
-//                        listener.onFailure("", "数据解析失败");
-//                    }
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, String error_msg) {
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, String error_msg) {
 //                dialog.dismiss();
 //                listener.onFailure("" + statusCode, error_msg);
-//            }
-//
-//
-//        });
-//
-//    }
-
+            }
+        });
+    }
 
 
 
@@ -536,6 +575,92 @@ public class SbsAction {
                 } else {
                     listener.onFailure("", "链接服务器异常");
                 }
+            }
+        });
+    }
+
+
+    /**
+     * 券码核销 识别
+     * @param context
+     * @param sid
+     * @param cardNo
+     * @param   * @param listener
+     */
+    public void ticketcheck(final Context context, int sid, String cardNo, String sn, final ActionCallbackListener<TicektResponse> listener){
+        final LoadingDialog dialog = new LoadingDialog(context);
+        dialog.show("加载中...");
+
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("sid", sid);
+        paramsMap.put("cardNo", cardNo);
+        paramsMap.put("terminalSerial", sn);
+
+        String data = CommonFunc.getJsonStr("couponInfo", paramsMap, "verify", Config.md5_key);
+        LogUtils.e(TAG, "URL: " + Config.SBS_URL);
+
+        MyOkHttp.get().postJson(context, Config.SBS_URL, data, new GsonResponseHandler<ApiResponse<TicektResponse>>() {
+            @Override
+            public void onSuccess(int statusCode, ApiResponse<TicektResponse> response) {
+                dialog.dismiss();
+                if (response != null) {
+                    if (response.getCode().equals("A00006")) {
+                        listener.onSuccess(response.getResult());
+                    } else {
+                        listener.onFailure(response.getCode(), response.getMsg());
+                    }
+                } else {
+                    listener.onFailure("", "链接服务器异常");
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, String error_msg) {
+                dialog.dismiss();
+                listener.onFailure("" + statusCode, error_msg);
+            }
+        });
+    }
+
+    /**
+     * 券码核销
+     * @param context
+     * @param sid
+     * @param cardNo
+     * @param sn
+     * @param listener
+     */
+    public void ticketPay(final Context context, int sid, String cardNo, String sn, final ActionCallbackListener<String> listener){
+        final LoadingDialog dialog = new LoadingDialog(context);
+        dialog.show("加载中...");
+
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("sid", sid);
+        paramsMap.put("cardNo", cardNo);
+        paramsMap.put("terminalSerial", sn);
+
+        String data = CommonFunc.getJsonStr("couponVerify", paramsMap, "verify", Config.md5_key);
+        LogUtils.e(TAG, "URL: " + Config.SBS_URL);
+
+        MyOkHttp.get().postJson(context, Config.SBS_URL, data, new GsonResponseHandler<ApiResponse<String>>() {
+            @Override
+            public void onSuccess(int statusCode, ApiResponse<String> response) {
+                dialog.dismiss();
+                if (response != null) {
+                    if (response.getCode().equals("A00006")) {
+                        listener.onSuccess(response.getMsg());
+                    } else {
+                        listener.onFailure(response.getCode(), response.getMsg());
+                    }
+                } else {
+                    listener.onFailure("", "链接服务器异常");
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, String error_msg) {
+                dialog.dismiss();
+                listener.onFailure("" + statusCode, error_msg);
             }
         });
     }

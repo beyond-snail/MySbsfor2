@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.hd.core.HdAction;
 import com.hd.model.HdAdjustScoreResponse;
 import com.myokhttp.MyOkHttp;
@@ -436,29 +437,34 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
      * 由于dialog_customize.xml只放置了一个EditView，因此和图8一样
      * dialog_customize.xml可自定义更复杂的View
      */
+
+        if (!recordData.isRefundUpload() && recordData.isRefund()) {
+            setTransCancel(recordData.getPayType(), refund_order_no);
+            return;
+        }
         AlertDialog.Builder customizeDialog = new AlertDialog.Builder(RecordItemInfoActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
         final View dialogView = LayoutInflater.from(RecordItemInfoActivity.this)
                 .inflate(R.layout.activity_dialog_pass, null);
         customizeDialog.setTitle("请输入主管理员密码");
         customizeDialog.setView(dialogView);
         customizeDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // 获取EditView中的输入内容
-                        EditText edit_text = (EditText) dialogView.findViewById(R.id.edit_text);
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // 获取EditView中的输入内容
+                EditText edit_text = (EditText) dialogView.findViewById(R.id.edit_text);
 
-                        String pass = (String) SPUtils.get(RecordItemInfoActivity.this, Constants.MASTER_PASS, Constants.DEFAULT_MASTER_PASS);
-                        if (StringUtils.isEmpty(edit_text.getText().toString())) {
-                            ToastUtils.CustomShow(RecordItemInfoActivity.this, "请输入主管理密码");
-                            return;
-                        }
-                        if (!StringUtils.isEquals(pass, edit_text.getText().toString())) {
-                            ToastUtils.CustomShow(RecordItemInfoActivity.this, "主管理密码错误");
-                            return;
-                        }
-                        refundTrans();
-                    }
-                });
+                String pass = (String) SPUtils.get(RecordItemInfoActivity.this, Constants.MASTER_PASS, Constants.DEFAULT_MASTER_PASS);
+                if (StringUtils.isEmpty(edit_text.getText().toString())) {
+                    ToastUtils.CustomShow(RecordItemInfoActivity.this, "请输入主管理密码");
+                    return;
+                }
+                if (!StringUtils.isEquals(pass, edit_text.getText().toString())) {
+                    ToastUtils.CustomShow(RecordItemInfoActivity.this, "主管理密码错误");
+                    return;
+                }
+                refundTrans();
+            }
+        });
         customizeDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -479,23 +485,28 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
             public void onSuccess(TransUploadResponse data) {
 //                setTransUpdateResponse(data, dialog, false);
 
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                String counponStr = gson.toJson(data.getCoupon());
+
                 //更新
                 ContentValues values = new ContentValues();
                 values.put("point_url", data.getPoint_url());
                 values.put("point", data.getPoint());
                 values.put("pointCurrent", data.getPointCurrent());
-                values.put("coupon", data.getCoupon());
-                values.put("title_url", data.getTitle_url());
-                values.put("money", data.getMoney());
+                values.put("couponData", counponStr);
+//                values.put("coupon", data.getCoupon());
+//                values.put("title_url", data.getTitle_url());
+//                values.put("money", data.getMoney());
                 values.put("backAmt", data.getBackAmt());
                 DataSupport.update(SbsPrinterData.class, values, recordData.getId());
 
                 recordData.setPoint_url(data.getPoint_url());
                 recordData.setPoint(data.getPoint());
                 recordData.setPointCurrent(data.getPointCurrent());
-                recordData.setCoupon(data.getCoupon());
-                recordData.setTitle_url(data.getTitle_url());
-                recordData.setMoney(data.getMoney());
+//                recordData.setCoupon(data.getCoupon());
+//                recordData.setTitle_url(data.getTitle_url());
+//                recordData.setMoney(data.getMoney());
+                recordData.setCouponData(counponStr);
                 recordData.setBackAmt(data.getBackAmt());
 
                 dialog.dismiss();
@@ -616,14 +627,18 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
                     ToastUtils.CustomShow(RecordItemInfoActivity.this, "交易流水上送成功");
                 }
 
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                String counponStr = gson.toJson(data.getCoupon());
+
                 //更新
                 ContentValues values = new ContentValues();
                 values.put("point_url", data.getPoint_url());
                 values.put("point", data.getPoint());
                 values.put("pointCurrent", data.getPointCurrent());
-                values.put("coupon", data.getCoupon());
-                values.put("title_url", data.getTitle_url());
-                values.put("money", data.getMoney());
+                values.put("couponData", counponStr);
+//                values.put("coupon", data.getCoupon());
+//                values.put("title_url", data.getTitle_url());
+//                values.put("money", data.getMoney());
                 values.put("backAmt", data.getBackAmt());
                 values.put("UploadFlag", false);
                 DataSupport.update(SbsPrinterData.class, values, recordData.getId());
@@ -631,10 +646,10 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
                 recordData.setPoint_url(data.getPoint_url());
                 recordData.setPoint(data.getPoint());
                 recordData.setPointCurrent(data.getPointCurrent());
-                recordData.setCoupon(data.getCoupon());
-                recordData.setTitle_url(data.getTitle_url());
-                recordData.setMoney(data.getMoney());
-
+//                recordData.setCoupon(data.getCoupon());
+//                recordData.setTitle_url(data.getTitle_url());
+//                recordData.setMoney(data.getMoney());
+                recordData.setCouponData(counponStr);
                 recordData.setBackAmt(data.getBackAmt());
                 recordData.setUploadFlag(false);
 
@@ -853,7 +868,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
     }
 
 
-    private void setTransCancel(int payType, String authCode) {
+    private void setTransCancel(int payType, final String authCode) {
 
         if (recordData.getApp_type() == Config.APP_YXF || (recordData.getApp_type() == Config.APP_HD && !recordData.isMember())) {
 
@@ -932,6 +947,8 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
 
                 DataSupport.update(SbsPrinterData.class, values, recordData.getId());
 
+                recordData.setRefund(true);
+                recordData.setRefundUpload(true);
 
                 myintent.putExtra("isRefund", (recordData.getPayType() == Constants.PAY_WAY_UNDO) ? false : true);
                 myintent.putExtra("isRefundUpload", true);
@@ -953,6 +970,10 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
             @Override
             public void onFailure(String errorEvent, String message) {
                 ToastUtils.CustomShow(RecordItemInfoActivity.this, message);
+                recordData.setRefund(true);
+                recordData.setRefundUpload(false);
+                recordData.setRefund_order_no(authCode);
+                btnRefund.setText("退款流水上送");
 
                 myintent.putExtra("isRefund", (recordData.getPayType() == Constants.PAY_WAY_UNDO) ? false : true);
                 setResult(Activity.RESULT_OK, myintent);
@@ -986,7 +1007,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
         int sid = data.getSid();
         final String phone = data.getPhone();
         final int point = recordData.getPoint();
-
+        long t = StringUtils.getdate2TimeStamp(StringUtils.getCurTime());
         final TransUploadRequest request = new TransUploadRequest();
 
         String orderId = CommonFunc.getNewClientSn();
@@ -996,8 +1017,10 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
         request.setNew_trade_order_num(orderId);
         request.setPayType(payType);
         request.setSid(sid);
+        request.setT(t);
 
-        this.sbsAction.transCancelRefund(this, request, new ActionCallbackListener<String>() {
+
+        this.sbsAction.transPacketCancelRefund(this, request, new ActionCallbackListener<String>() {
             @Override
             public void onSuccess(String data) {
                 ToastUtils.CustomShow(RecordItemInfoActivity.this, data);

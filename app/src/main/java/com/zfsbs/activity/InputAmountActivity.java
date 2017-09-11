@@ -26,6 +26,7 @@ import com.zfsbs.core.myinterface.ActionCallbackListener;
 import com.zfsbs.model.CouponsResponse;
 import com.zfsbs.model.MemberTransAmountResponse;
 import com.zfsbs.model.RicherGetMember;
+import com.zfsbs.model.SetClientOrder;
 import com.zfsbs.myapplication.MyApplication;
 import com.zfsbs.tool.CustomDialog_2;
 
@@ -87,6 +88,29 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
 
         //是否是赢消费
         app_type = (int) SPUtils.get(this, Config.APP_TYPE, Config.DEFAULT_APP_TYPE);//getIntent().getBooleanExtra("yxf", false);
+
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Bitmap bitmap = Glide.with(InputAmountActivity.this)
+//                            .load(MyApplication.getInstance().getLoginData().getPrintPic())
+//                            .asBitmap()
+//                            .centerCrop()
+//                            .into(200, 200).get();
+//
+//                    if (bitmap != null) {
+//                        SPUtils.saveDrawable(InputAmountActivity.this, bitmap);
+//                    }
+//
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                } catch (ExecutionException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }).start();
+
 
     }
 
@@ -258,6 +282,12 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
 
                 } else {
                     MemberNoDialog.setMemberNo("");
+
+
+                    //备份订单号
+                    SetClientOrder order = new SetClientOrder();
+                    order.setStatus(false);
+                    CommonFunc.setMemberClientOrderNo(InputAmountActivity.this, order);
 
                     MemberTransAmountResponse member = new MemberTransAmountResponse();
                     member.setRealMoney(amount);

@@ -169,11 +169,9 @@
         <receiver
             android:name=".service.LoginReceiver"
             android:enabled="true"
-            android:exported="true"
-            >
-        </receiver>
+            android:exported="true"></receiver>
 
-
+        <activity android:name=".activity.VerificationActivity"></activity>
     </application>
 
 </manifest>

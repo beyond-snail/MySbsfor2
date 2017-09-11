@@ -33,51 +33,34 @@ package com.zfsbs.model;
 //                  不见满街漂亮妹，哪个归得程序员？                   //
 ////////////////////////////////////////////////////////////////////
 
+import org.litepal.crud.DataSupport;
+
+import java.io.Serializable;
+
 /**********************************************************
- * *
- * Created by wucongpeng on 2016/11/15.        *
+ *                                                        *
+ *                  Created by wucongpeng on 2017/6/29.        *
  **********************************************************/
 
 
-public class ZfQbResponse {
-    private String transStates; //交易结果码
-    private String SystemOrderNo; //交易订单号
-    private String MsgTxt;  //交易结果
-    private String groupId; //大商户号
+public class Couponsn extends DataSupport implements Serializable {
 
+    private String coupon_name;
+    private int coupon_money;
 
-    public String getTransStates() {
-        return transStates;
+    public String getCoupon_name() {
+        return coupon_name;
     }
 
-    public void setTransStates(String transStates) {
-        this.transStates = transStates;
+    public void setCoupon_name(String coupon_name) {
+        this.coupon_name = coupon_name;
     }
 
-    public String getSystemOrderNo() {
-        return SystemOrderNo;
+    public int getCoupon_money() {
+        return coupon_money;
     }
 
-    public void setSystemOrderNo(String systemOrderNo) {
-        SystemOrderNo = systemOrderNo;
+    public void setCoupon_money(int coupon_money) {
+        this.coupon_money = coupon_money;
     }
-
-    public String getMsgTxt() {
-        return MsgTxt;
-    }
-
-    public void setMsgTxt(String msgTxt) {
-        MsgTxt = msgTxt;
-    }
-
-    public String getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
-    }
-
-
-
 }

@@ -222,6 +222,11 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
 //                startAction(this, ZfPayActivity.class, bundle, true);
 
 
+                //备份订单号
+                SetClientOrder order = new SetClientOrder();
+                order.setStatus(false);
+                CommonFunc.setMemberClientOrderNo(this, order);
+
                 MemberTransAmountResponse member = new MemberTransAmountResponse();
                 member.setRealMoney(amount);
                 member.setTradeMoney(amount);

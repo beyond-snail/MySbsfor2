@@ -151,10 +151,10 @@ public class UploadFunc {
                 ContentValues values = new ContentValues();
                 values.put("point_url", data.getPoint_url());
                 values.put("point", data.getPoint());
-                values.put("pointCurrent", data.getPointCurrent());
-                values.put("coupon", data.getCoupon());
-                values.put("title_url", data.getTitle_url());
-                values.put("money", data.getMoney());
+//                values.put("pointCurrent", data.getPointCurrent());
+//                values.put("coupon", data.getCoupon());
+//                values.put("title_url", data.getTitle_url());
+//                values.put("money", data.getMoney());
                 values.put("backAmt", data.getBackAmt());
                 values.put("UploadFlag", false);
                 DataSupport.update(SbsPrinterData.class, values, recordData.getId());

@@ -68,6 +68,8 @@ public class SbsPrinterData extends DataSupport implements Serializable {
     private String flowNo; //流水号,
     private boolean isMember; //是否是会员
     private Bitmap sign_bitmap; //签名
+    private String couponData;
+
 
 //	public PrinterData() {
 //		request = new TransUploadRequest();
@@ -494,6 +496,14 @@ public class SbsPrinterData extends DataSupport implements Serializable {
         this.sign_bitmap = sign_bitmap;
     }
 
+    public String getCouponData() {
+        return couponData;
+    }
+
+    public void setCouponData(String couponData) {
+        this.couponData = couponData;
+    }
+
     @Override
     public String toString() {
         return "SbsPrinterData{" +
@@ -549,6 +559,7 @@ public class SbsPrinterData extends DataSupport implements Serializable {
                 ", flowNo='" + flowNo + '\'' +
                 ", isMember=" + isMember +
                 ", sign_bitmap=" + sign_bitmap +
+                ", couponData='" + couponData + '\'' +
                 '}';
     }
 }

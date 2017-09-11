@@ -12,6 +12,8 @@ public class LoginApiResponse extends DataSupport implements Serializable {
 	private static final long serialVersionUID = -5060863143246134147L;
 	private int id;
 	private int sid; // 商户id
+	private String printPic;
+	private String printContent;
 	private String merchantNo; // 商户号
 	private String terminalNo; // 商户终端号
 	private String licenseNo; // 营业执照
@@ -42,6 +44,22 @@ public class LoginApiResponse extends DataSupport implements Serializable {
 
 	public void setSid(int sid) {
 		this.sid = sid;
+	}
+
+	public String getPrintPic() {
+		return printPic;
+	}
+
+	public void setPrintPic(String printPic) {
+		this.printPic = printPic;
+	}
+
+	public String getPrintContent() {
+		return printContent;
+	}
+
+	public void setPrintContent(String printContent) {
+		this.printContent = printContent;
 	}
 
 	public String getMerchantNo() {

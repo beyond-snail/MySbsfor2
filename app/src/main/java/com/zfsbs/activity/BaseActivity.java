@@ -10,7 +10,14 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.mycommonlib.core.PayCommon;
 import com.mycommonlib.model.ComTransInfo;
@@ -82,6 +89,58 @@ public abstract class BaseActivity extends Activity {
 
         //封装一个定时器用于登录
         setAlarmToLogin();
+    }
+
+
+    /**
+     * 文本View
+     */
+    public TextView textView(int textview) {
+        return (TextView) findViewById(textview);
+    }
+
+    protected void setTvText(int vid, String text) {
+        TextView view = (TextView) findViewById(vid);
+        if(view!=null){view.setText(TextUtils.isEmpty(text) ? "": text);}
+    }
+
+    protected void showView(int vid, boolean isShow){
+        View view = (View) findViewById(vid);
+        if(view!=null){
+            view.setVisibility(isShow?View.VISIBLE:View.GONE);
+        }
+    }
+
+    protected void showLayoutView(int vid, boolean isShow){
+        LinearLayout view = (LinearLayout) findViewById(vid);
+        if(view!=null){
+            view.setVisibility(isShow?View.VISIBLE:View.GONE);
+        }
+    }
+
+    /**
+     * 文本button
+     */
+    public Button button(int id) {
+        return (Button) findViewById(id);
+    }
+
+    /**
+     * 文本button
+     */
+    public ImageView imageView(int id) {
+        return (ImageView) findViewById(id);
+    }
+
+    /**
+     * 文本editText
+     */
+    public EditText editText(int id) {
+        return (EditText) findViewById(id);
+    }
+
+    public LinearLayout linearLayout(int id) {
+        return (LinearLayout) findViewById(id);
     }
 
     private void setAlarmToLogin() {

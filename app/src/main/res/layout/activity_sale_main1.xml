@@ -303,16 +303,16 @@
         android:paddingRight="5dp" >
 
         <RelativeLayout
-            android:id="@+id/id_ll_richer_e_qb"
+            android:id="@+id/id_ll_id_sn_verification"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="true"
-            android:visibility="invisible"
+            android:visibility="visible"
             android:background="@drawable/relay_bg" >
 
             <Button
-                android:id="@+id/id_richer_e_qb"
+                android:id="@+id/id_sn_verification"
                 android:clickable="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -323,10 +323,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/id_richer_e_qb"
+                android:layout_below="@id/id_sn_verification"
                 android:gravity="center"
                 android:paddingTop="35dip"
-                android:text="@string/richer_e_qb"
+                android:text="券码核销"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:visibility="visible" />

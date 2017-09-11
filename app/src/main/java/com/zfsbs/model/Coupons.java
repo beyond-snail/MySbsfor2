@@ -8,11 +8,18 @@ public class Coupons implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private int id; // 优惠券ID
+	private String validStartTime;
+	private String validEndTime;
+	private String getTime;
+	private int verifyReaddCount;
 	private int money; // 可抵消金额
 	private String sn; // 优惠劵劵号
 	private String name; // 优惠券名称
 	private String remark; // 说明信息
-	private boolean canMultiChoose; // 是否可多选
+	private int validTimeType;
+	private int days;
+
+	private int canMultiChoose; // 是否可多选
 	private boolean isChecked; // 是否使用
 
 	public int getId() {
@@ -55,11 +62,11 @@ public class Coupons implements Serializable {
 		this.remark = remark;
 	}
 
-	public boolean isCanMultiChoose() {
+	public int isCanMultiChoose() {
 		return canMultiChoose;
 	}
 
-	public void setCanMultiChoose(boolean canMultiChoose) {
+	public void setCanMultiChoose(int canMultiChoose) {
 		this.canMultiChoose = canMultiChoose;
 	}
 
@@ -71,14 +78,69 @@ public class Coupons implements Serializable {
 		this.isChecked = isChecked;
 	}
 
+	public String getValidStartTime() {
+		return validStartTime;
+	}
+
+	public void setValidStartTime(String validStartTime) {
+		this.validStartTime = validStartTime;
+	}
+
+	public String getValidEndTime() {
+		return validEndTime;
+	}
+
+	public void setValidEndTime(String validEndTime) {
+		this.validEndTime = validEndTime;
+	}
+
+	public void setGetTime(String getTime) {
+		this.getTime = getTime;
+	}
+
+	public int getDays() {
+		return days;
+	}
+
+	public void setDays(int days) {
+		this.days = days;
+	}
+
+	public int getCanMultiChoose() {
+		return canMultiChoose;
+	}
+
+
+
+	public int getVerifyReaddCount() {
+		return verifyReaddCount;
+	}
+
+	public void setVerifyReaddCount(int verifyReaddCount) {
+		this.verifyReaddCount = verifyReaddCount;
+	}
+
+	public int getValidTimeType() {
+		return validTimeType;
+	}
+
+	public void setValidTimeType(int validTimeType) {
+		this.validTimeType = validTimeType;
+	}
+
 	@Override
 	public String toString() {
 		return "Coupons{" +
 				"id=" + id +
+				", validStartTime=" + validStartTime +
+				", validEndTime=" + validEndTime +
+				", getTime=" + getTime +
+				", verifyReaddCount=" + verifyReaddCount +
 				", money=" + money +
 				", sn='" + sn + '\'' +
 				", name='" + name + '\'' +
 				", remark='" + remark + '\'' +
+				", validTimeType=" + validTimeType +
 				", canMultiChoose=" + canMultiChoose +
 				", isChecked=" + isChecked +
 				'}';

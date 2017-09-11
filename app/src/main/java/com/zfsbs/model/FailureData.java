@@ -51,6 +51,7 @@ public class FailureData {
     private int faiureType; //富友sm 失败的类型 支付失败 还是 查询失败
     private int app_type; //第三方类型
     private boolean isMember; //是否是会员
+    private String cardNo;
 
     public String getOrderNo() {
         return orderNo;
@@ -140,6 +141,14 @@ public class FailureData {
         isMember = member;
     }
 
+    public String getCardNo() {
+        return cardNo;
+    }
+
+    public void setCardNo(String cardNo) {
+        this.cardNo = cardNo;
+    }
+
     @Override
     public String toString() {
         return "FailureData{" +
@@ -154,6 +163,7 @@ public class FailureData {
                 ", faiureType=" + faiureType +
                 ", app_type=" + app_type +
                 ", isMember=" + isMember +
+                ", cardNo='" + cardNo + '\'' +
                 '}';
     }
 }

@@ -34,50 +34,64 @@ package com.zfsbs.model;
 ////////////////////////////////////////////////////////////////////
 
 /**********************************************************
- * *
- * Created by wucongpeng on 2016/11/15.        *
+ *                                                        *
+ *                  Created by wucongpeng on 2017/7/28.        *
  **********************************************************/
 
 
-public class ZfQbResponse {
-    private String transStates; //交易结果码
-    private String SystemOrderNo; //交易订单号
-    private String MsgTxt;  //交易结果
-    private String groupId; //大商户号
+public class TicektResponse {
+    private String ticketType;
+    private String ticketName;
+    private int oldAmount;
+    private int payAmount;
+    private String getWay;
+    private String status;
 
-
-    public String getTransStates() {
-        return transStates;
+    public String getTicketType() {
+        return ticketType;
     }
 
-    public void setTransStates(String transStates) {
-        this.transStates = transStates;
+    public void setTicketType(String ticketType) {
+        this.ticketType = ticketType;
     }
 
-    public String getSystemOrderNo() {
-        return SystemOrderNo;
+    public String getTicketName() {
+        return ticketName;
     }
 
-    public void setSystemOrderNo(String systemOrderNo) {
-        SystemOrderNo = systemOrderNo;
+    public void setTicketName(String ticketName) {
+        this.ticketName = ticketName;
     }
 
-    public String getMsgTxt() {
-        return MsgTxt;
+    public int getOldAmount() {
+        return oldAmount;
     }
 
-    public void setMsgTxt(String msgTxt) {
-        MsgTxt = msgTxt;
+    public void setOldAmount(int oldAmount) {
+        this.oldAmount = oldAmount;
     }
 
-    public String getGroupId() {
-        return groupId;
+    public int getPayAmount() {
+        return payAmount;
     }
 
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
+    public void setPayAmount(int payAmount) {
+        this.payAmount = payAmount;
     }
 
+    public String getGetWay() {
+        return getWay;
+    }
 
+    public void setGetWay(String getWay) {
+        this.getWay = getWay;
+    }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

@@ -117,9 +117,10 @@ public class RecordInfoActivity extends BaseActivity implements View.OnClickList
                 allData.get(index).setPoint_url(response.getPoint_url());
                 allData.get(index).setPoint(response.getPoint());
                 allData.get(index).setPointCurrent(response.getPointCurrent());
-                allData.get(index).setCoupon(response.getCoupon());
-                allData.get(index).setTitle_url(response.getTitle_url());
-                allData.get(index).setMoney(response.getMoney());
+//                allData.get(index).setCouponData(response.getCoupon());
+//                allData.get(index).setCoupon(response.getCoupon());
+//                allData.get(index).setTitle_url(response.getTitle_url());
+//                allData.get(index).setMoney(response.getMoney());
             }
 
             if (StringUtils.isEmpty(flowNo)){
