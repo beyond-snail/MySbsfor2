@@ -75,8 +75,11 @@ public class SaleUndoActivity extends BaseActivity implements OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mContext = this;
         setContentView(R.layout.activity_sale_undo);
 //        AppManager.getAppManager().addActivity(this);
+        initTitle("消费撤销");
         initView();
         addListener();
     }

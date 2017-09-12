@@ -134,8 +134,10 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         setContentView(R.layout.activity_pay_type);
 //        AppManager.getAppManager().addActivity(this);
+        initTitle("收银");
 
         app_type = (int) SPUtils.get(this, Config.APP_TYPE, Config.DEFAULT_APP_TYPE);
 

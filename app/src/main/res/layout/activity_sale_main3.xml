@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+    <include
+        android:id="@+id/titlelayout"
+        layout="@layout/layout_header_with_back" />
+
+    <com.tool.utils.view.MyGridView
+        android:id="@+id/id_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:horizontalSpacing="10dp"
+        android:listSelector="#00000000"
+        android:numColumns="2"
+        android:padding="10dp"
+        android:verticalSpacing="10dp">
+
+    </com.tool.utils.view.MyGridView>
+
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:baselineAligned="false"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:padding="10dp">-->
+
+
+        <!--<LinearLayout-->
+            <!--android:id="@+id/id_ll_sale"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="#1BB28D"-->
+            <!--android:clickable="true"-->
+            <!--android:padding="5dp">-->
+
+
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:gravity="center"-->
+                <!--android:text="收银"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textSize="20sp" />-->
+        <!--</LinearLayout>-->
+
+
+        <!--<View-->
+            <!--android:layout_width="10dp"-->
+            <!--android:layout_height="match_parent" />-->
+
+        <!--<LinearLayout-->
+            <!--android:id="@+id/id_ll_record"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+
+            <!--android:background="#1EB1ED"-->
+            <!--android:clickable="true"-->
+            <!--android:padding="5dp">-->
+
+
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:gravity="center"-->
+                <!--android:text="@string/trans_record"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textSize="20sp" />-->
+        <!--</LinearLayout>-->
+
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:baselineAligned="false"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:padding="10dp">-->
+
+        <!--<LinearLayout-->
+            <!--android:id="@+id/id_ll_member_recharge"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="#FC6769"-->
+            <!--android:clickable="true">-->
+
+
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:gravity="center"-->
+                <!--android:text="会员充值"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textSize="20sp"-->
+                <!--android:visibility="visible" />-->
+        <!--</LinearLayout>-->
+
+        <!--<View-->
+            <!--android:layout_width="10dp"-->
+            <!--android:layout_height="match_parent" />-->
+
+        <!--<LinearLayout-->
+            <!--android:id="@+id/id_ll_open_card"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="#1BB28D"-->
+            <!--android:clickable="true">-->
+
+
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_below="@id/id_sale_info"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:gravity="center"-->
+                <!--android:text="开卡/绑卡"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textSize="20sp"-->
+                <!--android:visibility="visible" />-->
+        <!--</LinearLayout>-->
+
+        <!--&lt;!&ndash;<RelativeLayout&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/id_ll_sale_manager"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:clickable="true"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:background="@drawable/relay_bg" >&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<Button&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/id_sale_manager"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_centerInParent="true"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:clickable="false"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:background="@mipmap/icon_sale"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:visibility="visible" />&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_below="@id/id_sale_manager"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:gravity="center"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:paddingTop="35dip"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:text="@string/sale_manager"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:textColor="@color/black"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:textSize="15sp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:visibility="visible" />&ndash;&gt;-->
+        <!--&lt;!&ndash;</RelativeLayout>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<RelativeLayout&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/id_ll_sale_info"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:clickable="true"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:background="@drawable/relay_bg" >&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<Button&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/id_sale_info"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_centerInParent="true"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:clickable="false"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:background="@mipmap/icon_sysmanage"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:visibility="visible" />&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_below="@id/id_sale_info"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:gravity="center"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:paddingTop="35dip"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:text="@string/sale_Info"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:textColor="@color/black"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:textSize="15sp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:visibility="visible" />&ndash;&gt;-->
+        <!--&lt;!&ndash;</RelativeLayout>&ndash;&gt;-->
+
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:baselineAligned="false"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:padding="10dp">-->
+
+        <!--<LinearLayout-->
+            <!--android:id="@+id/id_ll_id_sn_verification"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="#83ABB9"-->
+            <!--android:clickable="true">-->
+
+
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:gravity="center"-->
+                <!--android:text="券码核销"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textSize="20sp"-->
+                <!--android:visibility="visible" />-->
+        <!--</LinearLayout>-->
+
+        <!--<View-->
+            <!--android:layout_width="10dp"-->
+            <!--android:layout_height="match_parent" />-->
+
+        <!--<LinearLayout-->
+            <!--android:id="@+id/id_ll_change_pass"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="#37A8DE"-->
+            <!--android:clickable="true">-->
+
+
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:gravity="center"-->
+                <!--android:text="卡密码修改"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textSize="20sp"-->
+                <!--android:visibility="visible" />-->
+
+        <!--</LinearLayout>-->
+
+        <!--&lt;!&ndash;<RelativeLayout&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/id_ll_getInfo"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:clickable="true"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:background="@drawable/relay_bg" >&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<Button&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/id_getInfo"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:clickable="false"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_centerInParent="true"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:background="@mipmap/icon_data"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:visibility="visible" />&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_below="@id/id_getInfo"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:gravity="center"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:paddingTop="35dip"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:text="@string/get_info"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:textColor="@color/black"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:textSize="15sp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:visibility="visible" />&ndash;&gt;-->
+        <!--&lt;!&ndash;</RelativeLayout>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<RelativeLayout&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/id_ll_end_query"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:clickable="true"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:background="@drawable/relay_bg" >&ndash;&gt;-->
+        <!--&lt;!&ndash;<Button&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/id_end_query"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:clickable="false"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:background="@mipmap/icon_sale"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:visibility="visible"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_centerVertical="true"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_centerHorizontal="true" />&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_below="@id/id_end_query"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:gravity="center"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:paddingTop="35dip"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:text="扫码末笔查询"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:textColor="@color/black"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:textSize="15sp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:visibility="visible" />&ndash;&gt;-->
+
+        <!--&lt;!&ndash;</RelativeLayout>&ndash;&gt;-->
+
+
+    <!--</LinearLayout>-->
+
+</LinearLayout>

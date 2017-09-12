@@ -29,8 +29,9 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         setContentView(R.layout.activity_veriflation);
-
+        initTitle("券码核销");
         initView();
     }
 
@@ -45,6 +46,8 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
         tPayPrice = textView(R.id.id_ticket_pay_price);
         tGet = textView(R.id.id_ticket_get);
         tStatus = textView(R.id.id_ticket_status);
+
+        imageView(R.id.id_scan);
 
     }
 

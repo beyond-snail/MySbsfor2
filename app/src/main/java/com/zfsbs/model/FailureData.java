@@ -52,6 +52,10 @@ public class FailureData {
     private int app_type; //第三方类型
     private boolean isMember; //是否是会员
     private String cardNo;
+    private String tgy;
+    private String cardId;
+    private int real_pay_money; //实付金额
+    private int real_get_money; //实际充值金额
 
     public String getOrderNo() {
         return orderNo;
@@ -147,6 +151,38 @@ public class FailureData {
 
     public void setCardNo(String cardNo) {
         this.cardNo = cardNo;
+    }
+
+    public String getTgy() {
+        return tgy;
+    }
+
+    public void setTgy(String tgy) {
+        this.tgy = tgy;
+    }
+
+    public String getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(String cardId) {
+        this.cardId = cardId;
+    }
+
+    public int getReal_pay_money() {
+        return real_pay_money;
+    }
+
+    public void setReal_pay_money(int real_pay_money) {
+        this.real_pay_money = real_pay_money;
+    }
+
+    public int getReal_get_money() {
+        return real_get_money;
+    }
+
+    public void setReal_get_money(int real_get_money) {
+        this.real_get_money = real_get_money;
     }
 
     @Override

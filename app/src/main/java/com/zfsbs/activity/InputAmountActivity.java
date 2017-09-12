@@ -63,8 +63,10 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         setContentView(R.layout.activity_input_amount);
 //        AppManager.getAppManager().addActivity(this);
+        initTitle("输入金额");
         initView();
         addLinstener();
         initData();
@@ -269,7 +271,7 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
     }
 
     private void isInputMemberNo() {
-        MemberNoDialog dialog = new MemberNoDialog(this, R.layout.activity_member_no, new MemberNoDialog.OnClickInterface() {
+        MemberNoDialog dialog = new MemberNoDialog(this, R.layout.activity_member_no2, new MemberNoDialog.OnClickInterface() {
 
             @Override
             public void onResultScanContent() {

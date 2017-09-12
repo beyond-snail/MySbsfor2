@@ -74,10 +74,15 @@ public class Constants {
 	public static final int PAY_WAY_FLOT = 6; // 刷卡
 	public static final int PAY_WAY_CASH = 7; // 现金
 	public static final int PAY_WAY_QB = 13; //钱包
+	public static final int PAY_WAY_STK = 19; //会员卡
 	public static final int PAY_WAY_UNDO = 10; //撤销
 	public static final int PAY_WAY_REFUND_WX = 11; //微信退款
 	public static final int PAY_WAY_REFUND_ALY = 12; //支付宝退款
 	public static final int PAY_WAY_REFUND_QB = 14; //钱包退款
+	public static final int PAY_WAY_PAY_FLOT = 15; //刷卡记账
+	public static final int PAY_WAY_RECHARGE_WX = 16; //微信充值
+	public static final int PAY_WAY_RECHARGE_ALY = 17; //支付宝充值
+	public static final int PAY_WAY_RECHARGE_CASH = 18; //现金充值
 
 
 	//富友双商户 密钥索引对应
@@ -94,6 +99,8 @@ public class Constants {
 	public static final int REQUEST_CAPTURE_ALY = 1;
 	public static final int REQUEST_CAPTURE_QB = 2;
 	public static final int REQUEST_CASH = 4; //现金
+
+	public static final int REQUEST_flot_CASH = 5; //现金
 
 	//富友扫码支付方式
 	public static final String PAY_FY_WX = "WECHAT";

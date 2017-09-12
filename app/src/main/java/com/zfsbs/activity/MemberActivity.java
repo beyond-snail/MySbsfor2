@@ -65,8 +65,10 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         setContentView(R.layout.activity_member_info);
 //        AppManager.getAppManager().addActivity(this);
+        initTitle("会员优惠信息");
         initView();
         initData();
         addListener();
@@ -95,6 +97,8 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
         amount = big.multiply(new BigDecimal(100)).intValue();
         couponResponse = (CouponsResponse) bundle.getSerializable("member");
         pass = ""; // 设置默认为空
+
+        textView(R.id.id_order_amount).setText(bundle.getString("amount"));
 
         if (couponResponse != null) {
             tMemberName.setText(couponResponse.getMemberName());
@@ -202,6 +206,9 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
                     if (point < frequency_min) {
                         ToastUtils.CustomShow(MemberActivity.this, "最小使用积分:" + frequency_min + "积分");
                         break;
+                    }
+                    if (couponResponse.getPoint()==0){
+                        point = 0;
                     }
                 }
                 if (IsInputPass()) {

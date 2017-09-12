@@ -5,18 +5,21 @@
     android:background="@color/frenchGrey"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/activity_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/darkcyan"
-        android:gravity="center"
-        android:text="@string/pay"
-        android:textColor="@color/white"
-        android:textSize="28sp" />
+    <!--<TextView-->
+        <!--android:id="@+id/activity_title"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="5dp"-->
+        <!--android:layout_marginRight="5dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:background="@color/darkcyan"-->
+        <!--android:gravity="center"-->
+        <!--android:text="@string/pay"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textSize="28sp" />-->
+    <include
+        android:id="@+id/titlelayout"
+        layout="@layout/layout_header_with_back" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -91,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:text="1245678.89"
+                android:text="--"
                 android:textColor="@color/black"
                 android:textSize="15sp" >
             </TextView>
@@ -120,7 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:text="1245678.89"
+                android:text="--"
                 android:textColor="@color/black"
                 android:textSize="15sp" >
             </TextView>
@@ -149,7 +152,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:text="201011111111111111111"
+                android:text="--"
                 android:textColor="@color/black"
                 android:textSize="15sp" >
             </TextView>
@@ -178,7 +181,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:text="20101111111111111111"
+                android:text="--"
                 android:textColor="@color/black"
                 android:textSize="15sp" >
             </TextView>
@@ -214,7 +217,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
-            android:layout_marginTop="10dp"
             android:orientation="horizontal" >
 
             <LinearLayout
@@ -232,7 +234,6 @@
                     android:layout_width="@dimen/pay_icon_width"
                     android:layout_height="@dimen/pay_icon_height"
                     android:layout_gravity="center"
-                    android:layout_marginTop="3dp"
                     android:clickable="false"
                     android:background="@drawable/pay_flot_bg" >
                 </Button>
@@ -292,7 +293,6 @@
                     android:layout_width="@dimen/pay_icon_width"
                     android:layout_height="@dimen/pay_icon_height"
                     android:layout_gravity="center"
-                    android:layout_marginTop="3dp"
                     android:background="@drawable/pay_aly_bg" >
                 </Button>
 
@@ -329,8 +329,6 @@
                     android:layout_width="@dimen/pay_icon_width"
                     android:layout_height="@dimen/pay_icon_height"
                     android:layout_gravity="center"
-                    android:layout_marginTop="3dp"
-
                     android:background="@drawable/pay_cash_bg" >
                 </Button>
 
@@ -440,7 +438,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
             android:padding="5dp"
-            android:background="@drawable/btn_bg"
+            android:background="@drawable/btn_purple_selector"
             android:text="@string/print_again"
             android:textColor="@color/black"
             android:textSize="20sp" />
@@ -454,8 +452,8 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="15dp"
             android:padding="5dp"
-            android:background="@drawable/btn_bg"
-            
+            android:background="@drawable/btn_purple_selector"
+
             android:text="@string/pay_end"
             android:textColor="@color/black"
             android:textSize="20sp" />
@@ -498,7 +496,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="15dp"
             android:padding="5dp"
-            android:background="@drawable/btn_bg"
+            android:background="@drawable/btn_purple_selector"
 
             android:text="@string/pay_order_query"
             android:textColor="@color/black"
@@ -513,7 +511,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="15dp"
             android:padding="5dp"
-            android:background="@drawable/btn_bg"
+            android:background="@drawable/btn_purple_selector"
 
             android:text="@string/pay_end"
             android:textColor="@color/black"
@@ -534,7 +532,7 @@
         android:padding="2dp"
         android:visibility="gone" >
 
-        
+
 
         <TextView
             android:layout_width="match_parent"
@@ -545,7 +543,7 @@
             android:textColor="@color/black"
             android:textSize="15sp" />
 
-        
+
 
         <Button
             android:id="@+id/id_no_pay_amount"
@@ -556,8 +554,8 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="15dp"
             android:padding="5dp"
-            android:background="@drawable/btn_bg"
-            
+            android:background="@drawable/btn_purple_selector"
+
             android:text="@string/sure"
             android:textColor="@color/black"
             android:textSize="20sp" />

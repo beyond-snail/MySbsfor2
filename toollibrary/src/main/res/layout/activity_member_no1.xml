@@ -12,9 +12,9 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
-        android:background="@color/darkcyan"
+        android:background="#2085D3"
         android:gravity="center"
-        android:text="@string/input_member_no"
+        android:text="会员号"
         android:textColor="@color/white"
         android:textSize="28.0sp" />
 
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:gravity="center"
-            android:hint="@string/memberNo"
+            android:hint="识别会员卡或者会员手机号"
             android:padding="10dp"
             android:inputType="number"
             android:singleLine="true"
@@ -67,8 +67,9 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:background="@drawable/btn_bg"
+            android:background="@drawable/btn_purple_selector"
             android:padding="5dp"
+            android:textColor="@android:color/white"
             android:text="确定"
             android:textSize="18sp" />
 
@@ -81,9 +82,10 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:background="@drawable/btn_bg"
+            android:background="@drawable/btn_purple_cancel_selector"
             android:padding="5dp"
             android:text="取消"
+            android:textColor="@android:color/white"
             android:textSize="18sp" />
 
         <Button
@@ -95,8 +97,9 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:background="@drawable/btn_bg"
+            android:background="@drawable/btn_purple_cancel_selector"
             android:padding="5dp"
+            android:textColor="@android:color/white"
             android:text="取消"
             android:textSize="18sp" />
     </LinearLayout>

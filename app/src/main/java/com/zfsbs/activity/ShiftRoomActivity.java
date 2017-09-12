@@ -2,7 +2,7 @@ package com.zfsbs.activity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 
 import com.tool.utils.activityManager.AppManager;
 import com.tool.utils.utils.LogUtils;
@@ -21,20 +21,21 @@ import static com.zfsbs.common.CommonFunc.startAction;
 
 public class ShiftRoomActivity extends BaseActivity {
 
-    private RelativeLayout btnShitRoom;
-    private RelativeLayout btnShitRoomDay;
-    private RelativeLayout btnShitRoomRecord;
+    private LinearLayout btnShitRoom;
+    private LinearLayout btnShitRoomDay;
+    private LinearLayout btnShitRoomRecord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         setContentView(R.layout.activity_shift_room);
 //        AppManager.getAppManager().addActivity(this);
+        initTitle("班结");
 
-        btnShitRoom = (RelativeLayout) findViewById(R.id.id_ll_shiftroom);
-        btnShitRoomDay = (RelativeLayout) findViewById(R.id.id_ll_shiftroom_day);
-        btnShitRoomRecord = (RelativeLayout) findViewById(R.id.id_ll_shiftroom_record);
-
+        btnShitRoom = (LinearLayout) findViewById(R.id.id_ll_shiftroom);
+        btnShitRoomDay = (LinearLayout) findViewById(R.id.id_ll_shiftroom_day);
+        btnShitRoomRecord = (LinearLayout) findViewById(R.id.id_ll_shiftroom_record);
 
         btnShitRoom.setOnClickListener(new View.OnClickListener() {
             @Override

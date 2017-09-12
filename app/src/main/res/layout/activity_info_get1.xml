@@ -5,20 +5,9 @@
     android:background="@color/frenchGrey"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/activity_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/darkcyan"
-        android:gravity="center"
-        android:text="@string/get_info"
-        android:textColor="@color/white"
-        android:textSize="28.0sp" />
-
-
+    <include
+        android:id="@+id/titlelayout"
+        layout="@layout/layout_header_with_back" />
     <LinearLayout
         android:id="@+id/id_ll_MasterId"
         android:layout_width="match_parent"
@@ -101,54 +90,54 @@
         </LinearLayout>
 
         <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="left"-->
-            <!--android:padding="10dp"-->
-            <!--android:text="请输入操作员账号："-->
-            <!--android:textColor="@color/black"-->
-            <!--android:textSize="20dp" />-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="left"-->
+        <!--android:padding="10dp"-->
+        <!--android:text="请输入操作员账号："-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="20dp" />-->
 
         <!--<EditText-->
-            <!--android:id="@+id/id_username"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:layout_marginBottom="5dp"-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--android:background="@drawable/edit_bg"-->
-            <!--android:gravity="center"-->
-            <!--android:inputType="number"-->
-            <!--android:maxLength="6"-->
-            <!--android:padding="4dp"-->
-            <!--android:singleLine="true"-->
-            <!--android:textColor="@color/black"-->
-            <!--android:textSize="20sp" />-->
+        <!--android:id="@+id/id_username"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:layout_marginBottom="5dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:background="@drawable/edit_bg"-->
+        <!--android:gravity="center"-->
+        <!--android:inputType="number"-->
+        <!--android:maxLength="6"-->
+        <!--android:padding="4dp"-->
+        <!--android:singleLine="true"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="20sp" />-->
 
         <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="left"-->
-            <!--android:padding="10dp"-->
-            <!--android:text="请输入操作员密码："-->
-            <!--android:textColor="@color/black"-->
-            <!--android:textSize="20dp" />-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="left"-->
+        <!--android:padding="10dp"-->
+        <!--android:text="请输入操作员密码："-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="20dp" />-->
 
         <!--<EditText-->
-            <!--android:id="@+id/password"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:layout_marginBottom="5dp"-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--android:background="@drawable/edit_bg"-->
-            <!--android:gravity="center"-->
-            <!--android:inputType="numberPassword"-->
-            <!--android:maxLength="6"-->
-            <!--android:padding="4dp"-->
-            <!--android:singleLine="true"-->
-            <!--android:textColor="@color/black"-->
-            <!--android:textSize="20sp" />-->
+        <!--android:id="@+id/password"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:layout_marginBottom="5dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:background="@drawable/edit_bg"-->
+        <!--android:gravity="center"-->
+        <!--android:inputType="numberPassword"-->
+        <!--android:maxLength="6"-->
+        <!--android:padding="4dp"-->
+        <!--android:singleLine="true"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="20sp" />-->
 
         <TextView
             android:layout_width="match_parent"
@@ -166,7 +155,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="15dp"
-            android:background="@drawable/btn_bg"
+            android:background="@drawable/btn_purple_cancel_selector"
             android:text="@string/operator_login_comfirm"
             android:textColor="@color/white"
             android:textSize="20sp" />

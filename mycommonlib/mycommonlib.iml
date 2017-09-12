@@ -112,8 +112,8 @@
     <orderEntry type="library" exported="" scope="TEST" name="javax.inject-1" level="project" />
     <orderEntry type="library" exported="" name="support-v4-25.2.0" level="project" />
     <orderEntry type="library" exported="" name="support-compat-25.2.0" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="javawriter-2.1.1" level="project" />
     <orderEntry type="library" exported="" name="multidex-1.0.1" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="javawriter-2.1.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-core-1.3" level="project" />
     <orderEntry type="library" exported="" name="support-media-compat-25.2.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="junit-4.12" level="project" />
@@ -124,5 +124,20 @@
     <orderEntry type="module" module-name="myhslib" exported="" />
     <orderEntry type="module" module-name="toollibrary" exported="" />
     <orderEntry type="module" module-name="myprinter" exported="" />
+    <orderEntry type="library" exported="" name="wizarsslclient4android" level="project" />
+    <orderEntry type="library" exported="" name="HuaShiPOS_obf_MA_20170908_SSL" level="project" />
+    <orderEntry type="library" exported="" name="okio-1.9.0" level="project" />
+    <orderEntry type="library" exported="" name="commons-beanutils-1.8.3" level="project" />
+    <orderEntry type="library" exported="" name="nineoldandroids-2.4.0" level="project" />
+    <orderEntry type="library" exported="" name="dom4j-1.6.1" level="project" />
+    <orderEntry type="library" exported="" name="sun.misc.BASE64Decoder" level="project" />
+    <orderEntry type="library" exported="" name="glide-3.7.0" level="project" />
+    <orderEntry type="library" exported="" name="universal-image-loader-1.9.5" level="project" />
+    <orderEntry type="library" exported="" name="litepal-1.3.2" level="project" />
+    <orderEntry type="library" exported="" name="slf4j-android-1.5.8" level="project" />
+    <orderEntry type="library" exported="" name="okhttp-3.4.1" level="project" />
+    <orderEntry type="library" exported="" name="cloudpossdkinterface_wizarpos" level="project" />
+    <orderEntry type="library" exported="" name="cloudpossdkinterfaceimplwithextension_patch" level="project" />
+    <orderEntry type="library" exported="" name="cloudpossdkinterfaceextension" level="project" />
   </component>
 </module>

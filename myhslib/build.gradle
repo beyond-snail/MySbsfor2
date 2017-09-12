@@ -38,5 +38,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile files('src/main/libs/wizarsslclient4android.jar')
     compile project(path: ':toollibrary')
-    compile files('src/main/libs/HuaShiPOS_obf_MA_20160819_SSL.jar')
+    compile files('src/main/libs/HuaShiPOS_obf_MA_20170908_SSL.jar')
 }

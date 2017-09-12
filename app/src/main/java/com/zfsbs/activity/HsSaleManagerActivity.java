@@ -57,8 +57,11 @@ public class HsSaleManagerActivity extends BaseActivity implements OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         setContentView(R.layout.activity_sale_manager);
-//        AppManager.getAppManager().addActivity(this);
+//		AppManager.getAppManager().addActivity(this);
+        initTitle("系统设置");
+
         initView();
 
     }

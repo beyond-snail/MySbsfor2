@@ -53,8 +53,10 @@ public class ShiftRoomShowActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         setContentView(R.layout.activity_shift_room_show);
 //        AppManager.getAppManager().addActivity(this);
+        initTitle("班结统计");
 
         title = (TextView) findViewById(R.id.activity_title);
         lv = (ListView) findViewById(R.id.show_shift_room_list);

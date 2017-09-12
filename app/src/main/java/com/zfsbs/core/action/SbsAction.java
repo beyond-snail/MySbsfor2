@@ -57,6 +57,7 @@ import com.zfsbs.model.ShiftRoom;
 import com.zfsbs.model.TicektResponse;
 import com.zfsbs.model.TransUploadRequest;
 import com.zfsbs.model.TransUploadResponse;
+import com.zfsbs.model.VipCardNo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -177,7 +178,6 @@ public class SbsAction {
         paramsMap.put("operator_num", SPUtils.get(context, Constants.USER_NAME, ""));
         paramsMap.put("serialNum", StringUtils.getSerial());
         paramsMap.put("icCardNo", icCardNo);
-
 
 
         String data = CommonFunc.getJsonStr("benefits", paramsMap, "verify", Config.md5_key);
@@ -500,9 +500,8 @@ public class SbsAction {
 
     /**
      * 商博士-取消订单
-     *
      */
-    public void OrderCancel(final Context context, String orderNo){//,  final ActionCallbackListener<String> listener) {
+    public void OrderCancel(final Context context, String orderNo) {//,  final ActionCallbackListener<String> listener) {
 
         final LoadingDialog dialog = new LoadingDialog(context);
 //        dialog.show("正在取消订单...");
@@ -533,8 +532,6 @@ public class SbsAction {
             }
         });
     }
-
-
 
 
     /**
@@ -582,12 +579,13 @@ public class SbsAction {
 
     /**
      * 券码核销 识别
+     *
      * @param context
      * @param sid
      * @param cardNo
-     * @param   * @param listener
+     * @param *       @param listener
      */
-    public void ticketcheck(final Context context, int sid, String cardNo, String sn, final ActionCallbackListener<TicektResponse> listener){
+    public void ticketcheck(final Context context, int sid, String cardNo, String sn, final ActionCallbackListener<TicektResponse> listener) {
         final LoadingDialog dialog = new LoadingDialog(context);
         dialog.show("加载中...");
 
@@ -624,13 +622,14 @@ public class SbsAction {
 
     /**
      * 券码核销
+     *
      * @param context
      * @param sid
      * @param cardNo
      * @param sn
      * @param listener
      */
-    public void ticketPay(final Context context, int sid, String cardNo, String sn, final ActionCallbackListener<String> listener){
+    public void ticketPay(final Context context, int sid, String cardNo, String sn, final ActionCallbackListener<String> listener) {
         final LoadingDialog dialog = new LoadingDialog(context);
         dialog.show("加载中...");
 
@@ -666,6 +665,55 @@ public class SbsAction {
     }
 
 
+    /**
+     * 开卡、换卡
+     *
+     * @param context
+     * @param sid
+     * @param listener
+     */
+    public void openCard(final Context context, int sid, String mobile, String icCardNo, String username, final ActionCallbackListener<ApiResponse<VipCardNo>> listener) {
+        final LoadingDialog dialog = new LoadingDialog(context);
+        dialog.show("加载中...");
+
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("sid", sid);
+        paramsMap.put("mobile", mobile);
+        paramsMap.put("icCardNo", icCardNo);
+        paramsMap.put("username", username);
+        paramsMap.put("operator_num", SPUtils.get(context, Constants.USER_NAME, ""));
+
+        String data = CommonFunc.getJsonStr("new_card", paramsMap, "verify", Config.md5_key);
+        LogUtils.e(TAG, "URL: " + Config.SBS_URL);
+
+        MyOkHttp.get().postJson(context, Config.SBS_URL, data, new GsonResponseHandler<ApiResponse<VipCardNo>>() {
+            @Override
+            public void onSuccess(int statusCode, ApiResponse<VipCardNo> response) {
+                dialog.dismiss();
+                if (response != null) {
+                    if (response.getCode().equals("A00006")) {
+                        if (response.getResult().getResCode() == 20 || response.getResult().getResCode() == 100){
+                            listener.onSuccess(response);
+                        }else{
+                            listener.onFailure(""+response.getResult().getResCode(), response.getResult().getResMsg());
+                        }
+
+                    } else {
+                        listener.onFailure(response.getCode(), response.getMsg());
+                    }
+                } else {
+                    listener.onFailure("", "链接服务器异常");
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, String error_msg) {
+                dialog.dismiss();
+                listener.onFailure("" + statusCode, error_msg);
+            }
+        });
+
+    }
 
 
 }

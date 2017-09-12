@@ -5,18 +5,22 @@
     android:background="@color/frenchGrey"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/activity_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/darkcyan"
-        android:gravity="center"
-        android:text="券码核销"
-        android:textColor="@color/white"
-        android:textSize="28.0sp" />
+    <!--<TextView-->
+        <!--android:id="@+id/activity_title"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="5dp"-->
+        <!--android:layout_marginRight="5dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:background="@color/darkcyan"-->
+        <!--android:gravity="center"-->
+        <!--android:text="券码核销"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textSize="28.0sp" />-->
+
+    <include
+        android:id="@+id/titlelayout"
+        layout="@layout/layout_header_with_back" />
 
 
     <LinearLayout
@@ -65,8 +69,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/btn_bg"
+            android:background="@drawable/btn_purple_cancel_pressed_shape"
             android:gravity="center"
+            android:textColor="@color/white"
             android:text="识别" />
     </LinearLayout>
 
@@ -243,7 +248,7 @@
             android:id="@+id/id_sure"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/btn_bg"
+            android:background="@drawable/btn_purple_selector"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"

@@ -8,18 +8,9 @@
     tools:context="com.zfsbs.activity.ShiftRoomRecordActivity">
 
 
-    <TextView
-        android:id="@+id/activity_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/darkcyan"
-        android:gravity="center"
-        android:text="班结记录"
-        android:textColor="@color/white"
-        android:textSize="28.0sp" />
+    <include
+        android:id="@+id/titlelayout"
+        layout="@layout/layout_header_with_back" />
 
     <ListView
         android:id="@+id/show_shift_record"

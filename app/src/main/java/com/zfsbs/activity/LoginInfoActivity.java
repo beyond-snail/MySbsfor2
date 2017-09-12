@@ -41,8 +41,10 @@ public class LoginInfoActivity extends BaseActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mContext = this;
 		setContentView(R.layout.activity_login_info);
 //		AppManager.getAppManager().addActivity(this);
+		initTitle("收款信息");
 		initView();
 		initLoadData();
 	}

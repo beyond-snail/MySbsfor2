@@ -5,18 +5,21 @@
     android:background="@color/white"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/activity_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/darkcyan"
-        android:gravity="center"
-        android:text="@string/input_amount"
-        android:textColor="@color/white"
-        android:textSize="28.0sp" />
+    <!--<TextView-->
+        <!--android:id="@+id/activity_title"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="5dp"-->
+        <!--android:layout_marginRight="5dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:background="@color/darkcyan"-->
+        <!--android:gravity="center"-->
+        <!--android:text="@string/input_amount"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textSize="28.0sp" />-->
+    <include
+        android:id="@+id/titlelayout"
+        layout="@layout/layout_header_with_back" />
 
     <!-- <RelativeLayout
         android:layout_width="match_parent"
@@ -58,7 +61,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="15dp"
         android:layout_weight="1"
-        android:background="@drawable/amount_bg" >
+        android:background="@color/btn_purple_normal_cancel" >
 
         <TextView
             android:id="@+id/id_tv_amount"
@@ -70,7 +73,7 @@
             android:padding="10dp"
             android:singleLine="true"
             android:text="@string/please_input_amount"
-            android:textColor="#A13502"
+            android:textColor="@color/white"
             android:textSize="25sp" />
     </LinearLayout>
 

@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:id="@+id/id_ll_system_setting"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#83ABB9"
+            android:clickable="true">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="系统设置"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:visibility="visible" />
+        </LinearLayout>
+
+
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/id_ll_record"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:background="#1EB1ED"
+            android:clickable="true"
+            android:padding="5dp">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="@string/trans_record"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:visibility="invisible"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:id="@+id/id_ll_member_recharge"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#FC6769"
+            android:clickable="true">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="会员充值"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/id_ll_open_card"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#1BB28D"
+            android:clickable="true">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/id_sale_info"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="开卡/绑卡"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <!--<RelativeLayout-->
+        <!--android:id="@+id/id_ll_sale_manager"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:clickable="true"-->
+        <!--android:background="@drawable/relay_bg" >-->
+
+        <!--<Button-->
+        <!--android:id="@+id/id_sale_manager"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:clickable="false"-->
+        <!--android:background="@mipmap/icon_sale"-->
+        <!--android:visibility="visible" />-->
+
+        <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@id/id_sale_manager"-->
+        <!--android:gravity="center"-->
+        <!--android:paddingTop="35dip"-->
+        <!--android:text="@string/sale_manager"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="15sp"-->
+        <!--android:visibility="visible" />-->
+        <!--</RelativeLayout>-->
+
+        <!---->
+
+        <!--<RelativeLayout-->
+        <!--android:id="@+id/id_ll_sale_info"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:clickable="true"-->
+        <!--android:background="@drawable/relay_bg" >-->
+
+        <!--<Button-->
+        <!--android:id="@+id/id_sale_info"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:clickable="false"-->
+        <!--android:background="@mipmap/icon_sysmanage"-->
+        <!--android:visibility="visible" />-->
+
+        <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@id/id_sale_info"-->
+        <!--android:gravity="center"-->
+        <!--android:paddingTop="35dip"-->
+        <!--android:text="@string/sale_Info"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="15sp"-->
+        <!--android:visibility="visible" />-->
+        <!--</RelativeLayout>-->
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:visibility="invisible"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:id="@+id/id_ll_id_sn_verification"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#1BB28D"
+            android:clickable="true"
+            android:padding="5dp">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="收银"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/id_ll_change_pass"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#37A8DE"
+            android:clickable="true">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="卡密码修改"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:visibility="visible" />
+
+        </LinearLayout>
+
+        <!--<RelativeLayout-->
+        <!--android:id="@+id/id_ll_getInfo"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:clickable="true"-->
+        <!--android:background="@drawable/relay_bg" >-->
+
+        <!--<Button-->
+        <!--android:id="@+id/id_getInfo"-->
+        <!--android:clickable="false"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:background="@mipmap/icon_data"-->
+        <!--android:visibility="visible" />-->
+
+        <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@id/id_getInfo"-->
+        <!--android:gravity="center"-->
+        <!--android:paddingTop="35dip"-->
+        <!--android:text="@string/get_info"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="15sp"-->
+        <!--android:visibility="visible" />-->
+        <!--</RelativeLayout>-->
+
+        <!--<RelativeLayout-->
+        <!--android:id="@+id/id_ll_end_query"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:clickable="true"-->
+        <!--android:background="@drawable/relay_bg" >-->
+        <!--<Button-->
+        <!--android:id="@+id/id_end_query"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:clickable="false"-->
+        <!--android:background="@mipmap/icon_sale"-->
+        <!--android:visibility="visible"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_centerHorizontal="true" />-->
+
+        <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@id/id_end_query"-->
+        <!--android:gravity="center"-->
+        <!--android:paddingTop="35dip"-->
+        <!--android:text="扫码末笔查询"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="15sp"-->
+        <!--android:visibility="visible" />-->
+
+        <!--</RelativeLayout>-->
+
+
+    </LinearLayout>
+
+</LinearLayout>

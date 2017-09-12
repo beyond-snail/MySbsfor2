@@ -27,4 +27,8 @@
     <string name="viewfinderview_status_text2">即可自动扫描</string>
     <string name="msg_camera_framework_bug">Sorry, the Android camera encountered a problem. You may need to restart the device.</string>
     <string name="button_ok">OK</string>
+
+
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
 </resources>

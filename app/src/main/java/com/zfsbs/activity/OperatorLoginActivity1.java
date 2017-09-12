@@ -29,8 +29,10 @@ public class OperatorLoginActivity1 extends BaseActivity implements OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         setContentView(R.layout.activity_operator_login1);
 //        AppManager.getAppManager().addActivity(this);
+        initTitle("操作员登录");
         initView();
         initData();
         addListener();

@@ -123,8 +123,10 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         setContentView(R.layout.activity_record_item_info);
 //        AppManager.getAppManager().addActivity(this);
+        initTitle("交易详情");
 
         myintent = new Intent();
 

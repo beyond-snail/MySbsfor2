@@ -18,7 +18,9 @@
         <!--android:textColor="@color/white"-->
         <!--android:textSize="28.0sp" />-->
 
-    <include layout="@layout/activity_common_head"/>
+    <include
+        android:id="@+id/titlelayout"
+        layout="@layout/layout_header_with_back" />
 
     <ListView
         android:id="@+id/show_record"

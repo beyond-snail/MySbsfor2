@@ -70,6 +70,8 @@ public class SbsPrinterData extends DataSupport implements Serializable {
     private Bitmap sign_bitmap; //签名
     private String couponData;
 
+    private String rechargeUpload; //充值上送
+
 
 //	public PrinterData() {
 //		request = new TransUploadRequest();
@@ -502,6 +504,14 @@ public class SbsPrinterData extends DataSupport implements Serializable {
 
     public void setCouponData(String couponData) {
         this.couponData = couponData;
+    }
+
+    public String getRechargeUpload() {
+        return rechargeUpload;
+    }
+
+    public void setRechargeUpload(String rechargeUpload) {
+        this.rechargeUpload = rechargeUpload;
     }
 
     @Override

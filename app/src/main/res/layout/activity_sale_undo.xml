@@ -5,18 +5,22 @@
     android:background="@color/frenchGrey"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/activity_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/darkcyan"
-        android:gravity="center"
-        android:text="@string/sale_undo"
-        android:textColor="@color/white"
-        android:textSize="28.0sp" />
+    <!--<TextView-->
+        <!--android:id="@+id/activity_title"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="5dp"-->
+        <!--android:layout_marginRight="5dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:background="@color/darkcyan"-->
+        <!--android:gravity="center"-->
+        <!--android:text="@string/sale_undo"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textSize="28.0sp" />-->
+
+    <include
+        android:id="@+id/titlelayout"
+        layout="@layout/layout_header_with_back" />
 
     <LinearLayout
         android:id="@+id/id_ll_MasterId"
@@ -60,7 +64,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="15dp"
-            android:background="@drawable/btn_bg"
+            android:background="@drawable/btn_purple_selector"
             android:text="@string/operator_login_comfirm"
             android:textColor="@color/white"
             android:textSize="20sp" />
@@ -108,7 +112,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="15dp"
-            android:background="@drawable/btn_bg"
+            android:background="@drawable/btn_purple_selector"
             android:text="@string/operator_login_comfirm"
             android:textColor="@color/white"
             android:textSize="20sp" />
@@ -147,7 +151,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/btn_bg"
+                android:background="@drawable/btn_purple_selector"
                 android:text="@string/operator_login_comfirm"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
@@ -160,7 +164,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/btn_bg"
+                android:background="@drawable/btn_purple_selector"
                 android:text="退出"
                 android:textColor="@color/white"
                 android:textSize="20sp" />

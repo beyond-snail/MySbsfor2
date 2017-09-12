@@ -30,6 +30,10 @@ public class StringUtils {
 
 	}
 
+	public static boolean isBlank(String value) {
+		return value == null || "null".equals(value) || value.trim().length() <= 0;
+	}
+
 	public static boolean isEquals(String str1, String str2) {
 		// if (!isEmpty(str1) && !isEmpty(str2)) {
 		if (str1.equals(str2)) {

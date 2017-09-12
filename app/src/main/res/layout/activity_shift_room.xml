@@ -5,18 +5,9 @@
     android:background="@color/white"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/activity_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/darkcyan"
-        android:gravity="center"
-        android:text="@string/home_page"
-        android:textColor="@color/white"
-        android:textSize="28.0sp" />
+    <include
+        android:id="@+id/titlelayout"
+        layout="@layout/layout_header_with_back" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,122 +15,53 @@
         android:layout_weight="1"
         android:baselineAligned="false"
         android:orientation="horizontal"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp" >
-
-        <!--<RelativeLayout-->
-        <!--android:id="@+id/id_ll_sale_manager"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="1"-->
-        <!--android:clickable="true"-->
-        <!--android:background="@drawable/relay_bg" >-->
-
-        <!--<Button-->
-        <!--android:id="@+id/id_sale_manager"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_centerInParent="true"-->
-        <!--android:clickable="false"-->
-        <!--android:background="@mipmap/icon_sale"-->
-        <!--android:visibility="visible" />-->
-
-        <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_below="@id/id_sale_manager"-->
-        <!--android:gravity="center"-->
-        <!--android:paddingTop="35dip"-->
-        <!--android:text="@string/sale_manager"-->
-        <!--android:textColor="@color/black"-->
-        <!--android:textSize="15sp"-->
-        <!--android:visibility="visible" />-->
-        <!--</RelativeLayout>-->
+        android:padding="10dp">
 
 
-
-
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/id_ll_shiftroom"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="#1BB28D"
             android:clickable="true"
-            android:background="@drawable/relay_bg" >
+            android:padding="5dp">
 
-            <Button
-                android:id="@+id/id_shiftroom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:clickable="false"
-                android:background="@mipmap/sale" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/id_shiftroom"
+                android:layout_gravity="center_vertical"
                 android:gravity="center"
-                android:paddingTop="35dip"
                 android:text="班结"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
-        </RelativeLayout>
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </LinearLayout>
 
-        <RelativeLayout
+        <View
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
             android:id="@+id/id_ll_shiftroom_day"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+
+            android:background="#FD9840"
             android:clickable="true"
-            android:background="@drawable/relay_bg" >
+            android:padding="5dp">
 
-            <Button
-                android:id="@+id/id_shiftroom_day"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:clickable="false"
-                android:background="@mipmap/sale" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/id_shiftroom_day"
+                android:layout_gravity="center_vertical"
                 android:gravity="center"
-                android:paddingTop="35dip"
                 android:text="日结"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
-        </RelativeLayout>
-
-
-
-
-        <!--
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/relay_bg" >
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@drawable/icon_sale"
-                android:visibility="invisible" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:paddingTop="35dip"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:visibility="invisible" />
-        </RelativeLayout>
-        -->
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -148,153 +70,58 @@
         android:layout_weight="1"
         android:baselineAligned="false"
         android:orientation="horizontal"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingTop="10dp" >
-
-
-
-        <!--<RelativeLayout-->
-            <!--android:id="@+id/id_ll_sale"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:clickable="true"-->
-            <!--android:background="@drawable/relay_bg" >-->
-
-            <!--<Button-->
-                <!--android:id="@+id/id_sale"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_centerInParent="true"-->
-                <!--android:clickable="false"-->
-                <!--android:background="@mipmap/sale" />-->
-
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_below="@id/id_sale"-->
-                <!--android:gravity="center"-->
-                <!--android:paddingTop="35dip"-->
-                <!--android:text="@string/sale_txt"-->
-                <!--android:textColor="@color/black"-->
-                <!--android:textSize="15sp" />-->
-        <!--</RelativeLayout>-->
-
-        <RelativeLayout
+        android:padding="10dp">
+        <LinearLayout
             android:id="@+id/id_ll_shiftroom_record"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:clickable="true"
-            android:visibility="visible"
-            android:background="@drawable/relay_bg" >
+            android:background="#FC6769"
+            android:clickable="true">
 
-            <Button
-                android:id="@+id/id_shiftroom_record"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:clickable="false"
-                android:background="@mipmap/sale" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/id_shiftroom_record"
+                android:layout_below="@id/id_sale_info"
+                android:layout_gravity="center_vertical"
                 android:gravity="center"
-                android:paddingTop="35dip"
                 android:text="班结记录"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/id_ll_yxf_sale"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/id_ll_change_pwd"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:clickable="true"
-            android:visibility="gone"
-            android:background="@drawable/relay_bg" >
-
-            <Button
-                android:id="@+id/id_yxf_sale"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:clickable="false"
-                android:background="@mipmap/sale" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/id_yxf_sale"
-                android:gravity="center"
-                android:paddingTop="35dip"
-                android:text="赢消费"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/id_ll_yxf_sale_manager"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:clickable="true"
+            android:background="#1EB1ED"
             android:visibility="invisible"
-            android:background="@drawable/relay_bg" >
+            android:clickable="true">
 
-            <Button
-                android:id="@+id/id_yxf_sale_manager"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:clickable="false"
-                android:background="@mipmap/icon_sale"
-                android:visibility="visible" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/id_yxf_sale_manager"
+                android:layout_gravity="center_vertical"
                 android:gravity="center"
-                android:paddingTop="35dip"
-                android:text="赢消费配置"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:visibility="visible" />
-        </RelativeLayout>
+                android:text="操作员密码修改"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:visibility="invisible" />
+        </LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:visibility="gone"
-            android:background="@drawable/relay_bg" >
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:clickable="false"
-                android:background="@mipmap/sale" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:paddingTop="35dip"
-                android:text="赢消费"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
-        </RelativeLayout>
 
 
     </LinearLayout>
-
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -302,92 +129,56 @@
         android:layout_weight="1"
         android:baselineAligned="false"
         android:orientation="horizontal"
-        android:paddingBottom="5dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp" >
+        android:visibility="invisible"
+        android:padding="10dp">
 
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/id_ll_system_setting"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:clickable="true"
-            android:visibility="invisible"
-            android:background="@drawable/relay_bg" >
+            android:background="#83ABB9"
+            android:clickable="true">
 
-            <Button
-                android:id="@+id/id_getInfo"
-                android:clickable="false"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@mipmap/icon_data"
-                android:visibility="visible" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/id_getInfo"
                 android:gravity="center"
-                android:paddingTop="35dip"
-                android:text="@string/get_info"
-                android:textColor="@color/black"
-                android:textSize="15sp"
+                android:text="系统设置"
+                android:textColor="@color/white"
+                android:textSize="20sp"
                 android:visibility="visible" />
-        </RelativeLayout>
+        </LinearLayout>
 
-        <RelativeLayout
-            android:clickable="true"
+        <View
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/id_ll_change_pass"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:visibility="invisible"
-            android:background="@drawable/relay_bg" >
+            android:background="#37A8DE"
+            android:clickable="true">
 
-            <Button
-                android:id="@+id/id_change_pass"
-                android:clickable="false"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@mipmap/icon_more"
-                android:visibility="visible" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/id_change_pass"
+                android:layout_below="@id/id_end_query"
                 android:gravity="center"
-                android:paddingTop="35dip"
-                android:text="@string/change_pass"
-                android:textColor="@color/black"
-                android:textSize="15sp"
+                android:text="卡密码修改"
+                android:textColor="@color/white"
+                android:textSize="20sp"
                 android:visibility="visible" />
-        </RelativeLayout>
 
-        <!--
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/relay_bg" >
+        </LinearLayout>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@drawable/icon_sale"
-                android:visibility="invisible" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:paddingTop="35dip"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:visibility="invisible" />
-        </RelativeLayout>
-        -->
     </LinearLayout>
+
 
 </LinearLayout>

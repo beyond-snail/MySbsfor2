@@ -22,8 +22,10 @@ public class MasterChangePass extends BaseActivity implements OnClickListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mContext = this;
 		setContentView(R.layout.activity_master_pass);
 //		AppManager.getAppManager().addActivity(this);
+		initTitle("修改主管理员密码");
 		initView();
 	}
 

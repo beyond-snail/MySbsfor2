@@ -6,19 +6,9 @@
     android:background="@color/frenchGrey"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/activity_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/darkcyan"
-        android:gravity="center"
-        android:text="@string/record_info"
-        android:textColor="@color/white"
-        android:textSize="28.0sp" />
-
+    <include
+        android:id="@+id/titlelayout"
+        layout="@layout/layout_header_with_back" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -79,6 +69,7 @@
                     android:layout_marginTop="2dp"
                     android:background="@drawable/relay_bg"
                     android:orientation="horizontal"
+                    android:visibility="gone"
                     android:padding="8dp">
 
                     <TextView
@@ -107,6 +98,7 @@
                     android:layout_marginTop="2dp"
                     android:background="@drawable/relay_bg"
                     android:orientation="horizontal"
+
                     android:padding="8dp">
 
                     <TextView
@@ -171,6 +163,7 @@
                     android:padding="8dp">
 
                     <TextView
+                        android:id="@+id/id_text_orderAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -199,6 +192,7 @@
                     android:padding="8dp">
 
                     <TextView
+                        android:id="@+id/id_text_pay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -545,6 +539,7 @@
                     android:layout_marginTop="2dp"
                     android:background="@drawable/relay_bg"
                     android:orientation="horizontal"
+                    android:visibility="gone"
                     android:padding="8dp">
 
                     <TextView
@@ -662,6 +657,7 @@
                     android:padding="8dp">
 
                     <TextView
+                        android:id="@+id/id_text_B_orderAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -690,6 +686,7 @@
                     android:padding="8dp">
 
                     <TextView
+                        android:id="@+id/id_text_B_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -699,6 +696,37 @@
 
                     <TextView
                         android:id="@+id/id_bat_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="18dp"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/record_info_font_size"></TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/id_bat_recharge_balance"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/relay_bg"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/id_text_B_blance_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="会员账号余额："
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/record_info_font_size" />
+
+                    <TextView
+                        android:id="@+id/id_bat_r_balance_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="18dp"
@@ -893,6 +921,7 @@
                     android:layout_marginTop="2dp"
                     android:background="@drawable/relay_bg"
                     android:orientation="horizontal"
+                    android:visibility="gone"
                     android:padding="8dp">
 
                     <TextView
@@ -983,6 +1012,7 @@
                     android:padding="8dp">
 
                     <TextView
+                        android:id="@+id/id_text_C_orderAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -1011,6 +1041,7 @@
                     android:padding="8dp">
 
                     <TextView
+                        android:id="@+id/id_text_C_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -1020,6 +1051,37 @@
 
                     <TextView
                         android:id="@+id/id_cash_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="18dp"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/record_info_font_size"></TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/id_cash_recharge_balance"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/relay_bg"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/id_text_C_blance_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="会员账号余额："
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/record_info_font_size" />
+
+                    <TextView
+                        android:id="@+id/id_C_r_balance_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="18dp"
@@ -1194,7 +1256,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="@drawable/btn_bg"
+            android:background="@drawable/btn_purple_cancel_selector"
             android:text="打印"
 
             android:textColor="@color/white"
@@ -1208,7 +1270,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="@drawable/btn_bg"
+            android:background="@drawable/btn_purple_cancel_selector"
             android:text="退款"
             android:visibility="gone"
             android:textColor="@color/white"
@@ -1222,7 +1284,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="@drawable/btn_bg"
+            android:background="@drawable/btn_purple_cancel_selector"
             android:text="流水上送"
             android:textColor="@color/white"
             android:textSize="20sp" />
@@ -1235,7 +1297,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="@drawable/btn_bg"
+            android:background="@drawable/btn_purple_cancel_selector"
             android:text="交易查询"
             android:textColor="@color/white"
             android:visibility="gone"

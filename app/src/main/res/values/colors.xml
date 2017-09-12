@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="header_bg_color">#2085D3</color>
     <color name="white">#ffffff</color> <!-- 白色 -->
     <color name="white_light">#F8F8F8</color>
     <color name="ivory">#fffff0</color> <!-- 象牙色 -->
@@ -160,4 +161,13 @@
     <color name="viewfinder_frame">#03A9F4</color>
     <color name="viewfinder_laser">#FF03A9F4</color>
     <color name="viewfinder_laser_transparent">#0003A9F4</color>
+
+    <color name="menu1">#1BB28D</color>
+    <color name="menu2">#1EB1ED</color>
+    <color name="menu3">#FC6769</color>
+    <color name="menu4">#1BB28D</color>
+    <color name="menu5">#37A8DE</color>
+    <color name="menu6">#83ABB9</color>
+
+
 </resources>

@@ -5,9 +5,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -28,11 +29,13 @@ import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
-import com.views.viewpager.ViewPagerHelper;
+import com.tool.utils.view.MyGridView;
 import com.zfsbs.R;
+import com.zfsbs.adapter.MyMenuAdapter;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Config;
 import com.zfsbs.config.Constants;
+import com.zfsbs.config.EnumConstsSbs;
 import com.zfsbs.core.action.FyBat;
 import com.zfsbs.core.action.Printer;
 import com.zfsbs.core.action.RicherQb;
@@ -44,6 +47,7 @@ import com.zfsbs.model.FyMicropayResponse;
 import com.zfsbs.model.FyQueryRequest;
 import com.zfsbs.model.FyQueryResponse;
 import com.zfsbs.model.FyRefundResponse;
+import com.zfsbs.model.Menu;
 import com.zfsbs.model.RicherGetMember;
 import com.zfsbs.model.SbsPrinterData;
 import com.zfsbs.model.TransUploadRequest;
@@ -64,6 +68,9 @@ import java.util.concurrent.ExecutionException;
 
 public class SaleMainActivity extends BaseActivity implements OnClickListener {
 
+
+    private String TAG = "SaleMainActivity";
+
     private RelativeLayout btnSale;
     private RelativeLayout btnyxfSale;
     private RelativeLayout btnyxfSaleManager;
@@ -79,6 +86,14 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
     private RelativeLayout btnRicher_e_qb;
     private RelativeLayout btnVerification;
 
+    private LinearLayout ll1;
+    private LinearLayout ll2;
+    private LinearLayout ll3;
+    private LinearLayout ll4;
+    private LinearLayout ll5;
+    private LinearLayout ll6;
+    private LinearLayout ll7;
+
 
     private List<View> views = null;
 
@@ -87,16 +102,23 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
     private SbsPrinterData printerData;
 
 
+    private List<Menu> list = new ArrayList<Menu>();
+    private MyGridView gridView;
+    private MyMenuAdapter adapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_viewpage);
+        setContentView(R.layout.activity_sale_main3);
+        mContext = this;
 //        AppManager.getAppManager().addActivity(this);
+        initTitle("首页");
         initView();
-        addLinstener();
+//        addLinstener();
 
         initData();
-        if (Config.isLianDong==true){
+        if (Config.isLianDong == true) {
             PayCommon.bindService(SaleMainActivity.this, new PayCommon.ComTransResult<ComTransInfo>() {
                 @Override
                 public void success(ComTransInfo transInfo) {
@@ -109,8 +131,6 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
                 }
             });
         }
-
-
 
 
     }
@@ -158,148 +178,220 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
 
     private void initView() {
 
-    if (Config.isLianDong==false) {
-        setPayParam();
-    }
-
-
-        mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPoints = (LinearLayout) findViewById(R.id.dots_parent);
-
-        views = new ArrayList<View>();
-        View view1 = null, view2 = null;
-
-        if (Config.APP_UI == Config.APP_SBS_UI_SBS) {
-
-            view1 = LayoutInflater.from(this).inflate(R.layout.activity_sale_main, null);
-            view2 = LayoutInflater.from(this).inflate(R.layout.activity_sale_main1, null);
-
-            views.add(view1);
-            views.add(view2);
-
-            btnSale = (RelativeLayout) view1.findViewById(R.id.id_ll_sale);
-            btnRecord = (RelativeLayout) view1.findViewById(R.id.id_ll_record);
-            btnSaleManager = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_manager);
-            btnSaleInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_info);
-            btnGetInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_getInfo);
-            btnEndQuery = (RelativeLayout) view1.findViewById(R.id.id_ll_end_query);
-
-            btnChangePass = (RelativeLayout) view2.findViewById(R.id.id_ll_change_pass);
-            btnShitRoom = (RelativeLayout) view2.findViewById(R.id.id_ll_shiftroom);
-            btnyxfSale = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale);
-            btnyxfSaleManager = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale_manager);
-            btnVerification = (RelativeLayout) view2.findViewById(R.id.id_ll_id_sn_verification);
-
-
-            btnyxfSale.setVisibility(View.INVISIBLE);
-            btnyxfSaleManager.setVisibility(View.INVISIBLE);
-
-
-        } else if (Config.APP_UI == Config.APP_SBS_UI_RICHER_E) {
-            view1 = LayoutInflater.from(this).inflate(R.layout.richer_main_first_layout, null);
-            view2 = LayoutInflater.from(this).inflate(R.layout.richer_main_second_layout, null);
-            views.add(view1);
-            views.add(view2);
-
-            btnSale = (RelativeLayout) view1.findViewById(R.id.id_ll_sale);
-            btnyxfSale = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale);
-            btnyxfSaleManager = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale_manager);
-            btnRecord = (RelativeLayout) view1.findViewById(R.id.id_ll_record);
-            btnSaleManager = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_manager);
-            btnSaleInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_info);
-            btnGetInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_getInfo);
-            btnChangePass = (RelativeLayout) view2.findViewById(R.id.id_ll_change_pass);
-
-            btnEndQuery = (RelativeLayout) view2.findViewById(R.id.id_ll_end_query);
-            btnShitRoom = (RelativeLayout) view2.findViewById(R.id.id_ll_shiftroom);
-
-            btnRicher_e_qb = (RelativeLayout) view1.findViewById(R.id.id_ll_richer_e_qb);
-
-
-            btnyxfSale.setVisibility(View.INVISIBLE);
-            btnyxfSaleManager.setVisibility(View.INVISIBLE);
-
-
-        } else if (Config.APP_UI == Config.APP_SBS_UI_YXF) {
-            view1 = LayoutInflater.from(this).inflate(R.layout.activity_sale_main_yxf, null);
-            view2 = LayoutInflater.from(this).inflate(R.layout.activity_sale_main_yxf1, null);
-
-            views.add(view1);
-            views.add(view2);
-
-//            btnSale = (RelativeLayout) view1.findViewById(R.id.id_ll_sale);
-            btnyxfSale = (RelativeLayout) view1.findViewById(R.id.id_ll_yxf_sale);
-
-            btnSaleManager = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_manager);
-            btnSaleInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_info);
-            btnGetInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_getInfo);
-            btnEndQuery = (RelativeLayout) view1.findViewById(R.id.id_ll_end_query);
-
-            btnChangePass = (RelativeLayout) view2.findViewById(R.id.id_ll_change_pass);
-            btnShitRoom = (RelativeLayout) view2.findViewById(R.id.id_ll_shiftroom);
-            btnRecord = (RelativeLayout) view2.findViewById(R.id.id_ll_record);
-            btnyxfSaleManager = (RelativeLayout) view1.findViewById(R.id.id_ll_yxf_sale_manager);
-
-
-
-
-        }else if (Config.APP_UI == Config.APP_LIANDONG){
-            view1 = LayoutInflater.from(this).inflate(R.layout.richer_main_first_layout, null);
-            view2 = LayoutInflater.from(this).inflate(R.layout.richer_main_second_layout, null);
-            views.add(view1);
-            views.add(view2);
-
-            btnSale = (RelativeLayout) view1.findViewById(R.id.id_ll_sale);
-            btnyxfSale = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale);
-            btnyxfSaleManager = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale_manager);
-            btnRecord = (RelativeLayout) view1.findViewById(R.id.id_ll_record);
-            btnSaleManager = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_manager);
-            btnSaleInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_info);
-            btnGetInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_getInfo);
-            btnChangePass = (RelativeLayout) view2.findViewById(R.id.id_ll_change_pass);
-
-            btnEndQuery = (RelativeLayout) view2.findViewById(R.id.id_ll_end_query);
-            btnShitRoom = (RelativeLayout) view2.findViewById(R.id.id_ll_shiftroom);
-
-            btnRicher_e_qb = (RelativeLayout) view1.findViewById(R.id.id_ll_richer_e_qb);
-
-
-//            btnyxfSale.setVisibility(View.INVISIBLE);
-//            btnyxfSaleManager.setVisibility(View.INVISIBLE);
-
-
-        }else if (Config.APP_UI == Config.APP_SBS_UI_HD) {
-            view1 = LayoutInflater.from(this).inflate(R.layout.activity_sale_main_hd, null);
-            view2 = LayoutInflater.from(this).inflate(R.layout.activity_sale_main_hd1, null);
-
-
-            views.add(view1);
-            views.add(view2);
-
-            btnSale = (RelativeLayout) view1.findViewById(R.id.id_ll_sale);
-            btnhd = (RelativeLayout) view1.findViewById(R.id.id_ll_hd);
-            btnSaleManager = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_manager);
-            btnSaleInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_info);
-            btnGetInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_getInfo);
-            btnEndQuery = (RelativeLayout) view1.findViewById(R.id.id_ll_end_query);
-
-            btnRecord = (RelativeLayout) view2.findViewById(R.id.id_ll_record);
-            btnChangePass = (RelativeLayout) view2.findViewById(R.id.id_ll_change_pass);
-            btnShitRoom = (RelativeLayout) view2.findViewById(R.id.id_ll_shiftroom);
-            btnyxfSale = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale);
-            btnyxfSaleManager = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale_manager);
-
-
-            btnyxfSale.setVisibility(View.INVISIBLE);
-            btnyxfSaleManager.setVisibility(View.GONE);
-
-
+        if (Config.isLianDong == false) {
+            setPayParam();
         }
 
 
-        //注册滑动页面
-        new ViewPagerHelper(false, mViewPager, views, viewPoints, R.mipmap.page_indicator_focused,
-                R.mipmap.page_indicator_unfocused);
+//        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+//        viewPoints = (LinearLayout) findViewById(R.id.dots_parent);
+////
+//        views = new ArrayList<View>();
+//        View view1 = null, view2 = null;
+//
+//        if (Config.APP_UI == Config.APP_SBS_UI_SBS) {
+
+//        view1 = LayoutInflater.from(this).inflate(R.layout.activity_sale_main, null);
+//        view2 = LayoutInflater.from(this).inflate(R.layout.activity_sale_main2, null);
+//
+//        views.add(view1);
+//        views.add(view2);
+
+//            btnSale = (RelativeLayout) view1.findViewById(R.id.id_ll_sale);
+//            btnRecord = (RelativeLayout) view1.findViewById(R.id.id_ll_record);
+//            btnSaleManager = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_manager);
+//            btnSaleInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_info);
+//            btnGetInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_getInfo);
+//            btnEndQuery = (RelativeLayout) view1.findViewById(R.id.id_ll_end_query);
+
+//            btnChangePass = (RelativeLayout) view2.findViewById(R.id.id_ll_change_pass);
+//            btnShitRoom = (RelativeLayout) view2.findViewById(R.id.id_ll_shiftroom);
+//            btnyxfSale = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale);
+//            btnyxfSaleManager = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale_manager);
+//            btnVerification = (RelativeLayout) view2.findViewById(R.id.id_ll_id_sn_verification);
+
+//
+//            btnyxfSale.setVisibility(View.INVISIBLE);
+//            btnyxfSaleManager.setVisibility(View.INVISIBLE);
+//        ll1 = (LinearLayout) view1.findViewById(R.id.id_ll_sale);
+//        ll1.setOnClickListener(this);
+//        ll2 = (LinearLayout) view1.findViewById(R.id.id_ll_record);
+//        ll2.setOnClickListener(this);
+//        ll3 = (LinearLayout) view1.findViewById(R.id.id_ll_member_recharge);
+//        ll3.setOnClickListener(this);
+//        ll4 = (LinearLayout) view1.findViewById(R.id.id_ll_open_card);
+//        ll4.setOnClickListener(this);
+//        ll5 = (LinearLayout) view1.findViewById(R.id.id_ll_id_sn_verification);
+//        ll5.setOnClickListener(this);
+//        ll6 = (LinearLayout) view1.findViewById(R.id.id_ll_change_pass);
+//        ll6.setOnClickListener(this);
+//        ll7 = (LinearLayout) view2.findViewById(R.id.id_ll_system_setting);
+//        ll7.setOnClickListener(this);
+
+
+//        linearLayout(R.id.id_ll_sale).setOnClickListener(this);
+//        linearLayout(R.id.id_ll_record).setOnClickListener(this);
+//        linearLayout(R.id.id_ll_member_recharge).setOnClickListener(this);
+//        linearLayout(R.id.id_ll_open_card).setOnClickListener(this);
+//        linearLayout(R.id.id_ll_id_sn_verification).setOnClickListener(this);
+//        linearLayout(R.id.id_ll_system_setting).setOnClickListener(this);
+
+
+
+        for (int i = 0; i < EnumConstsSbs.MenuType.values().length; i++){
+            Menu menu = new Menu();
+            menu.setBg(EnumConstsSbs.MenuType.values()[i].getBg());
+            menu.setName(EnumConstsSbs.MenuType.values()[i].getName());
+            list.add(menu);
+        }
+
+
+
+        gridView = (MyGridView) findViewById(R.id.id_gridview);
+        adapter = new MyMenuAdapter(mContext, list);
+        gridView.setAdapter(adapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.e(TAG, "onItemClick " + position);
+                // 下拉刷新占据一个位置
+                int index = EnumConstsSbs.MenuType.getCodeByName(list.get(position).getName());
+                switch (index){
+                    case 1:
+                        SPUtils.put(SaleMainActivity.this, Config.APP_TYPE, Config.APP_SBS);
+                        if (isCheckStatus()) {
+                            CommonFunc.startAction(SaleMainActivity.this, InputAmountActivity.class, false);
+                        } else {
+                            CommonFunc.startAction(SaleMainActivity.this, HsSaleManagerActivity.class, false);
+                        }
+                        break;
+                    case 2:
+                        CommonFunc.startAction(SaleMainActivity.this, RecordInfoActivity.class, false);
+                        break;
+                    case 3:
+                        CommonFunc.startAction(SaleMainActivity.this, CheckOperatorLoginActivity.class, false);
+                        break;
+                    case 4:
+                        CommonFunc.startAction(SaleMainActivity.this, OpenCardActivity.class, false);
+                        break;
+                    case 5:
+                        CommonFunc.startAction(SaleMainActivity.this, VerificationActivity.class, false);
+
+                        break;
+                    case 6:
+                        CommonFunc.startAction(SaleMainActivity.this, SysMainActivity.class, false);
+                        break;
+                }
+            }
+        });
+
+
+//        } else if (Config.APP_UI == Config.APP_SBS_UI_RICHER_E) {
+//            view1 = LayoutInflater.from(this).inflate(R.layout.richer_main_first_layout, null);
+//            view2 = LayoutInflater.from(this).inflate(R.layout.richer_main_second_layout, null);
+//            views.add(view1);
+//            views.add(view2);
+//
+//            btnSale = (RelativeLayout) view1.findViewById(R.id.id_ll_sale);
+//            btnyxfSale = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale);
+//            btnyxfSaleManager = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale_manager);
+//            btnRecord = (RelativeLayout) view1.findViewById(R.id.id_ll_record);
+//            btnSaleManager = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_manager);
+//            btnSaleInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_info);
+//            btnGetInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_getInfo);
+//            btnChangePass = (RelativeLayout) view2.findViewById(R.id.id_ll_change_pass);
+//
+//            btnEndQuery = (RelativeLayout) view2.findViewById(R.id.id_ll_end_query);
+//            btnShitRoom = (RelativeLayout) view2.findViewById(R.id.id_ll_shiftroom);
+//
+//            btnRicher_e_qb = (RelativeLayout) view1.findViewById(R.id.id_ll_richer_e_qb);
+//
+//
+//            btnyxfSale.setVisibility(View.INVISIBLE);
+//            btnyxfSaleManager.setVisibility(View.INVISIBLE);
+//
+//
+//        } else if (Config.APP_UI == Config.APP_SBS_UI_YXF) {
+//            view1 = LayoutInflater.from(this).inflate(R.layout.activity_sale_main_yxf, null);
+//            view2 = LayoutInflater.from(this).inflate(R.layout.activity_sale_main_yxf1, null);
+//
+//            views.add(view1);
+//            views.add(view2);
+//
+////            btnSale = (RelativeLayout) view1.findViewById(R.id.id_ll_sale);
+//            btnyxfSale = (RelativeLayout) view1.findViewById(R.id.id_ll_yxf_sale);
+//
+//            btnSaleManager = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_manager);
+//            btnSaleInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_info);
+//            btnGetInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_getInfo);
+//            btnEndQuery = (RelativeLayout) view1.findViewById(R.id.id_ll_end_query);
+//
+//            btnChangePass = (RelativeLayout) view2.findViewById(R.id.id_ll_change_pass);
+//            btnShitRoom = (RelativeLayout) view2.findViewById(R.id.id_ll_shiftroom);
+//            btnRecord = (RelativeLayout) view2.findViewById(R.id.id_ll_record);
+//            btnyxfSaleManager = (RelativeLayout) view1.findViewById(R.id.id_ll_yxf_sale_manager);
+//
+//
+//
+//
+//        }else if (Config.APP_UI == Config.APP_LIANDONG){
+//            view1 = LayoutInflater.from(this).inflate(R.layout.richer_main_first_layout, null);
+//            view2 = LayoutInflater.from(this).inflate(R.layout.richer_main_second_layout, null);
+//            views.add(view1);
+//            views.add(view2);
+//
+//            btnSale = (RelativeLayout) view1.findViewById(R.id.id_ll_sale);
+//            btnyxfSale = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale);
+//            btnyxfSaleManager = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale_manager);
+//            btnRecord = (RelativeLayout) view1.findViewById(R.id.id_ll_record);
+//            btnSaleManager = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_manager);
+//            btnSaleInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_info);
+//            btnGetInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_getInfo);
+//            btnChangePass = (RelativeLayout) view2.findViewById(R.id.id_ll_change_pass);
+//
+//            btnEndQuery = (RelativeLayout) view2.findViewById(R.id.id_ll_end_query);
+//            btnShitRoom = (RelativeLayout) view2.findViewById(R.id.id_ll_shiftroom);
+//
+//            btnRicher_e_qb = (RelativeLayout) view1.findViewById(R.id.id_ll_richer_e_qb);
+//
+//
+////            btnyxfSale.setVisibility(View.INVISIBLE);
+////            btnyxfSaleManager.setVisibility(View.INVISIBLE);
+//
+//
+//        }else if (Config.APP_UI == Config.APP_SBS_UI_HD) {
+//            view1 = LayoutInflater.from(this).inflate(R.layout.activity_sale_main_hd, null);
+//            view2 = LayoutInflater.from(this).inflate(R.layout.activity_sale_main_hd1, null);
+//
+//
+//            views.add(view1);
+//            views.add(view2);
+//
+//            btnSale = (RelativeLayout) view1.findViewById(R.id.id_ll_sale);
+//            btnhd = (RelativeLayout) view1.findViewById(R.id.id_ll_hd);
+//            btnSaleManager = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_manager);
+//            btnSaleInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_sale_info);
+//            btnGetInfo = (RelativeLayout) view1.findViewById(R.id.id_ll_getInfo);
+//            btnEndQuery = (RelativeLayout) view1.findViewById(R.id.id_ll_end_query);
+//
+//            btnRecord = (RelativeLayout) view2.findViewById(R.id.id_ll_record);
+//            btnChangePass = (RelativeLayout) view2.findViewById(R.id.id_ll_change_pass);
+//            btnShitRoom = (RelativeLayout) view2.findViewById(R.id.id_ll_shiftroom);
+//            btnyxfSale = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale);
+//            btnyxfSaleManager = (RelativeLayout) view2.findViewById(R.id.id_ll_yxf_sale_manager);
+//
+//
+//            btnyxfSale.setVisibility(View.INVISIBLE);
+//            btnyxfSaleManager.setVisibility(View.GONE);
+//
+//
+//        }
+//
+//
+//        //注册滑动页面
+//        new ViewPagerHelper(false, mViewPager, views, viewPoints, R.mipmap.page_indicator_focused,
+//                R.mipmap.page_indicator_unfocused);
     }
 
     private void addLinstener() {
@@ -317,7 +409,7 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
         btnChangePass.setOnClickListener(this);
         btnEndQuery.setOnClickListener(this);
         btnShitRoom.setOnClickListener(this);
-        if ((Config.APP_UI == Config.APP_SBS_UI_RICHER_E)||(Config.APP_UI == Config.APP_LIANDONG)) {
+        if ((Config.APP_UI == Config.APP_SBS_UI_RICHER_E) || (Config.APP_UI == Config.APP_LIANDONG)) {
             btnRicher_e_qb.setOnClickListener(this);
         } else if (Config.APP_UI == Config.APP_SBS_UI_HD) {
             btnhd.setOnClickListener(this);
@@ -327,99 +419,124 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.id_ll_id_sn_verification:
-                CommonFunc.startAction(this, InputAmountActivity.class, false);
-                break;
             case R.id.id_ll_sale:
                 SPUtils.put(this, Config.APP_TYPE, Config.APP_SBS);
-//                if (getLoginDataNoMember()) {
-                    if (isCheckStatus()) {
-
-                        CommonFunc.startAction(this, InputAmountActivity.class, false);
-                    } else {
-//                        SPUtils.put(this, Config.APP_TYPE, Config.APP_SBS);
-                        CommonFunc.startAction(this, HsSaleManagerActivity.class, false);
-                    }
-//                }else {
-//                    getInfo(false);
-//                }
-                break;
-            case R.id.id_ll_yxf_sale:
-                SPUtils.put(this, Config.APP_TYPE, Config.APP_YXF);
                 if (isCheckStatus()) {
-                    if (!StringUtils.isEmpty((String) SPUtils.get(this, Config.YXF_MERCHANT_ID, Config.YXF_DEFAULT_MERCHANTID))) {
-
-                        CommonFunc.startAction(this, InputAmountActivity.class, false);
-                    } else {
-                        CommonFunc.startAction(this, YxfManagerActivity.class, false);
-                    }
-                } else {
-//                    SPUtils.put(this, Config.APP_TYPE, Config.APP_YXF);
-                    CommonFunc.startAction(this, HsSaleManagerActivity.class, false);
-                }
-                break;
-            case R.id.id_ll_hd:
-                SPUtils.put(this, Config.APP_TYPE, Config.APP_HD);
-                if (isCheckStatus()) {
-
                     CommonFunc.startAction(this, InputAmountActivity.class, false);
                 } else {
-//                    SPUtils.put(this, Config.APP_TYPE, Config.APP_HD);
                     CommonFunc.startAction(this, HsSaleManagerActivity.class, false);
                 }
-                break;
-            case R.id.id_ll_yxf_sale_manager:
-                CommonFunc.startAction(this, YxfManagerActivity.class, false);
                 break;
             case R.id.id_ll_record:
                 CommonFunc.startAction(this, RecordInfoActivity.class, false);
                 break;
-            case R.id.id_ll_sale_manager:
-                CommonFunc.startAction(this, HsSaleManagerActivity.class, false);
+            case R.id.id_ll_member_recharge:
+                CommonFunc.startAction(this, CheckOperatorLoginActivity.class, false);
                 break;
-            case R.id.id_ll_sale_info:
-                CommonFunc.startAction(this, LoginInfoActivity.class, false);
+            case R.id.id_ll_open_card:
+                CommonFunc.startAction(this, OpenCardActivity.class, false);
                 break;
-            case R.id.id_ll_getInfo:
-                if (Config.OPERATOR_UI_BEFORE) {
-                    CommonFunc.startAction(this, GetLoginInfoActivity.class, false);
-                }else {
-                    CommonFunc.startAction(this, GetLoginInfoActivity1.class, false);
-                }
+            case R.id.id_ll_system_setting:
+                CommonFunc.startAction(this, SysMainActivity.class, false);
                 break;
-            case R.id.id_ll_change_pass:
-                CommonFunc.startAction(this, ChangePassActivity.class, false);
-                break;
-            case R.id.id_ll_end_query:
-                endQuery1();
-                break;
-            case R.id.id_ll_shiftroom:
-                CommonFunc.startAction(this, ShiftRoomActivity.class, false);
-//                final SignDialog dialog = new SignDialog(SaleMainActivity.this, new SignDialog.OnClickInterface() {
-//                    @Override
-//                    public void onClickSure(Bitmap bitmap) {
-//
-//                    }
-//
-//                });
-//                dialog.show();
-                break;
-            case R.id.id_ll_richer_e_qb:
-                SPUtils.put(this, Config.APP_TYPE, Config.APP_Richer_e);
-//                if (getLoginDataIsMember()) {
-                    if (isCheckStatus()) {
-
-                        CommonFunc.startAction(this, InputAmountActivity.class, false);
-                    } else {
-                        CommonFunc.startAction(this, HsSaleManagerActivity.class, false);
-                    }
-//                }else {
-//                    getInfo(true);
-//                }
-                break;
-            default:
+//            case R.id.id_ll_change_pass:
+//                CommonFunc.startAction(this, CardChangeActivity.class, false);
+//                break;
+            case R.id.id_ll_id_sn_verification:
+                CommonFunc.startAction(this, VerificationActivity.class, false);
                 break;
         }
+
+//            case R.id.id_ll_sale:
+//                SPUtils.put(this, Config.APP_TYPE, Config.APP_SBS);
+////                if (getLoginDataNoMember()) {
+//                    if (isCheckStatus()) {
+//
+//                        CommonFunc.startAction(this, InputAmountActivity.class, false);
+//                    } else {
+////                        SPUtils.put(this, Config.APP_TYPE, Config.APP_SBS);
+//                        CommonFunc.startAction(this, HsSaleManagerActivity.class, false);
+//                    }
+////                }else {
+////                    getInfo(false);
+////                }
+//                break;
+//            case R.id.id_ll_yxf_sale:
+//                SPUtils.put(this, Config.APP_TYPE, Config.APP_YXF);
+//                if (isCheckStatus()) {
+//                    if (!StringUtils.isEmpty((String) SPUtils.get(this, Config.YXF_MERCHANT_ID, Config.YXF_DEFAULT_MERCHANTID))) {
+//
+//                        CommonFunc.startAction(this, InputAmountActivity.class, false);
+//                    } else {
+//                        CommonFunc.startAction(this, YxfManagerActivity.class, false);
+//                    }
+//                } else {
+////                    SPUtils.put(this, Config.APP_TYPE, Config.APP_YXF);
+//                    CommonFunc.startAction(this, HsSaleManagerActivity.class, false);
+//                }
+//                break;
+//            case R.id.id_ll_hd:
+//                SPUtils.put(this, Config.APP_TYPE, Config.APP_HD);
+//                if (isCheckStatus()) {
+//
+//                    CommonFunc.startAction(this, InputAmountActivity.class, false);
+//                } else {
+////                    SPUtils.put(this, Config.APP_TYPE, Config.APP_HD);
+//                    CommonFunc.startAction(this, HsSaleManagerActivity.class, false);
+//                }
+//                break;
+//            case R.id.id_ll_yxf_sale_manager:
+//                CommonFunc.startAction(this, YxfManagerActivity.class, false);
+//                break;
+//            case R.id.id_ll_record:
+//                CommonFunc.startAction(this, RecordInfoActivity.class, false);
+//                break;
+//            case R.id.id_ll_sale_manager:
+//                CommonFunc.startAction(this, HsSaleManagerActivity.class, false);
+//                break;
+//            case R.id.id_ll_sale_info:
+//                CommonFunc.startAction(this, LoginInfoActivity.class, false);
+//                break;
+//            case R.id.id_ll_getInfo:
+//                if (Config.OPERATOR_UI_BEFORE) {
+//                    CommonFunc.startAction(this, GetLoginInfoActivity.class, false);
+//                }else {
+//                    CommonFunc.startAction(this, GetLoginInfoActivity1.class, false);
+//                }
+//                break;
+//            case R.id.id_ll_change_pass:
+//                CommonFunc.startAction(this, ChangePassActivity.class, false);
+//                break;
+//            case R.id.id_ll_end_query:
+//                endQuery1();
+//                break;
+//            case R.id.id_ll_shiftroom:
+//                CommonFunc.startAction(this, ShiftRoomActivity.class, false);
+////                final SignDialog dialog = new SignDialog(SaleMainActivity.this, new SignDialog.OnClickInterface() {
+////                    @Override
+////                    public void onClickSure(Bitmap bitmap) {
+////
+////                    }
+////
+////                });
+////                dialog.show();
+//                break;
+//            case R.id.id_ll_richer_e_qb:
+//                SPUtils.put(this, Config.APP_TYPE, Config.APP_Richer_e);
+////                if (getLoginDataIsMember()) {
+//                    if (isCheckStatus()) {
+//
+//                        CommonFunc.startAction(this, InputAmountActivity.class, false);
+//                    } else {
+//                        CommonFunc.startAction(this, HsSaleManagerActivity.class, false);
+//                    }
+////                }else {
+////                    getInfo(true);
+////                }
+//                break;
+//            default:
+//                break;
+//        }
     }
 
 
@@ -667,7 +784,7 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
                 );
                 printerData.setClientOrderNo(data.getOutOrderNum());
                 transUploadAction2(request);
-            }else {
+            } else {
                 printerData.setApp_type(Config.APP_HD);
                 printerData.setClientOrderNo(data.getOutOrderNum());
                 PrinterDataSave();
@@ -730,7 +847,7 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
                 );
                 printerData.setClientOrderNo(data.getOutOrderNum());
                 transUploadAction2(request);
-            }else {
+            } else {
                 printerData.setApp_type(Config.APP_HD);
                 printerData.setClientOrderNo(data.getOutOrderNum());
                 PrinterDataSave();
@@ -771,7 +888,7 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
             );
             //这个地方保持和支付的时候一直
             request.setClientOrderNo(orderNo);
-            if (StringUtils.isEmpty(request.getCardNo())){
+            if (StringUtils.isEmpty(request.getCardNo())) {
                 request.setCardNo(cardNo);
             }
             transUploadAction1(request);
@@ -934,7 +1051,7 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
                 // 设置当前交易流水需要上送
                 printerData.setUploadFlag(false);
 
-                if (Config.isSign){
+                if (Config.isSign) {
                     final SignDialog dialog = new SignDialog(SaleMainActivity.this, new SignDialog.OnClickInterface() {
                         @Override
                         public void onClickSure(Bitmap bitmap) {
@@ -947,7 +1064,7 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
                     });
                     dialog.setCancelable(false);
                     dialog.show();
-                }else {
+                } else {
 
                     PrinterDataSave();
                     // 打印
@@ -1015,7 +1132,7 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
     };
 
 
-    private void setCounponData(List<Couponsn> data){
+    private void setCounponData(List<Couponsn> data) {
         Gson gson = new GsonBuilder().serializeNulls().create();
         String counponStr = gson.toJson(data);
         printerData.setCouponData(counponStr);
@@ -1183,7 +1300,7 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
 
                             PrinterDataSave();
                             Printer.getInstance(SaleMainActivity.this).print(recordData, SaleMainActivity.this);
-                        }else {
+                        } else {
                             yxf_setTransUpdateResponse(recordData, qr_code, dialog, true);
                         }
 

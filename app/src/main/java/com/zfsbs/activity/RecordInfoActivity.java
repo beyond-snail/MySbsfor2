@@ -41,8 +41,10 @@ public class RecordInfoActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         setContentView(R.layout.activity_recordprinter);
 //        AppManager.getAppManager().addActivity(this);
+        initTitle("交易记录");
         initView();
         addListener();
 //		testData();
@@ -58,8 +60,8 @@ public class RecordInfoActivity extends BaseActivity implements View.OnClickList
         lv = (ListView) findViewById(R.id.show_record);
         showNo = (TextView) findViewById(R.id.show_record_no);
 
-        tj = (TextView) findViewById(R.id.id_tj);
-        tj.setOnClickListener(this);
+//        tj = (TextView) findViewById(R.id.id_tj);
+//        tj.setOnClickListener(this);
     }
 
     private void initData() {
@@ -179,12 +181,12 @@ public class RecordInfoActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.id_tj:
-                getData();
-
-                break;
-        }
+//        switch (v.getId()) {
+//            case R.id.id_tj:
+//                getData();
+//
+//                break;
+//        }
     }
 
     private void getData() {

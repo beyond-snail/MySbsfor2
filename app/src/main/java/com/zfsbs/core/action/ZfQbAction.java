@@ -40,8 +40,6 @@ import com.myokhttp.MyOkHttp;
 import com.myokhttp.response.GsonResponseHandler;
 import com.tool.utils.dialog.CustomTimingProgressDialog;
 import com.tool.utils.dialog.LoadingDialog;
-import com.tool.utils.utils.EncryptMD5Util;
-import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
@@ -52,11 +50,7 @@ import com.zfsbs.core.myinterface.ActionCallbackListener;
 import com.zfsbs.model.ApiResponse;
 import com.zfsbs.model.ZfQbResponse;
 
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**********************************************************
@@ -111,79 +105,7 @@ public class ZfQbAction {
         }
     };
 
-    /**
-     * 商博士-钱包支付
-     * @param sid
-     * @param orderNo
-     * @param amount
-     * @param qrCode
-     * @param listener
-     */
-//    public void qbAction(final int sid, final String orderNo, String amount, final String time, String traceNum, String qrCode, final ActionCallbackListener<ZfQbResponse> listener){
-//
-//
-//        Map<String, Object> paramsMap = new HashMap<String, Object>();
-//
-//        paramsMap.put("TranCode", "9448");
-//        paramsMap.put("QrCode", qrCode);
-//        paramsMap.put("MerchantId", sid);
-//        paramsMap.put("TerminalNo", StringUtils.getSerial());
-//        paramsMap.put("OrgOrderNum", orderNo);
-//        paramsMap.put("OrgTranDateTime", time);
-//        paramsMap.put("SysTraceNum", traceNum);
-//        paramsMap.put("TranAmt", amount);
-//        paramsMap.put("OrderCurrency", "156");
-//
-//        isPaying = true;
-//        String data = CommonFunc.getJsonStr("qbPay", paramsMap, "verify", Config.md5_key);
-//        LogUtils.e("request", data);
-//        LogUtils.e("URL", Config.SBS_URL_QB);
-//
-//        Timedialog = new CustomTimingProgressDialog(mContext, new CustomTimingProgressDialog.DialogDismissEvent() {
-//            @Override
-//            public void dialogDismiss() {
-//                isPaying = false;
-//            }
-//        });
-//        Timedialog.show();
-//        Timedialog.setCancelable(false);
-//
-//
-//        MyOkHttp.get().postJson(mContext, Config.SBS_URL_QB, data, new GsonResponseHandler<ApiResponse<ZfQbResponse>>() {
-//            @Override
-//            public void onSuccess(int statusCode, ApiResponse<ZfQbResponse> response) {
-//                LogUtils.e("response", response.toString());
-//                if (response != null) {
-//                    if (response.getCode().equals("A00006")) {
-//                        if (StringUtils.isEquals(response.getResult().getTransState(), "0000")){
-//                            CloseTimeDialog();
-//                            listener.onSuccess(response.getResult());
-//                        }else{
-//                            order_no = orderNo;
-//                            old_time = time;
-//                            old_sid = sid;
-//                            mListener = listener;
-//                            handler.postDelayed(runnable, 5000);
-//                        }
-//
-//                    } else {
-//                        CloseTimeDialog();
-//                        listener.onFailure(response.getCode(), response.getMsg());
-//                    }
-//                } else {
-//                    CloseTimeDialog();
-//                    listener.onFailure("", "链接服务器异常");
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, String error_msg) {
-//                CloseTimeDialog();
-//                listener.onFailure("" + statusCode, error_msg);
-//            }
-//
-//        });
-//    }
+
 
 
     /**
@@ -361,38 +283,6 @@ public class ZfQbAction {
     }
 
 
-    private String getJsonStr(String cmd, Map<String, Object> paramsMap, String sign, String key, String terminalId) {
-        JSONObject jsonParams = null;
 
-        ArrayList<String> keys = new ArrayList<String>();
-        for (Iterator<String> it = paramsMap.keySet().iterator(); it.hasNext(); ) {
-            keys.add(it.next());
-        }
-        String tmp = "";
-        keys = CommonFunc.getSortAsc(keys);
-        for (int i = 0; i < keys.size(); i++) {
-            Object obj = paramsMap.get(keys.get(i));
-            if (obj != null) {
-                tmp = tmp + obj.toString();
-            } else {
-                LogUtils.e("getJsonStr", "getSortAsc obj is null");
-            }
-        }
-
-        String verify = EncryptMD5Util.MD5(tmp + key);
-        paramsMap.put(sign, verify);
-        if (!StringUtils.isEmpty(terminalId)){
-            paramsMap.put(terminalId, StringUtils.getSerial());
-        }
-
-
-        Map<String, Object> final_params = new HashMap<String, Object>();
-        final_params.put("cmd", cmd);
-        final_params.put("params", paramsMap);
-
-        jsonParams = new JSONObject(final_params);
-
-        return jsonParams.toString();
-    }
 
 }

@@ -32,9 +32,10 @@ public class ShiftRoomRecordActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         setContentView(R.layout.activity_shift_room_record);
-
 //        AppManager.getAppManager().addActivity(this);
+        initTitle("班结记录");
         initView();
         addListener();
         initData();

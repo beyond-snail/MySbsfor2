@@ -23,7 +23,7 @@ import com.zfsbs.myapplication.MyApplication;
 public class GetLoginInfoActivity1 extends BaseActivity implements OnClickListener{
 
 
-    private static final String TAG = "GetLoginInfoActivity";
+    private static final String TAG = "GetLoginInfoActivity1";
 
     private Button btnGetInfo;
     private EditText edPassWord;
@@ -32,8 +32,10 @@ public class GetLoginInfoActivity1 extends BaseActivity implements OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         setContentView(R.layout.activity_info_get1);
 //        AppManager.getAppManager().addActivity(this);
+        initTitle("签到");
 
         btnGetInfo = (Button) findViewById(R.id.id_info_get);
         edPassWord = (EditText) findViewById(R.id.password);

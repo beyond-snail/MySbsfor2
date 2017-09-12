@@ -13,6 +13,7 @@ import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,6 +28,7 @@ import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
 import com.tool.utils.utils.WifiChangeBroadcastReceiver;
+import com.zfsbs.R;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Config;
 import com.zfsbs.config.Constants;
@@ -50,7 +52,7 @@ public abstract class BaseActivity extends Activity {
 
 
     // 上下文实例
-    protected Context context;
+    protected Context mContext;
     // 应用全局的实例
     protected MyApplication application;
     // 核心层的Action实例
@@ -90,6 +92,41 @@ public abstract class BaseActivity extends Activity {
         //封装一个定时器用于登录
         setAlarmToLogin();
     }
+
+
+    /**
+     * 初始化标题和回退
+     */
+    public void initTitle(String title) {
+        if (textView(R.id.tv_header) != null) {
+            textView(R.id.tv_header).setText(title);
+        }
+        if (findViewById(R.id.backBtn) != null) {
+            findViewById(R.id.backBtn).setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+        }
+    }
+
+    /**
+     * 触发手机返回按钮
+     */
+    @Override
+    public void onBackPressed() {
+
+        View view = getWindow().peekDecorView();
+        if (view != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+        AppManager.getAppManager().finishActivity(BaseActivity.this);
+    }
+
+
 
 
     /**
@@ -299,9 +336,10 @@ public abstract class BaseActivity extends Activity {
         PayCommon.DownloadAid(this, new PayCommon.ComTransResult<ComTransInfo>() {
             @Override
             public void success(ComTransInfo transInfo) {
+                SPUtils.put(BaseActivity.this, Config.AID_KEY, true);
+                boolean download = (boolean) SPUtils.get(BaseActivity.this, Config.CPK_KEY, false);
+                if (!download) {
 
-                if (!(boolean) SPUtils.get(BaseActivity.this, Config.CPK_KEY, false)) {
-                    SPUtils.put(BaseActivity.this, Config.AID_KEY, true);
                     DownloadCapk();
                 } else if (!(boolean) SPUtils.get(BaseActivity.this, Config.BLACKLIST_KEY, false) && Config.isFy) {
                     DownloadBlackList();
@@ -331,7 +369,8 @@ public abstract class BaseActivity extends Activity {
             @Override
             public void success(ComTransInfo transInfo) {
                 SPUtils.put(BaseActivity.this, Config.CPK_KEY, true);
-                if (!(boolean) SPUtils.get(BaseActivity.this, Config.AID_KEY, false)) {
+                boolean download = (boolean) SPUtils.get(BaseActivity.this, Config.AID_KEY, false);
+                if (!download) {
                     DownloadAid();
                 } else if (!(boolean) SPUtils.get(BaseActivity.this, Config.BLACKLIST_KEY, false) && Config.isFy) {
                     DownloadBlackList();
