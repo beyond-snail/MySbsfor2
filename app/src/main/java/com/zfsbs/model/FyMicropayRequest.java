@@ -13,7 +13,7 @@ public class FyMicropayRequest {
 	private String addn_inf; // 附加数据
 	private String mchnt_order_no; // 商户订单号，商户系统内部的订单号
 	private String curr_type; // 货币类型,默认人民币：CNY
-	private int amount; // 总金额, 订单总金额，单位为分
+	private long amount; // 总金额, 订单总金额，单位为分
 	private String term_ip; // 终端IP
 	private String txn_begin_ts;// 交易起始时间, 订单生成时间，格式为yyyyMMddHHmmss
 	private String goods_tag; // 商品标记
@@ -87,11 +87,11 @@ public class FyMicropayRequest {
 		this.goods_detail = goods_detail;
 	}
 
-	public int getAmount() {
+	public long getAmount() {
 		return amount;
 	}
 
-	public void setAmount(int amount) {
+	public void setAmount(long amount) {
 		this.amount = amount;
 	}
 

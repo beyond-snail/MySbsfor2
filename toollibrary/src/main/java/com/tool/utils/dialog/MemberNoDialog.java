@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.tool.utils.msrcard.MsrCard;
 import com.tool.utils.utils.ToastUtils;
 import com.toollibrary.R;
 
@@ -86,6 +87,19 @@ public class MemberNoDialog extends Dialog implements View.OnClickListener {
         
         initView();
         addListener();
+
+		MsrCard.getMsrCard(context).openMsrCard(new MsrCard.TrackData() {
+			@Override
+			public void onSuccess(String track2Data) {
+				etInputNo.setText(track2Data);
+				etInputNo.setSelection(track2Data.length());
+			}
+
+			@Override
+			public void onFail() {
+				dismiss();
+			}
+		});
 	}
 
 	private void initView() {

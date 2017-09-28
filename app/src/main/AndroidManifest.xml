@@ -147,6 +147,7 @@
         <activity android:name=".activity.ShiftRoomRecordActivity" />
         <activity android:name=".activity.ShiftRoomShowitemActivity" />
         <activity android:name=".activity.LDMainActivity" />
+        <activity android:name=".activity.test.TestPopActivity" />
 
         <service
             android:name=".service.UploadService"

@@ -61,7 +61,7 @@ public class AdapterOilCardMeal extends AdapterBase<RechargeAmount> {
         //取整数
 
         holder.discount.setText("充"+ StringUtils.formatIntMoney(vo.getReal_pay_money())+"元");
-        holder.money.setText("得"+ StringUtils.formatIntMoney(vo.getReal_get_money())+ "元");
+        holder.money.setText("得"+ StringUtils.formatIntMoney(vo.getReal_get_money()+vo.getReal_pay_money())+ "元");
 
         return convertView;
     }

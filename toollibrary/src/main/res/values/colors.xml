@@ -194,4 +194,6 @@
     <color name="purple_light">#46a0e5</color>
     <color name="trans">#00ffffff</color>
     <color name="divider_list">#E1E1E1</color>
+
+    <color name="text_color">#FEBB50</color>
 </resources>

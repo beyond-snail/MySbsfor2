@@ -60,7 +60,7 @@ public class HsSaleManagerActivity extends BaseActivity implements OnClickListen
         mContext = this;
         setContentView(R.layout.activity_sale_manager);
 //		AppManager.getAppManager().addActivity(this);
-        initTitle("系统设置");
+        initTitle("消费管理");
 
         initView();
 

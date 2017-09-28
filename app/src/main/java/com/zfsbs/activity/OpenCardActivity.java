@@ -24,6 +24,11 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
     private EditText etCard;
 
 
+    private static final int USER_SEARCH = 0;
+    private static final int USER_ADD = 1;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,11 +42,15 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
             findViewById(R.id.add).setOnClickListener(this);
         }
 
+
         initView();
 
         MsrCard.getMsrCard(mContext).openMsrCard(listener);
 
     }
+
+
+
 
 
     private MsrCard.TrackData listener = new MsrCard.TrackData() {
@@ -105,19 +114,79 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.id_bind_card:
-                openRealizeCard(1);
+                openRealizeCard();
                 break;
             case R.id.id_change_card:
-                openRealizeCard(2);
+                changeCard();
                 break;
             case R.id.add:
                 CommonFunc.startAction(this, CardChangeActivity.class, false);
+
+
                 break;
             default:
                 break;
         }
+    }
+
+    private void changeCard() {
+        int sid = MyApplication.getInstance().getLoginData().getSid();
+//        String memberName = etName.getText().toString().trim();
+        final String memberCard = etCard.getText().toString().trim();
+        final String memberPhone = etPhone.getText().toString().trim();
+
+        if (StringUtils.isBlank(memberCard)) {
+            ToastUtils.CustomShow(mContext, "会员卡号不为空");
+            return;
+        }
+
+        sbsAction.changeCard(mContext, sid, memberPhone, memberCard, new ActionCallbackListener<ApiResponse<VipCardNo>>() {
+
+            @Override
+            public void onSuccess(ApiResponse<VipCardNo> response) {
+                AlertUtils.alert2("提示", response.getResult().getResMsg(), mContext, "确定", "取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        dialogInterface.dismiss();
+                        onBackPressed();
+
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        onBackPressed();
+
+                    }
+                }, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        onBackPressed();
+
+                    }
+                }, null, false, false, 1);
+            }
+
+            @Override
+            public void onFailure(String errorEvent, String message) {
+                ToastUtils.CustomShow(mContext, message);
+            }
+
+            @Override
+            public void onFailurTimeOut(String s, String error_msg) {
+
+            }
+
+            @Override
+            public void onLogin() {
+
+            }
+        });
     }
 
 
@@ -127,18 +196,17 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
         MsrCard.getMsrCard(mContext).closeMsrCard();
     }
 
-    private void openRealizeCard(int action){
+    private void openRealizeCard() {
 
         int sid = MyApplication.getInstance().getLoginData().getSid();
         String memberName = etName.getText().toString().trim();
-        String memberCard = etCard.getText().toString().trim();
-        String memberPhone = etPhone.getText().toString().trim();
+        final String memberCard = etCard.getText().toString().trim();
+        final String memberPhone = etPhone.getText().toString().trim();
 
-        if (StringUtils.isBlank(memberCard)){
+        if (StringUtils.isBlank(memberCard)) {
             ToastUtils.CustomShow(mContext, "会员卡号不为空");
             return;
         }
-
 
 
         sbsAction.openCard(mContext, sid, memberPhone, memberCard, memberName, new ActionCallbackListener<ApiResponse<VipCardNo>>() {
@@ -150,11 +218,11 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                         dialogInterface.dismiss();
-                        if (response.getResult().getResCode() == 20) {
+                        if (response.getResult().getResCode() == 2) {
                             onBackPressed();
-                        }else if (response.getResult().getResCode() == 100){
+                        } else if (response.getResult().getResCode() == 100) {
                             //确认是否绑定
-                            ComfirmBindCard();
+                            ComfirmBindCard(memberCard, memberPhone);
                         }
                     }
                 }, new DialogInterface.OnClickListener() {
@@ -165,7 +233,7 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
                             onBackPressed();
                         }
                     }
-                }, new DialogInterface.OnClickListener(){
+                }, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -180,7 +248,6 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onFailure(String errorEvent, String message) {
                 ToastUtils.CustomShow(mContext, message);
-//                MsrCard.getMsrCard(mContext).openMsrCard(listener);
                 MsrCard.getMsrCard(mContext).closeMsrCard();
                 new Thread(new Runnable() {
                     @Override
@@ -208,8 +275,66 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
         });
     }
 
-    private void ComfirmBindCard() {
+    private void ComfirmBindCard(String memberCard, String memberPhone) {
+        int sid = MyApplication.getInstance().getLoginData().getSid();
+        sbsAction.confirmBindCard(mContext, sid, memberPhone, memberCard, new ActionCallbackListener<ApiResponse<VipCardNo>>() {
 
+            @Override
+            public void onSuccess(ApiResponse<VipCardNo> response) {
+                AlertUtils.alert2("提示", response.getResult().getResMsg(), mContext, "确定", "取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        dialogInterface.dismiss();
+                        onBackPressed();
+
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        onBackPressed();
+
+                    }
+                }, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        onBackPressed();
+
+                    }
+                }, null, false, false, 1);
+            }
+
+            @Override
+            public void onFailure(String errorEvent, String message) {
+                ToastUtils.CustomShow(mContext, message);
+                MsrCard.getMsrCard(mContext).closeMsrCard();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(200);
+                            MsrCard.getMsrCard(mContext).openMsrCard(listener);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }).start();
+            }
+
+            @Override
+            public void onFailurTimeOut(String s, String error_msg) {
+
+            }
+
+            @Override
+            public void onLogin() {
+
+            }
+        });
     }
 
 }

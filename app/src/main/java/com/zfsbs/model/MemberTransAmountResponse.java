@@ -9,6 +9,7 @@ public class MemberTransAmountResponse implements Serializable {
 	private static final long serialVersionUID = -3880705816678091583L;
 	private String memberName; // 会员名称
 	private String memberCardNo; // 会员卡号
+	private String stkCardNo; //实体卡号
 	private int tradeMoney; // 交易金额（单位：分）
 	private int realMoney; // 实收金额
 	private int pointCoverMoney; // 积分抵用金额
@@ -26,6 +27,14 @@ public class MemberTransAmountResponse implements Serializable {
 
 	public void setMemberName(String memberName) {
 		this.memberName = memberName;
+	}
+
+	public String getStkCardNo() {
+		return stkCardNo;
+	}
+
+	public void setStkCardNo(String stkCardNo) {
+		this.stkCardNo = stkCardNo;
 	}
 
 	public String getMemberCardNo() {

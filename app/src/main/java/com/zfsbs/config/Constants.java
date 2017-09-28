@@ -83,7 +83,10 @@ public class Constants {
 	public static final int PAY_WAY_RECHARGE_WX = 16; //微信充值
 	public static final int PAY_WAY_RECHARGE_ALY = 17; //支付宝充值
 	public static final int PAY_WAY_RECHARGE_CASH = 18; //现金充值
-
+	public static final int PAY_WAY_RECHARGE_FLOT = 20; //刷卡充值
+	public static final int PAY_WAY_UNIPAY = 21; //银联二维码支付
+	public static final int PAY_WAY_REFUND_UNIPAY = 23; //银联二维码支付
+	public static final int PAY_WAY_RECHARGE_UNIPAY = 22; //银联二维码支付
 
 	//富友双商户 密钥索引对应
 	public static final int FY_INDEX_0 = 0;
@@ -98,6 +101,7 @@ public class Constants {
 	public static final int REQUEST_CAPTURE_WX = 0;
 	public static final int REQUEST_CAPTURE_ALY = 1;
 	public static final int REQUEST_CAPTURE_QB = 2;
+	public static final int REQUEST_CAPTURE_UNIPAY = 3;
 	public static final int REQUEST_CASH = 4; //现金
 
 	public static final int REQUEST_flot_CASH = 5; //现金
@@ -105,6 +109,7 @@ public class Constants {
 	//富友扫码支付方式
 	public static final String PAY_FY_WX = "WECHAT";
 	public static final String PAY_FY_ALY = "ALIPAY";
+	public static final String PAY_FY_UNION = "UNIONPAY";
 
 	public static final String FY_INS_CD = "fy_ins_cd"; //机构号
 	public static final String FY_MERCHANT_NO = "fy_merchant_no"; //商户号
@@ -208,8 +213,32 @@ public class Constants {
 			case PAY_WAY_CASH:
 				str += "现金";
 				break;
+			case PAY_WAY_PAY_FLOT:
+				str += "刷卡记账";
+				break;
 			case PAY_WAY_QB:
 				str += "钱包";
+				break;
+			case PAY_WAY_STK:
+				str += "会员卡";
+				break;
+			case PAY_WAY_RECHARGE_WX:
+				str += "微信充值";
+				break;
+			case PAY_WAY_RECHARGE_ALY:
+				str += "支付宝充值";
+				break;
+			case PAY_WAY_RECHARGE_CASH:
+				str += "现金充值";
+				break;
+			case PAY_WAY_RECHARGE_FLOT:
+				str += "刷卡充值";
+				break;
+			case PAY_WAY_UNIPAY:
+				str += "银联";
+				break;
+			case PAY_WAY_RECHARGE_UNIPAY:
+				str += "银联充值";
 				break;
 			default:
 				break;

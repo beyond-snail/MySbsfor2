@@ -57,6 +57,7 @@ public class SbsPrinterData extends DataSupport implements Serializable {
     private TransUploadRequest request; // 目的是跟对应的打印数据对应起来
     private TransCancel cancelRequest; //退款的接口保存
     private String transUploadData; //上传流水数据
+    private String stkRequestData; //实体卡交易上送数据
     private String oldOrderId; //消费撤销时保存原交易订单号。
     private int backAmt; //返利金额
     private boolean isStatus; //交易状态 成功、失败
@@ -71,6 +72,12 @@ public class SbsPrinterData extends DataSupport implements Serializable {
     private String couponData;
 
     private String rechargeUpload; //充值上送
+
+
+    private int pacektRemian;
+    private String promotion_num;
+    private String realize_card_num;
+    private String member_name;
 
 
 //	public PrinterData() {
@@ -512,6 +519,46 @@ public class SbsPrinterData extends DataSupport implements Serializable {
 
     public void setRechargeUpload(String rechargeUpload) {
         this.rechargeUpload = rechargeUpload;
+    }
+
+    public int getPacektRemian() {
+        return pacektRemian;
+    }
+
+    public void setPacektRemian(int pacektRemian) {
+        this.pacektRemian = pacektRemian;
+    }
+
+    public String getPromotion_num() {
+        return promotion_num;
+    }
+
+    public void setPromotion_num(String promotion_num) {
+        this.promotion_num = promotion_num;
+    }
+
+    public String getRealize_card_num() {
+        return realize_card_num;
+    }
+
+    public void setRealize_card_num(String realize_card_num) {
+        this.realize_card_num = realize_card_num;
+    }
+
+    public String getMember_name() {
+        return member_name;
+    }
+
+    public void setMember_name(String member_name) {
+        this.member_name = member_name;
+    }
+
+    public String getStkRequestData() {
+        return stkRequestData;
+    }
+
+    public void setStkRequestData(String stkRequestData) {
+        this.stkRequestData = stkRequestData;
     }
 
     @Override

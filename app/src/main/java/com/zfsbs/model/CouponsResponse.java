@@ -11,6 +11,7 @@ public class CouponsResponse implements Serializable{
 	private String memberName; // 用户名
 	private String memberCardNo; // 会员卡号
 	private String mobile; // 会员手机号
+	private String icCardNo; //实体卡号
 	private int pointUseMax; // 积分最大使用数
 	private int frequency_min; //积分最小使用数
 	private int point; // 当前积分数
@@ -42,6 +43,14 @@ public class CouponsResponse implements Serializable{
 
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
+	}
+
+	public String getIcCardNo() {
+		return icCardNo;
+	}
+
+	public void setIcCardNo(String icCardNo) {
+		this.icCardNo = icCardNo;
 	}
 
 	public int getFrequency_min() {

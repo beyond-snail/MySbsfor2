@@ -48,12 +48,17 @@ import com.zfsbs.config.Constants;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
 import com.zfsbs.model.ActivateApiResponse;
 import com.zfsbs.model.ApiResponse;
+import com.zfsbs.model.CardId;
+import com.zfsbs.model.ChargeBlance;
 import com.zfsbs.model.CouponsResponse;
 import com.zfsbs.model.LoginApiResponse;
 import com.zfsbs.model.MemberTransAmountRequest;
 import com.zfsbs.model.MemberTransAmountResponse;
 import com.zfsbs.model.QueryScanReturn;
+import com.zfsbs.model.RechargeMeal;
+import com.zfsbs.model.RechargeUpLoad;
 import com.zfsbs.model.ShiftRoom;
+import com.zfsbs.model.StkPayRequest;
 import com.zfsbs.model.TicektResponse;
 import com.zfsbs.model.TransUploadRequest;
 import com.zfsbs.model.TransUploadResponse;
@@ -591,7 +596,7 @@ public class SbsAction {
 
         Map<String, Object> paramsMap = new HashMap<String, Object>();
         paramsMap.put("sid", sid);
-        paramsMap.put("cardNo", cardNo);
+        paramsMap.put("couponCode", cardNo);
         paramsMap.put("terminalSerial", sn);
 
         String data = CommonFunc.getJsonStr("couponInfo", paramsMap, "verify", Config.md5_key);
@@ -629,21 +634,22 @@ public class SbsAction {
      * @param sn
      * @param listener
      */
-    public void ticketPay(final Context context, int sid, String cardNo, String sn, final ActionCallbackListener<String> listener) {
+    public void ticketPay(final Context context, int sid, String cardNo, String sn, String orderNo, final ActionCallbackListener<String> listener) {
         final LoadingDialog dialog = new LoadingDialog(context);
         dialog.show("加载中...");
 
         Map<String, Object> paramsMap = new HashMap<String, Object>();
         paramsMap.put("sid", sid);
-        paramsMap.put("cardNo", cardNo);
+        paramsMap.put("couponCode", cardNo);
         paramsMap.put("terminalSerial", sn);
+        paramsMap.put("orderNo", orderNo);
 
         String data = CommonFunc.getJsonStr("couponVerify", paramsMap, "verify", Config.md5_key);
         LogUtils.e(TAG, "URL: " + Config.SBS_URL);
 
-        MyOkHttp.get().postJson(context, Config.SBS_URL, data, new GsonResponseHandler<ApiResponse<String>>() {
+        MyOkHttp.get().postJson(context, Config.SBS_URL, data, new GsonResponseHandler<ApiResponse<Object>>() {
             @Override
-            public void onSuccess(int statusCode, ApiResponse<String> response) {
+            public void onSuccess(int statusCode, ApiResponse<Object> response) {
                 dialog.dismiss();
                 if (response != null) {
                     if (response.getCode().equals("A00006")) {
@@ -692,7 +698,7 @@ public class SbsAction {
                 dialog.dismiss();
                 if (response != null) {
                     if (response.getCode().equals("A00006")) {
-                        if (response.getResult().getResCode() == 20 || response.getResult().getResCode() == 100){
+                        if (response.getResult().getResCode() == 100 || response.getResult().getResCode() == 2){
                             listener.onSuccess(response);
                         }else{
                             listener.onFailure(""+response.getResult().getResCode(), response.getResult().getResMsg());
@@ -714,6 +720,386 @@ public class SbsAction {
         });
 
     }
+
+
+    public void confirmBindCard(final Context context, int sid, String mobile, String icCardNo, final ActionCallbackListener<ApiResponse<VipCardNo>> listener){
+        final LoadingDialog dialog = new LoadingDialog(context);
+        dialog.show("加载中...");
+
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("sid", sid);
+        paramsMap.put("mobile", mobile);
+        paramsMap.put("icCardNo", icCardNo);
+        paramsMap.put("operator_num", SPUtils.get(context, Constants.USER_NAME, ""));
+
+        String data = CommonFunc.getJsonStr("confirm_bind_card", paramsMap, "verify", Config.md5_key);
+        LogUtils.e(TAG, "URL: " + Config.SBS_URL);
+
+        MyOkHttp.get().postJson(context, Config.SBS_URL, data, new GsonResponseHandler<ApiResponse<VipCardNo>>() {
+            @Override
+            public void onSuccess(int statusCode, ApiResponse<VipCardNo> response) {
+                dialog.dismiss();
+                if (response != null) {
+                    if (response.getCode().equals("A00006")) {
+
+                       listener.onSuccess(response);
+
+
+                    } else {
+                        listener.onFailure(response.getCode(), response.getMsg());
+                    }
+                } else {
+                    listener.onFailure("", "链接服务器异常");
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, String error_msg) {
+                dialog.dismiss();
+                listener.onFailure("" + statusCode, error_msg);
+            }
+        });
+    }
+
+
+    /**
+     * 换卡
+     * @param context
+     * @param sid
+     * @param mobile
+     * @param icCardNo
+     * @param listener
+     */
+    public void changeCard(final Context context, int sid, String mobile, String icCardNo,  final ActionCallbackListener<ApiResponse<VipCardNo>> listener){
+        final LoadingDialog dialog = new LoadingDialog(context);
+        dialog.show("加载中...");
+
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("sid", sid);
+        paramsMap.put("mobile", mobile);
+        paramsMap.put("icCardNo", icCardNo);
+        paramsMap.put("operator_num", SPUtils.get(context, Constants.USER_NAME, ""));
+
+        String data = CommonFunc.getJsonStr("change_card", paramsMap, "verify", Config.md5_key);
+        LogUtils.e(TAG, "URL: " + Config.SBS_URL);
+
+        MyOkHttp.get().postJson(context, Config.SBS_URL, data, new GsonResponseHandler<ApiResponse<VipCardNo>>() {
+            @Override
+            public void onSuccess(int statusCode, ApiResponse<VipCardNo> response) {
+                dialog.dismiss();
+                if (response != null) {
+                    if (response.getCode().equals("A00006")) {
+
+                        listener.onSuccess(response);
+
+
+                    } else {
+                        listener.onFailure(response.getCode(), response.getMsg());
+                    }
+                } else {
+                    listener.onFailure("", "链接服务器异常");
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, String error_msg) {
+                dialog.dismiss();
+                listener.onFailure("" + statusCode, error_msg);
+            }
+        });
+    }
+
+
+    /**
+     * 充值套餐获取
+     *
+     * @param context
+     * @param sid
+     * @param listener
+     */
+    public void recharge(final Context context, int sid, final ActionCallbackListener<RechargeMeal> listener) {
+        final LoadingDialog dialog = new LoadingDialog(context);
+        dialog.show("正在获取充值套餐...");
+
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("sid", sid);
+
+        String data = CommonFunc.getJsonStr("get_recharge_info", paramsMap, "verify", Config.md5_key);
+        LogUtils.e(TAG, "URL: " + Config.SBS_URL);
+
+        MyOkHttp.get().postJson(context, Config.SBS_URL, data, new GsonResponseHandler<ApiResponse<RechargeMeal>>() {
+            @Override
+            public void onFailure(int statusCode, String error_msg) {
+                dialog.dismiss();
+                listener.onFailure("" + statusCode, error_msg);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, ApiResponse<RechargeMeal> response) {
+                dialog.dismiss();
+                if (response != null) {
+                    if (response.getCode().equals("A00006")) {
+                        listener.onSuccess(response.getResult());
+                    } else {
+                        listener.onFailure(response.getCode(), response.getMsg());
+                    }
+                } else {
+                    listener.onFailure("", "链接服务器异常");
+                }
+            }
+        });
+
+    }
+
+
+    /**
+     * 充值确认
+     * @param context
+     * @param sid
+     * @param cardNo
+     * @param listener
+     */
+    public void rechargeSure(final Context context, int sid, long amount, String orderNo, String cardNo, final ActionCallbackListener<CardId> listener){
+        final LoadingDialog dialog = new LoadingDialog(context);
+        dialog.show("加载中...");
+
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("sid", sid);
+        paramsMap.put("orderNo", orderNo);
+        paramsMap.put("payAmount", amount);
+        paramsMap.put("mobile", cardNo);
+
+        String data = CommonFunc.getJsonStr("rechargeAmountQuery", paramsMap, "verify", Config.md5_key);
+        LogUtils.e(TAG, "URL: " + Config.SBS_URL);
+
+        MyOkHttp.get().postJson(context, Config.SBS_URL, data, new GsonResponseHandler<ApiResponse<CardId>>() {
+            @Override
+            public void onSuccess(int statusCode, ApiResponse<CardId> response) {
+                dialog.dismiss();
+                if (response != null) {
+                    if (response.getCode().equals("A00006")) {
+                        listener.onSuccess(response.getResult());
+                    } else {
+                        listener.onFailure(response.getCode(), response.getMsg());
+                    }
+                } else {
+                    listener.onFailure("", "链接服务器异常");
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, String error_msg) {
+                dialog.dismiss();
+                listener.onFailure("" + statusCode, error_msg);
+            }
+        });
+    }
+
+
+    /**
+     * 充值上送
+     * @param context
+     * @param request
+     * @param listener
+     */
+    public void rechargePay(final Context context, RechargeUpLoad request, final ActionCallbackListener<ChargeBlance> listener){
+        final LoadingDialog dialog = new LoadingDialog(context);
+        dialog.show("加载中...");
+
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("sid", request.getSid());
+        paramsMap.put("payAmount", request.getPayAmount());
+        paramsMap.put("orderNo", request.getOrderNo());
+        paramsMap.put("activateCode", request.getActivateCode());
+        paramsMap.put("merchantNo", request.getMerchantNo());
+        paramsMap.put("t", request.getT());
+        paramsMap.put("transNo", request.getTransNo());
+        paramsMap.put("authCode", request.getAuthCode());
+        paramsMap.put("serialNum", request.getSerialNum());
+        paramsMap.put("payType", request.getPayType());
+        paramsMap.put("operator_num", request.getOperator_num());
+        paramsMap.put("promotion_num", request.getPromotion_num());
+
+        String data = CommonFunc.getJsonStr("rechargeTradeUpload", paramsMap, "verify", Config.md5_key);
+        LogUtils.e(TAG, "URL: " + Config.SBS_URL);
+
+        MyOkHttp.get().postJson(context, Config.SBS_URL, data, new GsonResponseHandler<ApiResponse<ChargeBlance>>() {
+            @Override
+            public void onSuccess(int statusCode, ApiResponse<ChargeBlance> response) {
+                dialog.dismiss();
+                if (response != null) {
+                    if (response.getCode().equals("A00006")) {
+                        listener.onSuccess(response.getResult());
+                    } else {
+                        listener.onFailure(response.getCode(), response.getMsg());
+                    }
+                } else {
+                    listener.onFailure("", "链接服务器异常");
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, String error_msg) {
+                dialog.dismiss();
+                listener.onFailure("" + statusCode, error_msg);
+            }
+        });
+    }
+
+
+    /**
+     * 会员卡支付
+     * @param context
+     * @param listener
+     */
+    public void qbPay(final Context context, StkPayRequest request, final ActionCallbackListener<TransUploadResponse> listener){
+
+
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+
+        paramsMap.put("sid", request.getSid());
+        paramsMap.put("qrCode", request.getQrCode());
+        paramsMap.put("cardNo", request.getCardNo());
+        paramsMap.put("orderNo", request.getOrderNo());
+        paramsMap.put("activateCode", request.getActivateCode());
+        paramsMap.put("merchantNo", request.getMerchantNo());
+        paramsMap.put("serialNum", request.getSerialNum());
+        paramsMap.put("payPassword", request.getPayPassword());
+        paramsMap.put("operator_num", request.getOperator_num());
+        paramsMap.put("couponCoverAmount", request.getCouponCoverAmount());
+        paramsMap.put("pointCoverAmount", request.getPointAmount());
+        paramsMap.put("couponSns", request.getCouponSns());
+        paramsMap.put("pointAmount", request.getPointAmount());
+        paramsMap.put("payAmount", request.getPayAmount());
+        paramsMap.put("t", request.getT());
+        paramsMap.put("transNo", request.getTransNo());
+
+        String data = CommonFunc.getJsonStr("qbPay", paramsMap, "verify", Config.md5_key);
+        LogUtils.e(TAG, "URL: " + Config.SBS_URL);
+
+        MyOkHttp.get().postJson(context, Config.SBS_URL, data, new GsonResponseHandler<ApiResponse<TransUploadResponse>>() {
+            @Override
+            public void onSuccess(int statusCode, ApiResponse<TransUploadResponse> response) {
+//                dialog.dismiss();
+                if (response != null) {
+                    if (response.getCode().equals("A00006")) {
+                        listener.onSuccess(response.getResult());
+                    } else {
+                        listener.onFailure(response.getCode(), response.getMsg());
+                    }
+                } else {
+                    listener.onFailure("", "链接服务器异常");
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, String error_msg) {
+//                dialog.dismiss();
+                listener.onFailure("" + statusCode, error_msg);
+            }
+        });
+    }
+
+
+    /**
+     * 会员卡支付
+     * @param context
+     * @param listener
+     */
+    public void StkPay(final Context context, StkPayRequest request, final ActionCallbackListener<TransUploadResponse> listener){
+
+
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+
+        paramsMap.put("sid", request.getSid());
+        paramsMap.put("cardNo", request.getCardNo());
+        paramsMap.put("orderNo", request.getOrderNo());
+        paramsMap.put("activateCode", request.getActivateCode());
+        paramsMap.put("merchantNo", request.getMerchantNo());
+        paramsMap.put("serialNum", request.getSerialNum());
+        paramsMap.put("payPassword", request.getPayPassword());
+        paramsMap.put("operator_num", request.getOperator_num());
+        paramsMap.put("couponCoverAmount", request.getCouponCoverAmount());
+        paramsMap.put("pointCoverAmount", request.getPointAmount());
+        paramsMap.put("couponSns", request.getCouponSns());
+        paramsMap.put("pointAmount", request.getPointAmount());
+        paramsMap.put("payAmount", request.getPayAmount());
+        paramsMap.put("t", request.getT());
+        paramsMap.put("transNo", request.getTransNo());
+
+        String data = CommonFunc.getJsonStr("icCardPay", paramsMap, "verify", Config.md5_key);
+        LogUtils.e(TAG, "URL: " + Config.SBS_URL);
+
+        MyOkHttp.get().postJson(context, Config.SBS_URL, data, new GsonResponseHandler<ApiResponse<TransUploadResponse>>() {
+            @Override
+            public void onSuccess(int statusCode, ApiResponse<TransUploadResponse> response) {
+//                dialog.dismiss();
+                if (response != null) {
+                    if (response.getCode().equals("A00006")) {
+                        listener.onSuccess(response.getResult());
+                    } else {
+                        listener.onFailure(response.getCode(), response.getMsg());
+                    }
+                } else {
+                    listener.onFailure("", "链接服务器异常");
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, String error_msg) {
+//                dialog.dismiss();
+                listener.onFailure("" + statusCode, error_msg);
+            }
+        });
+    }
+
+
+
+
+
+    /**
+     * 修改实体卡支付密码
+     * @param context
+     * @param cardNo
+     * @param newPass
+     * @param oldPass
+     * @param listener
+     */
+    public void changePass(final Context context, String cardNo, String newPass, String oldPass, final ActionCallbackListener<String> listener){
+        final LoadingDialog dialog = new LoadingDialog(context);
+        dialog.show("加载中...");
+
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("icCardNo", cardNo);
+        paramsMap.put("oldPassword", oldPass);
+        paramsMap.put("newPassword", newPass);
+
+        String data = CommonFunc.getJsonStr("changePassword", paramsMap, "verify", Config.md5_key);
+        LogUtils.e(TAG, "URL: " + Config.SBS_URL);
+
+        MyOkHttp.get().postJson(context, Config.SBS_URL, data, new GsonResponseHandler<ApiResponse<Object>>() {
+            @Override
+            public void onSuccess(int statusCode, ApiResponse<Object> response) {
+                dialog.dismiss();
+                if (response != null) {
+                    if (response.getCode().equals("A00006")) {
+                        listener.onSuccess(response.getMsg());
+                    } else {
+                        listener.onFailure(response.getCode(), response.getMsg());
+                    }
+                } else {
+                    listener.onFailure("", "链接服务器异常");
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, String error_msg) {
+                dialog.dismiss();
+                listener.onFailure("" + statusCode, error_msg);
+            }
+        });
+    }
+
 
 
 }

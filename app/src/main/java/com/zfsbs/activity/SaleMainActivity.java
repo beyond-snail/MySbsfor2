@@ -41,7 +41,6 @@ import com.zfsbs.core.action.Printer;
 import com.zfsbs.core.action.RicherQb;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
 import com.zfsbs.model.Couponsn;
-import com.zfsbs.model.FailureData;
 import com.zfsbs.model.FyMicropayRequest;
 import com.zfsbs.model.FyMicropayResponse;
 import com.zfsbs.model.FyQueryRequest;
@@ -52,7 +51,6 @@ import com.zfsbs.model.RicherGetMember;
 import com.zfsbs.model.SbsPrinterData;
 import com.zfsbs.model.TransUploadRequest;
 import com.zfsbs.model.TransUploadResponse;
-import com.zfsbs.model.ZfQbResponse;
 import com.zfsbs.myapplication.MyApplication;
 
 import org.json.JSONException;
@@ -176,6 +174,10 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
         });
     }
 
+
+
+
+
     private void initView() {
 
         if (Config.isLianDong == false) {
@@ -277,6 +279,11 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
                         break;
                     case 5:
                         CommonFunc.startAction(SaleMainActivity.this, VerificationActivity.class, false);
+//                        CommonFunc.startAction(SaleMainActivity.this, TestPopActivity.class, false);
+
+
+
+
 
                         break;
                     case 6:
@@ -609,65 +616,65 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
     /**
      * 末笔查询
      */
-    private void endQuery1() {
-
-        if (CommonFunc.recoveryFailureInfo(this) == null) {
-            ToastUtils.CustomShow(this, "末笔交易成功，无需查询");
-            return;
-        }
-        switch (CommonFunc.recoveryFailureInfo(this).getPay_type()) {
-            case Constants.PAY_WAY_QB:
-                ZfQbQuery();
-                break;
-            case Constants.PAY_WAY_ALY:
-            case Constants.PAY_WAY_WX:
-                if (CommonFunc.recoveryFailureInfo(this).getFaiureType() == Constants.FY_FAILURE_PAY) {
-                    ZfFyPayQuery();
-                } else if (CommonFunc.recoveryFailureInfo(this).getFaiureType() == Constants.FY_FAILURE_QUERY) {
-                    ZfFyQuery();
-                }
-                break;
-        }
-    }
+//    private void endQuery1() {
+//
+//        if (CommonFunc.recoveryFailureInfo(this) == null) {
+//            ToastUtils.CustomShow(this, "末笔交易成功，无需查询");
+//            return;
+//        }
+//        switch (CommonFunc.recoveryFailureInfo(this).getPay_type()) {
+//            case Constants.PAY_WAY_QB:
+//                ZfQbQuery();
+//                break;
+//            case Constants.PAY_WAY_ALY:
+//            case Constants.PAY_WAY_WX:
+//                if (CommonFunc.recoveryFailureInfo(this).getFaiureType() == Constants.FY_FAILURE_PAY) {
+//                    ZfFyPayQuery();
+//                } else if (CommonFunc.recoveryFailureInfo(this).getFaiureType() == Constants.FY_FAILURE_QUERY) {
+//                    ZfFyQuery();
+//                }
+//                break;
+//        }
+//    }
 
     /**
      * 钱包末笔查询
      */
-    private void ZfQbQuery() {
-
-        printerData = new SbsPrinterData();
-
-        CommonFunc.ZfQbFailQuery(this, new ActionCallbackListener<ZfQbResponse>() {
-            @Override
-            public void onSuccess(ZfQbResponse data) {
-
-                FailureData failureData = CommonFunc.recoveryFailureInfo(SaleMainActivity.this);
-                //流水上送
-                setQbPay1(data, failureData.getOrderNo(),
-                        failureData.getTime(), failureData.getTraceNum(), failureData.getCardNo());
-            }
-
-            @Override
-            public void onFailure(String errorEvent, String message) {
-                ToastUtils.CustomShow(SaleMainActivity.this, errorEvent + "#" + message);
-            }
-
-            @Override
-            public void onFailurTimeOut(String s, String error_msg) {
-                ToastUtils.CustomShow(SaleMainActivity.this, s + "#" + error_msg);
-            }
-
-            @Override
-            public void onLogin() {
-                AppManager.getAppManager().finishAllActivity();
-                if (Config.OPERATOR_UI_BEFORE) {
-                    CommonFunc.startAction(SaleMainActivity.this, OperatorLoginActivity.class, false);
-                } else {
-                    CommonFunc.startAction(SaleMainActivity.this, OperatorLoginActivity1.class, false);
-                }
-            }
-        });
-    }
+//    private void ZfQbQuery() {
+//
+//        printerData = new SbsPrinterData();
+//
+//        CommonFunc.ZfQbFailQuery(this, new ActionCallbackListener<ZfQbResponse>() {
+//            @Override
+//            public void onSuccess(ZfQbResponse data) {
+//
+//                FailureData failureData = CommonFunc.recoveryFailureInfo(SaleMainActivity.this);
+//                //流水上送
+//                setQbPay1(data, failureData.getOrderNo(),
+//                        failureData.getTime(), failureData.getTraceNum(), failureData.getCardNo());
+//            }
+//
+//            @Override
+//            public void onFailure(String errorEvent, String message) {
+//                ToastUtils.CustomShow(SaleMainActivity.this, errorEvent + "#" + message);
+//            }
+//
+//            @Override
+//            public void onFailurTimeOut(String s, String error_msg) {
+//                ToastUtils.CustomShow(SaleMainActivity.this, s + "#" + error_msg);
+//            }
+//
+//            @Override
+//            public void onLogin() {
+//                AppManager.getAppManager().finishAllActivity();
+//                if (Config.OPERATOR_UI_BEFORE) {
+//                    CommonFunc.startAction(SaleMainActivity.this, OperatorLoginActivity.class, false);
+//                } else {
+//                    CommonFunc.startAction(SaleMainActivity.this, OperatorLoginActivity1.class, false);
+//                }
+//            }
+//        });
+//    }
 
 
     private FyBat.FYPayResultEvent listener1 = new FyBat.FYPayResultEvent() {
@@ -865,44 +872,44 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
      * @param time
      * @param traceNum
      */
-    private void setQbPay1(ZfQbResponse data, String orderNo, String time, String traceNum, String cardNo) {
-        printerData.setMerchantName(MyApplication.getInstance().getLoginData().getTerminalName());
-        printerData.setMerchantNo(data.getGroupId());
-        printerData.setTerminalId(StringUtils.getSerial());
-        printerData.setOperatorNo((String) SPUtils.get(this, Constants.USER_NAME, ""));
-        printerData.setCardNo(cardNo);
-        printerData.setDateTime(time);
-        printerData.setClientOrderNo(orderNo);
-        printerData.setTransNo(traceNum);
-        printerData.setAuthCode(data.getSystemOrderNo());
-        printerData.setDateTime(StringUtils.formatTime(time));
-        printerData.setOrderAmount(CommonFunc.recoveryMemberInfo(this).getTradeMoney());
-        printerData.setAmount(StringUtils.formatIntMoney(CommonFunc.recoveryMemberInfo(this).getRealMoney()));
-        printerData.setPointCoverMoney(CommonFunc.recoveryMemberInfo(this).getPointCoverMoney());
-        printerData.setCouponCoverMoney(CommonFunc.recoveryMemberInfo(this).getCouponCoverMoney());
-        printerData.setPayType(Constants.PAY_WAY_QB);
-
-        if (CommonFunc.recoveryFailureInfo(this).getApp_type() == Config.APP_SBS) {
-            TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-                    CommonFunc.getNewClientSn(), printerData.getTransNo(), printerData.getAuthCode()
-            );
-            //这个地方保持和支付的时候一直
-            request.setClientOrderNo(orderNo);
-            if (StringUtils.isEmpty(request.getCardNo())) {
-                request.setCardNo(cardNo);
-            }
-            transUploadAction1(request);
-        } else if (CommonFunc.recoveryFailureInfo(this).getApp_type() == Config.APP_HD) {
-            TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
-                    CommonFunc.getNewClientSn(), printerData.getTransNo(), printerData.getAuthCode()
-            );
-            //这个地方保持和支付的时候一直
-            request.setClientOrderNo(orderNo);
-            transUploadAction2(request);
-        }
-
-
-    }
+//    private void setQbPay1(ZfQbResponse data, String orderNo, String time, String traceNum, String cardNo) {
+//        printerData.setMerchantName(MyApplication.getInstance().getLoginData().getTerminalName());
+//        printerData.setMerchantNo(data.getGroupId());
+//        printerData.setTerminalId(StringUtils.getSerial());
+//        printerData.setOperatorNo((String) SPUtils.get(this, Constants.USER_NAME, ""));
+//        printerData.setCardNo(cardNo);
+//        printerData.setDateTime(time);
+//        printerData.setClientOrderNo(orderNo);
+//        printerData.setTransNo(traceNum);
+//        printerData.setAuthCode(data.getSystemOrderNo());
+//        printerData.setDateTime(StringUtils.formatTime(time));
+//        printerData.setOrderAmount(CommonFunc.recoveryMemberInfo(this).getTradeMoney());
+//        printerData.setAmount(StringUtils.formatIntMoney(CommonFunc.recoveryMemberInfo(this).getRealMoney()));
+//        printerData.setPointCoverMoney(CommonFunc.recoveryMemberInfo(this).getPointCoverMoney());
+//        printerData.setCouponCoverMoney(CommonFunc.recoveryMemberInfo(this).getCouponCoverMoney());
+//        printerData.setPayType(Constants.PAY_WAY_QB);
+//
+//        if (CommonFunc.recoveryFailureInfo(this).getApp_type() == Config.APP_SBS) {
+//            TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
+//                    CommonFunc.getNewClientSn(), printerData.getTransNo(), printerData.getAuthCode()
+//            );
+//            //这个地方保持和支付的时候一直
+//            request.setClientOrderNo(orderNo);
+//            if (StringUtils.isEmpty(request.getCardNo())) {
+//                request.setCardNo(cardNo);
+//            }
+//            transUploadAction1(request);
+//        } else if (CommonFunc.recoveryFailureInfo(this).getApp_type() == Config.APP_HD) {
+//            TransUploadRequest request = CommonFunc.setTransUploadData(printerData, CommonFunc.recoveryMemberInfo(this),
+//                    CommonFunc.getNewClientSn(), printerData.getTransNo(), printerData.getAuthCode()
+//            );
+//            //这个地方保持和支付的时候一直
+//            request.setClientOrderNo(orderNo);
+//            transUploadAction2(request);
+//        }
+//
+//
+//    }
 
     /**
      * 流水上送

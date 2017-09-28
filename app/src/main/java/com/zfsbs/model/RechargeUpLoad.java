@@ -41,17 +41,20 @@ import java.io.Serializable;
  **********************************************************/
 
 
-public class RechargeUpLoad implements Serializable{
+public class RechargeUpLoad implements Serializable {
     private int sid;
-    private int recharge_get_money;
-    private int recharge_pay_money;
-    private String recharge_order_num;
-    private long recharge_time;
-    private String terminal_sn;
+    private long payAmount;
+    private String orderNo;
+    private String activateCode;
+    private String merchantNo;
+    private long t;
+    private String transNo;
+    private String authCode;
+    private String serialNum;
     private int payType;
+    private String operator_num;
     private String promotion_num;
-    private String opreator_num;
-    private String realize_card_id;
+
 
     public int getSid() {
         return sid;
@@ -61,44 +64,68 @@ public class RechargeUpLoad implements Serializable{
         this.sid = sid;
     }
 
-    public int getRecharge_get_money() {
-        return recharge_get_money;
+    public long getPayAmount() {
+        return payAmount;
     }
 
-    public void setRecharge_get_money(int recharge_get_money) {
-        this.recharge_get_money = recharge_get_money;
+    public void setPayAmount(long payAmount) {
+        this.payAmount = payAmount;
     }
 
-    public int getRecharge_pay_money() {
-        return recharge_pay_money;
+    public String getOrderNo() {
+        return orderNo;
     }
 
-    public void setRecharge_pay_money(int recharge_pay_money) {
-        this.recharge_pay_money = recharge_pay_money;
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
     }
 
-    public String getRecharge_order_num() {
-        return recharge_order_num;
+    public String getActivateCode() {
+        return activateCode;
     }
 
-    public void setRecharge_order_num(String recharge_order_num) {
-        this.recharge_order_num = recharge_order_num;
+    public void setActivateCode(String activateCode) {
+        this.activateCode = activateCode;
     }
 
-    public long getRecharge_time() {
-        return recharge_time;
+    public String getMerchantNo() {
+        return merchantNo;
     }
 
-    public void setRecharge_time(long recharge_time) {
-        this.recharge_time = recharge_time;
+    public void setMerchantNo(String merchantNo) {
+        this.merchantNo = merchantNo;
     }
 
-    public String getTerminal_sn() {
-        return terminal_sn;
+    public long getT() {
+        return t;
     }
 
-    public void setTerminal_sn(String terminal_sn) {
-        this.terminal_sn = terminal_sn;
+    public void setT(long t) {
+        this.t = t;
+    }
+
+    public String getTransNo() {
+        return transNo;
+    }
+
+    public void setTransNo(String transNo) {
+        this.transNo = transNo;
+    }
+
+    public String getAuthCode() {
+        return authCode;
+    }
+
+    public void setAuthCode(String authCode) {
+        this.authCode = authCode;
+    }
+
+    public String getSerialNum() {
+        return serialNum;
+    }
+
+    public void setSerialNum(String serialNum) {
+        this.serialNum = serialNum;
     }
 
     public int getPayType() {
@@ -109,27 +136,20 @@ public class RechargeUpLoad implements Serializable{
         this.payType = payType;
     }
 
+    public String getOperator_num() {
+        return operator_num;
+    }
+
+    public void setOperator_num(String operator_num) {
+        this.operator_num = operator_num;
+    }
+
+
     public String getPromotion_num() {
         return promotion_num;
     }
 
     public void setPromotion_num(String promotion_num) {
         this.promotion_num = promotion_num;
-    }
-
-    public String getOpreator_num() {
-        return opreator_num;
-    }
-
-    public void setOpreator_num(String opreator_num) {
-        this.opreator_num = opreator_num;
-    }
-
-    public String getRealize_card_id() {
-        return realize_card_id;
-    }
-
-    public void setRealize_card_id(String realize_card_id) {
-        this.realize_card_id = realize_card_id;
     }
 }

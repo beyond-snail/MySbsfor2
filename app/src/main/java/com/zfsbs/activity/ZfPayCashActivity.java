@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import com.tool.utils.activityManager.AppManager;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
 import com.zfsbs.R;
@@ -41,8 +42,10 @@ public class ZfPayCashActivity extends BaseActivity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mContext = this;
 		setContentView(R.layout.activity_pay_cash);
-//		AppManager.getAppManager().addActivity(this);
+		AppManager.getAppManager().addActivity(this);
+		initTitle("现金");
 		initView();
 		addLinstener();
 	}

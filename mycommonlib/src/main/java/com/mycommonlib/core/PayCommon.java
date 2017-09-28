@@ -279,17 +279,6 @@ public class PayCommon {
 
             @Override
             public void success(TransInfo transInfo) {
-
-//                ComTransInfo comTransInfo = new ComTransInfo();
-//                try {
-////                    BeanUtils.copyProperties(comTransInfo, transInfo);
-//                    ComTransInfo comTransInfo = GsonUtils.modelA2B(transInfo, ComTransInfo.class);
-//                    comTransResult.success(comTransInfo);
-//                } catch (IllegalAccessException e) {
-//                    comTransResult.failed("交易对象转换失败");
-//                } catch (InvocationTargetException e) {
-//                    comTransResult.failed("交易对象转换失败");
-//                }
                 ComTransInfo comTransInfo = GsonUtils.modelA2B(transInfo, ComTransInfo.class);
                 comTransResult.success(comTransInfo);
 

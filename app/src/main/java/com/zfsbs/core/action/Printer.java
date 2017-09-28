@@ -10,7 +10,6 @@ import com.google.gson.reflect.TypeToken;
 import com.mycommonlib.model.ComSettleInfo;
 import com.tool.utils.dialog.SignDialog;
 import com.tool.utils.utils.LogUtils;
-import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
 import com.unionpay.cloudpos.wizarposexternal.DeviceException;
@@ -306,12 +305,21 @@ public class Printer {
                 break;
             case Constants.PAY_WAY_ALY:
             case Constants.PAY_WAY_WX:
+            case Constants.PAY_WAY_UNIPAY:
             case Constants.PAY_WAY_BFB:
             case Constants.PAY_WAY_JD:
             case Constants.PAY_WAY_QB:
+            case Constants.PAY_WAY_STK:
+            case Constants.PAY_WAY_RECHARGE_ALY:
+            case Constants.PAY_WAY_RECHARGE_WX:
+            case Constants.PAY_WAY_RECHARGE_UNIPAY:
+
                 printer_bat(printerData);
                 break;
             case Constants.PAY_WAY_CASH:
+            case Constants.PAY_WAY_RECHARGE_CASH:
+            case Constants.PAY_WAY_PAY_FLOT:
+
                 printer_cash(printerData);
                 break;
             default:
@@ -335,9 +343,9 @@ public class Printer {
             if (!StringUtils.isEmpty(printerData.getMerchantName())) {
                 printerDevice.printlnText(format, printerData.getMerchantName());
             }
-            if (!StringUtils.isEmpty(printerData.getMerchantNo())) {
-                printerDevice.printlnText(format, "商户编号：" + printerData.getMerchantNo());
-            }
+//            if (!StringUtils.isEmpty(printerData.getMerchantNo())) {
+//                printerDevice.printlnText(format, "商户编号：" + printerData.getMerchantNo());
+//            }
             if (!StringUtils.isEmpty(printerData.getTerminalId())) {
                 printerDevice.printlnText(format, "终端编号：" + printerData.getTerminalId());
             }
@@ -385,24 +393,45 @@ public class Printer {
             if (!StringUtils.isEmpty(printerData.getDateTime())) {
                 printerDevice.printlnText(format, "日期时间：" + printerData.getDateTime());
             }
-//			format.clear();
-//			format.setParameter("align", "left");
-//			format.setParameter("size", "medium");
-//			format.setParameter("density", "dark");
-//			format.setParameter("bold", "true");
-//			printerDevice.printlnText(format, "金额（AMOUNT）：" + printerData.getAmount());
             format.clear();
             format.setParameter("align", "left");
             format.setParameter("size", "medium");
-            printerDevice.printlnText(format, "订单金额：" + StringUtils.formatIntMoney(printerData.getOrderAmount()) + "元");
-            printerDevice.printlnText(format, "支付金额：" + printerData.getAmount()+"元");
+
+            if (printerData.getPayType() == Constants.PAY_WAY_RECHARGE_FLOT){
+                if (!StringUtils.isBlank(printerData.getRealize_card_num())){
+                    printerDevice.printlnText(format, "会员卡号："+ StringUtils.formatSTCardNo(printerData.getRealize_card_num()));
+                }
+                if (!StringUtils.isBlank(printerData.getMember_name())) {
+                    printerDevice.printlnText(format, "会员姓名：" + printerData.getMember_name());
+                }
+                if (!StringUtils.isBlank(printerData.getAmount())) {
+                    printerDevice.printlnText(format, "充值金额：" + printerData.getAmount() + "元");
+                }
+                int largessAmount = printerData.getOrderAmount() - StringUtils.stringToInt(printerData.getAmount());
+                if (largessAmount != 0) {
+                    printerDevice.printlnText(format, "充值赠送：" + StringUtils.formatIntMoney(largessAmount) + "元");
+                }
+                if (printerData.getOrderAmount() != 0) {
+                    printerDevice.printlnText(format, "到账金额：" + StringUtils.formatIntMoney(printerData.getOrderAmount()) + "元");
+                }
+                if (printerData.getPacektRemian() != 0) {
+                    printerDevice.printlnText(format, "账号余额：" + StringUtils.formatIntMoney(printerData.getPacektRemian()) + "元");
+                }
+
+            }else {
+                printerDevice.printlnText(format, "订单金额：" + StringUtils.formatIntMoney(printerData.getOrderAmount()) + "元");
+                printerDevice.printlnText(format, "支付金额：" + printerData.getAmount() + "元");
+
+            }
             if (printerData.getApp_type() == Config.APP_HD) {
                 printerDevice.printlnText(format, "获得积分：" + printerData.getPoint());
                 printerDevice.printlnText(format, "积分余额：" + printerData.getPointCurrent());
             }else {
-                printerDevice.printlnText(format, "积分抵扣金额：" + StringUtils.formatIntMoney(printerData.getPointCoverMoney()) + "元");
-                printerDevice.printlnText(format, "优惠券抵扣金额：" + StringUtils.formatIntMoney(printerData.getCouponCoverMoney()) + "元");
-                printerDevice.printlnText(format, "返利金额：" + StringUtils.formatIntMoney(printerData.getBackAmt()) + "元");
+                if (printerData.getPayType() != Constants.PAY_WAY_RECHARGE_FLOT) {
+                    printerDevice.printlnText(format, "积分抵扣金额：" + StringUtils.formatIntMoney(printerData.getPointCoverMoney()) + "元");
+                    printerDevice.printlnText(format, "优惠券抵扣金额：" + StringUtils.formatIntMoney(printerData.getCouponCoverMoney()) + "元");
+                    printerDevice.printlnText(format, "返利金额：" + StringUtils.formatIntMoney(printerData.getBackAmt()) + "元");
+                }
             }
             printerDevice.printlnText(format, "支付方式：" + Constants.getPayWayDesc(printerData.getPayType()));
             // printerDevice.printlnText(format, "备注：");
@@ -435,15 +464,6 @@ public class Printer {
                 format.clear();
                 format.setParameter("align", "center");
                 format.setParameter("size", "medium");
-
-
-                printerDevice.printlnText(format, (String) SPUtils.get(mContext, "printContent", ""));
-
-                Bitmap bitmap = SPUtils.loadDrawable(mContext);
-                if (bitmap != null){
-                    printerDevice.printBitmap(format, bitmap);
-                }
-
                 if (printerData.getPoint_bitmap() != null) {
                     LogUtils.e("width: " + printerData.getPoint_bitmap().getWidth() + " height: "
                             + printerData.getPoint_bitmap().getHeight());
@@ -472,23 +492,23 @@ public class Printer {
                 format.clear();
                 format.setParameter("align", "left");
                 format.setParameter("size", "medium");
-
-
-//                if (!StringUtils.isEmpty(printerData.getTitle_url())) {
-//                    printerDevice.printlnText(format, "--------------------------------");
-//                    printerDevice.printlnText(format, "优惠券名称：" + printerData.getTitle_url());
-//                }
-//                if (printerData.getMoney() > 0) {
-//                    printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(printerData.getMoney()));
-//                }
-
-                List<Couponsn> couponsnList = getCouponsnData(printerData.getCouponData());
-                if(couponsnList != null && couponsnList.size() > 0){
-                    for (int i = 0; i < couponsnList.size(); i++){
-                        printerDevice.printlnText(format, "--------------------------------");
-                        printerDevice.printlnText(format, "优惠券名称：" + couponsnList.get(i).getCoupon_name());
-                        printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(couponsnList.get(i).getCoupon_money()));
+                if (!StringUtils.isBlank(printerData.getCouponData())) {
+                    printerDevice.printlnText(format, "--------------------------------");
+                    printerDevice.printlnText(format, "本次消费获得：");
+                    Gson gson = new Gson();
+                    List<Couponsn> couponsns = gson.fromJson(printerData.getCouponData(), new TypeToken<List<Couponsn>>() {
+                    }.getType());
+                    for (int i=0; i < couponsns.size(); i++){
+                        printerDevice.printlnText(format, "优惠券名称：" + couponsns.get(i).getCoupon_name());
+                        printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(couponsns.get(i).getCoupon_money()));
                     }
+//                    if (!StringUtils.isEmpty(printerData.getTitle_url())) {
+//
+//                        printerDevice.printlnText(format, "优惠券名称：" + printerData.getTitle_url());
+//                    }
+//                    if (printerData.getMoney() > 0) {
+//                        printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(printerData.getMoney()));
+//                    }
                 }
             }
             printerDevice.printText(format, "\n");
@@ -529,9 +549,6 @@ public class Printer {
             if (!StringUtils.isEmpty(printerData.getMerchantName())) {
                 printerDevice.printlnText(format, printerData.getMerchantName());
             }
-            if (!StringUtils.isEmpty(printerData.getMerchantNo())) {
-                printerDevice.printlnText(format, "商户编号：" + printerData.getMerchantNo());
-            }
             if (!StringUtils.isEmpty(printerData.getTerminalId())) {
                 printerDevice.printlnText(format, "终端编号：" + printerData.getTerminalId());
             }
@@ -547,24 +564,48 @@ public class Printer {
             if (!StringUtils.isEmpty(printerData.getDateTime())) {
                 printerDevice.printlnText(format, "日期时间：" + printerData.getDateTime());
             }
-//			format.clear();
-//			format.setParameter("align", "left");
-//			format.setParameter("size", "medium");
-//			format.setParameter("density", "dark");
-//			format.setParameter("bold", "true");
-//			printerDevice.printlnText(format, "金额（AMOUNT）：" + printerData.getAmount());
             format.clear();
             format.setParameter("align", "left");
             format.setParameter("size", "medium");
-            printerDevice.printlnText(format, "订单金额：" + StringUtils.formatIntMoney(printerData.getOrderAmount()) + "元");
-            printerDevice.printlnText(format, "支付金额：" + printerData.getAmount()+"元");
+            if (printerData.getPayType() == Constants.PAY_WAY_RECHARGE_ALY || printerData.getPayType() == Constants.PAY_WAY_RECHARGE_WX){
+                if (!StringUtils.isBlank(printerData.getRealize_card_num())){
+                    printerDevice.printlnText(format, "会员卡号："+printerData.getRealize_card_num());
+                }
+                if (!StringUtils.isBlank(printerData.getMember_name())) {
+                    printerDevice.printlnText(format, "会员姓名：" + printerData.getMember_name());
+                }
+                if (!StringUtils.isBlank(printerData.getAmount())) {
+                    printerDevice.printlnText(format, "充值金额：" + printerData.getAmount() + "元");
+                }
+                int largessAmount = printerData.getOrderAmount() - StringUtils.stringToInt(printerData.getAmount());
+                if (largessAmount != 0) {
+                    printerDevice.printlnText(format, "充值赠送：" + StringUtils.formatIntMoney(largessAmount) + "元");
+                }
+                if (printerData.getOrderAmount() != 0) {
+                    printerDevice.printlnText(format, "到账金额：" + StringUtils.formatIntMoney(printerData.getOrderAmount()) + "元");
+                }
+                if (printerData.getPacektRemian() != 0) {
+                    printerDevice.printlnText(format, "账号余额：" + StringUtils.formatIntMoney(printerData.getPacektRemian()) + "元");
+                }
+
+            }else {
+                printerDevice.printlnText(format, "订单金额：" + StringUtils.formatIntMoney(printerData.getOrderAmount()) + "元");
+                printerDevice.printlnText(format, "支付金额：" + printerData.getAmount() + "元");
+                if (printerData.getPayType() == Constants.PAY_WAY_QB ){
+                    if (printerData.getPacektRemian()!=0) {
+                        printerDevice.printlnText(format, "会员账号余额：" + StringUtils.formatIntMoney(printerData.getPacektRemian()) + "元");
+                    }
+                }
+            }
             if (printerData.getApp_type() == Config.APP_HD) {
                 printerDevice.printlnText(format, "获得积分：" + printerData.getPoint());
                 printerDevice.printlnText(format, "积分余额：" + printerData.getPointCurrent());
             }else {
-                printerDevice.printlnText(format, "积分抵扣金额：" + StringUtils.formatIntMoney(printerData.getPointCoverMoney()) + "元");
-                printerDevice.printlnText(format, "优惠券抵扣金额：" + StringUtils.formatIntMoney(printerData.getCouponCoverMoney()) + "元");
-                printerDevice.printlnText(format, "返利金额：" + StringUtils.formatIntMoney(printerData.getBackAmt()) + "元");
+                if (printerData.getPayType() != Constants.PAY_WAY_RECHARGE_ALY || printerData.getPayType() != Constants.PAY_WAY_RECHARGE_WX ) {
+                    printerDevice.printlnText(format, "积分抵扣金额：" + StringUtils.formatIntMoney(printerData.getPointCoverMoney()) + "元");
+                    printerDevice.printlnText(format, "优惠券抵扣金额：" + StringUtils.formatIntMoney(printerData.getCouponCoverMoney()) + "元");
+                    printerDevice.printlnText(format, "返利金额：" + StringUtils.formatIntMoney(printerData.getBackAmt()) + "元");
+                }
             }
             printerDevice.printlnText(format, "支付方式：" + Constants.getPayWayDesc(printerData.getPayType()));
             // printerDevice.printlnText(format, "备注：");
@@ -579,6 +620,9 @@ public class Printer {
             printerDevice.printlnText(format, "--------------------------------");
 
             printerDevice.printlnText(format, "备注：");
+            if(!StringUtils.isBlank(printerData.getPromotion_num())){
+                printerDevice.printlnText(format, printerData.getPromotion_num());
+            }
             format.clear();
             format.setParameter("align", "center");
             format.setParameter("size", "medium");
@@ -597,15 +641,6 @@ public class Printer {
                 format.clear();
                 format.setParameter("align", "center");
                 format.setParameter("size", "medium");
-
-                printerDevice.printlnText(format, (String) SPUtils.get(mContext, "printContent", ""));
-
-                Bitmap bitmap = SPUtils.loadDrawable(mContext);
-                if (bitmap != null){
-                    printerDevice.printBitmap(format, bitmap);
-                }
-
-
                 if (printerData.getPoint_bitmap() != null) {
                     LogUtils.e("width: " + printerData.getPoint_bitmap().getWidth() + " height: "
                             + printerData.getPoint_bitmap().getHeight());
@@ -634,20 +669,23 @@ public class Printer {
                 format.clear();
                 format.setParameter("align", "left");
                 format.setParameter("size", "medium");
-//                if (!StringUtils.isEmpty(printerData.getTitle_url())) {
-//                    printerDevice.printlnText(format, "--------------------------------");
-//                    printerDevice.printlnText(format, "优惠券名称：" + printerData.getTitle_url());
-//                }
-//                if (printerData.getMoney() > 0) {
-//                    printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(printerData.getMoney()));
-//                }
-                List<Couponsn> couponsnList = getCouponsnData(printerData.getCouponData());
-                if(couponsnList != null && couponsnList.size() > 0){
-                    for (int i = 0; i < couponsnList.size(); i++){
-                        printerDevice.printlnText(format, "--------------------------------");
-                        printerDevice.printlnText(format, "优惠券名称：" + couponsnList.get(i).getCoupon_name());
-                        printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(couponsnList.get(i).getCoupon_money()));
+                if (!StringUtils.isBlank(printerData.getCouponData())) {
+                    printerDevice.printlnText(format, "--------------------------------");
+                    printerDevice.printlnText(format, "本次消费获得：");
+                    Gson gson = new Gson();
+                    List<Couponsn> couponsns = gson.fromJson(printerData.getCouponData(), new TypeToken<List<Couponsn>>() {
+                    }.getType());
+                    for (int i=0; i < couponsns.size(); i++){
+                        printerDevice.printlnText(format, "优惠券名称：" + couponsns.get(i).getCoupon_name());
+                        printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(couponsns.get(i).getCoupon_money()));
                     }
+//                    if (!StringUtils.isEmpty(printerData.getTitle_url())) {
+//
+//                        printerDevice.printlnText(format, "优惠券名称：" + printerData.getTitle_url());
+//                    }
+//                    if (printerData.getMoney() > 0) {
+//                        printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(printerData.getMoney()));
+//                    }
                 }
             }
             printerDevice.printText(format, "\n");
@@ -688,9 +726,9 @@ public class Printer {
             if (!StringUtils.isEmpty(printerData.getMerchantName())) {
                 printerDevice.printlnText(format, printerData.getMerchantName());
             }
-            if (!StringUtils.isEmpty(printerData.getMerchantNo())) {
-                printerDevice.printlnText(format, "商户编号：" + printerData.getMerchantNo());
-            }
+//            if (!StringUtils.isEmpty(printerData.getMerchantNo())) {
+//                printerDevice.printlnText(format, "商户编号：" + printerData.getMerchantNo());
+//            }
             printerDevice.printlnText(format, "终端编号：" + printerData.getTerminalId());
             printerDevice.printlnText(format, "操作员号：" + printerData.getOperatorNo());
             printerDevice.printlnText(format, "日期时间：" + printerData.getDateTime());
@@ -700,10 +738,35 @@ public class Printer {
             format.setParameter("density", "dark");
             format.setParameter("bold", "true");
             if (!StringUtils.isEmpty(printerData.getClientOrderNo())) {
-                printerDevice.printlnText(format, "商户订单号：" + printerData.getClientOrderNo());
+                printerDevice.printlnText(format, "订 单 号：" + printerData.getClientOrderNo());
             }
-            printerDevice.printlnText(format, "订单金额：" + printerData.getAmount()+"元");
-            printerDevice.printlnText(format, "实收金额：" + printerData.getReceiveAmount()+"元");
+
+            if (printerData.getPayType() == Constants.PAY_WAY_RECHARGE_CASH || printerData.getPayType() == Constants.PAY_WAY_PAY_FLOT){
+
+                if (!StringUtils.isBlank(printerData.getRealize_card_num())){
+                    printerDevice.printlnText(format, "会员卡号："+printerData.getRealize_card_num());
+                }
+                if (!StringUtils.isBlank(printerData.getMember_name())) {
+                    printerDevice.printlnText(format, "会员姓名：" + printerData.getMember_name());
+                }
+                if (!StringUtils.isBlank(printerData.getAmount())) {
+                    printerDevice.printlnText(format, "充值金额：" + printerData.getAmount() + "元");
+                }
+                int largessAmount = StringUtils.stringToInt(printerData.getReceiveAmount()) - StringUtils.stringToInt(printerData.getAmount());
+                if (largessAmount != 0) {
+                    printerDevice.printlnText(format, "充值赠送：" + StringUtils.formatIntMoney(largessAmount) + "元");
+                }
+                if (StringUtils.stringToInt(printerData.getReceiveAmount()) != 0) {
+                    printerDevice.printlnText(format, "到账金额：" + printerData.getReceiveAmount() + "元");
+                }
+                if (printerData.getPacektRemian() != 0) {
+                    printerDevice.printlnText(format, "账号余额：" + StringUtils.formatIntMoney(printerData.getPacektRemian()) + "元");
+                }
+
+            }else{
+                printerDevice.printlnText(format, "订单金额：" + printerData.getAmount() + "元");
+                printerDevice.printlnText(format, "实收金额：" + printerData.getReceiveAmount() + "元");
+            }
 //			printerDevice.printlnText(format, "找零金额：" + printerData.getOddChangeAmout());
             format.clear();
             format.setParameter("align", "left");
@@ -712,9 +775,11 @@ public class Printer {
                 printerDevice.printlnText(format, "获得积分：" + printerData.getPoint());
                 printerDevice.printlnText(format, "积分余额：" + printerData.getPointCurrent());
             }else {
-                printerDevice.printlnText(format, "积分抵扣金额：" + StringUtils.formatIntMoney(printerData.getPointCoverMoney()) + "元");
-                printerDevice.printlnText(format, "优惠券抵扣金额：" + StringUtils.formatIntMoney(printerData.getCouponCoverMoney()) + "元");
-                printerDevice.printlnText(format, "返利金额：" + StringUtils.formatIntMoney(printerData.getBackAmt()) + "元");
+                if (printerData.getPayType() != Constants.PAY_WAY_RECHARGE_CASH) {
+                    printerDevice.printlnText(format, "积分抵扣金额：" + StringUtils.formatIntMoney(printerData.getPointCoverMoney()) + "元");
+                    printerDevice.printlnText(format, "优惠券抵扣金额：" + StringUtils.formatIntMoney(printerData.getCouponCoverMoney()) + "元");
+                    printerDevice.printlnText(format, "返利金额：" + StringUtils.formatIntMoney(printerData.getBackAmt()) + "元");
+                }
                 printerDevice.printlnText(format, "支付方式：" + Constants.getPayWayDesc(printerData.getPayType()));
             }
             // printerDevice.printlnText(format, "备注：");
@@ -729,6 +794,9 @@ public class Printer {
             printerDevice.printlnText(format, "--------------------------------");
 
             printerDevice.printlnText(format, "备注：");
+            if(!StringUtils.isBlank(printerData.getPromotion_num())){
+                printerDevice.printlnText(format, printerData.getPromotion_num());
+            }
             format.clear();
             format.setParameter("align", "center");
             format.setParameter("size", "medium");
@@ -748,14 +816,6 @@ public class Printer {
                 format.clear();
                 format.setParameter("align", "center");
                 format.setParameter("size", "medium");
-
-                printerDevice.printlnText(format, (String) SPUtils.get(mContext, "printContent", ""));
-
-                Bitmap bitmap = SPUtils.loadDrawable(mContext);
-                if (bitmap != null){
-                    printerDevice.printBitmap(format, bitmap);
-                }
-
                 if (printerData.getPoint_bitmap() != null) {
                     LogUtils.e("width: " + printerData.getPoint_bitmap().getWidth() + " height: "
                             + printerData.getPoint_bitmap().getHeight());
@@ -784,20 +844,23 @@ public class Printer {
                 format.clear();
                 format.setParameter("align", "left");
                 format.setParameter("size", "medium");
-//                if (!StringUtils.isEmpty(printerData.getTitle_url())) {
-//                    printerDevice.printlnText(format, "--------------------------------");
-//                    printerDevice.printlnText(format, "优惠券名称：" + printerData.getTitle_url());
-//                }
-//                if (printerData.getMoney() > 0) {
-//                    printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(printerData.getMoney()));
-//                }
-                List<Couponsn> couponsnList = getCouponsnData(printerData.getCouponData());
-                if(couponsnList != null && couponsnList.size() > 0){
-                    for (int i = 0; i < couponsnList.size(); i++){
-                        printerDevice.printlnText(format, "--------------------------------");
-                        printerDevice.printlnText(format, "优惠券名称：" + couponsnList.get(i).getCoupon_name());
-                        printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(couponsnList.get(i).getCoupon_money()));
+                if (!StringUtils.isBlank(printerData.getCouponData())) {
+                    printerDevice.printlnText(format, "--------------------------------");
+                    printerDevice.printlnText(format, "本次消费获得：");
+                    Gson gson = new Gson();
+                    List<Couponsn> couponsns = gson.fromJson(printerData.getCouponData(), new TypeToken<List<Couponsn>>() {
+                    }.getType());
+                    for (int i=0; i < couponsns.size(); i++){
+                        printerDevice.printlnText(format, "优惠券名称：" + couponsns.get(i).getCoupon_name());
+                        printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(couponsns.get(i).getCoupon_money()));
                     }
+//                    if (!StringUtils.isEmpty(printerData.getTitle_url())) {
+//
+//                        printerDevice.printlnText(format, "优惠券名称：" + printerData.getTitle_url());
+//                    }
+//                    if (printerData.getMoney() > 0) {
+//                        printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(printerData.getMoney()));
+//                    }
                 }
             }
             printerDevice.printText(format, "\n");

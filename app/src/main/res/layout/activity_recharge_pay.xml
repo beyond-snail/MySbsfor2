@@ -313,26 +313,29 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="3dp"
-                            android:text="刷卡记账"
+                            android:text="刷卡"
                             android:textColor="@color/black"
                             android:textSize="15sp" >
                         </TextView>
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/id_ll_unionpay"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:padding="10dp"
+                        android:clickable="true"
                         android:background="@drawable/pay_bg"
                         android:orientation="vertical"
-                        android:visibility="invisible" >
+                        android:visibility="visible" >
 
                         <Button
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:clickable="false"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:layout_gravity="center"
-                            android:background="@mipmap/icon_aly" >
+                            android:background="@mipmap/pay_union_bg" >
                         </Button>
 
                         <TextView
@@ -341,6 +344,7 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="3dp"
                             android:textColor="@color/black"
+                            android:text="银联"
                             android:textSize="15sp" >
                         </TextView>
                     </LinearLayout>
@@ -413,7 +417,7 @@
                     android:padding="5dp"
                     android:background="@drawable/btn_purple_selector"
                     android:text="@string/print_again"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:visibility="visible"
                     android:textSize="20sp" />
 
@@ -429,7 +433,7 @@
                     android:background="@drawable/btn_purple_selector"
 
                     android:text="@string/pay_end"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -467,13 +471,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="3dp"
                     android:layout_marginLeft="20dp"
+
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="15dp"
                     android:padding="5dp"
                     android:background="@drawable/btn_purple_selector"
 
                     android:text="@string/pay_order_query"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="20sp" />
 
                 <Button
@@ -488,7 +493,7 @@
                     android:background="@drawable/btn_purple_selector"
 
                     android:text="@string/pay_end"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -531,7 +536,7 @@
                     android:background="@drawable/btn_purple_selector"
 
                     android:text="@string/sure"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="20sp" />
             </LinearLayout>
         </LinearLayout>

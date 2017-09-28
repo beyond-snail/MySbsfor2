@@ -9,6 +9,7 @@ import com.tool.utils.msrcard.MsrCard;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
 import com.zfsbs.R;
+import com.zfsbs.core.myinterface.ActionCallbackListener;
 
 
 public class CardChangeActivity extends BaseActivity implements View.OnClickListener {
@@ -116,27 +117,27 @@ public class CardChangeActivity extends BaseActivity implements View.OnClickList
 
     private void changePass(final Context mContext, String cardNo, String newPwd, String oldPwd) {
 
-//        sbsAction.changePass(mContext, cardNo, newPwd, oldPwd, new ActionCallbackListener<String>() {
-//            @Override
-//            public void onSuccess(String data) {
-//                ToastUtils.CustomShow(mContext, data);
-//                onBackPressed();
-//            }
-//
-//            @Override
-//            public void onFailure(String errorEvent, String message) {
-//                ToastUtils.CustomShow(mContext, message);
-//            }
-//
-//            @Override
-//            public void onFailurTimeOut(String s, String error_msg) {
-//
-//            }
-//
-//            @Override
-//            public void onLogin() {
-//
-//            }
-//        });
+        sbsAction.changePass(mContext, cardNo, newPwd, oldPwd, new ActionCallbackListener<String>() {
+            @Override
+            public void onSuccess(String data) {
+                ToastUtils.CustomShow(mContext, data);
+                onBackPressed();
+            }
+
+            @Override
+            public void onFailure(String errorEvent, String message) {
+                ToastUtils.CustomShow(mContext, message);
+            }
+
+            @Override
+            public void onFailurTimeOut(String s, String error_msg) {
+
+            }
+
+            @Override
+            public void onLogin() {
+
+            }
+        });
     }
 }

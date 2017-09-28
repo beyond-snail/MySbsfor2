@@ -2,9 +2,6 @@ package com.zfsbs.config;
 
 import com.zfsbs.R;
 
-import java.util.HashMap;
-import java.util.Map;
-
 
 public class EnumConstsSbs {
 
@@ -65,49 +62,55 @@ public class EnumConstsSbs {
 
 	// 支付方式
 	public enum PaymentType {
-		AliPay("支付宝", 1), WebChat("微信", 3), Baidu("百付宝", 4), Jd("京东", 5), BankCard("银行卡", 6), Cash("现金",
-				7), NetBankCard("银行卡网银",
-						8), NetBankCardQuick("银行卡网银快捷", 9), UnionBank("银联钱包", 10), Wallet("钱包", 13), Other("其他", 99);
-		private String name;
-		private int type;
-		static Map<Integer, PaymentType> allPaymentTypes;
+		BankCard(1, R.mipmap.icon_payflot, "刷卡"),
+		AliPay(2, R.mipmap.icon_aly, "支付宝"),
+		WebChat(3, R.mipmap.icon_weixin, "微信"),
+		UnionBank(4, R.mipmap.pay_union_bg, "银联"),
+		Cash(5, R.mipmap.icon_paycash,"现金"),
+		Wallet(6, R.mipmap.icon_qb, "钱包"),
+		STK(7, R.mipmap.stk_card, "会员卡");
 
-		private PaymentType(String name, int type) {
+
+		private int code;
+		private int bg;
+		private String name;
+
+		PaymentType(int code, int bg, String name) {
+			this.code = code;
+			this.bg = bg;
 			this.name = name;
-			this.type = type;
+		}
+
+		public int getCode() {
+			return code;
+		}
+
+		public int getBg() {
+			return bg;
 		}
 
 		public String getName() {
 			return name;
 		}
 
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public int getType() {
-			return type;
-		}
-
-		public void setType(int type) {
-			this.type = type;
-		}
-
-		public static PaymentType fromType(int type) {
-			PaymentType actType = allPaymentTypes.get(type);
-			return actType;
-		}
-
-		public static boolean supported(int type) {
-			return allPaymentTypes.containsKey(type);
-		}
-
-		static {
-			allPaymentTypes = new HashMap<Integer, PaymentType>();
-			PaymentType[] types = values();
-			for (PaymentType type : types) {
-				allPaymentTypes.put(type.getType(), type);
+		public static PaymentType getByCode(int code) {
+			PaymentType[] timeZoneTypes = PaymentType.values();
+			for (PaymentType timeZoneType : timeZoneTypes) {
+				if (timeZoneType.getCode() == code) {
+					return timeZoneType;
+				}
 			}
+			return null;
+		}
+
+		public static int getCodeByName(String name) {
+			PaymentType[] timeZoneTypes = PaymentType.values();
+			for (PaymentType timeZoneType : timeZoneTypes) {
+				if (timeZoneType.getName() == name) {
+					return timeZoneType.getCode();
+				}
+			}
+			return -1;
 		}
 	}
 

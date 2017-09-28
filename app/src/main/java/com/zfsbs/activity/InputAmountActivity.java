@@ -1,5 +1,6 @@
 package com.zfsbs.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.mycommonlib.model.ComTransInfo;
 import com.tool.utils.activityManager.AppManager;
 import com.tool.utils.dialog.MemberNoDialog;
 import com.tool.utils.dialog.MemberNoDialog1;
+import com.tool.utils.msrcard.MsrCard;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
@@ -317,6 +319,13 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
                     Richer_memberInfoAction(result);
                 }
 
+            }
+        });
+
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                MsrCard.getMsrCard(InputAmountActivity.this).closeMsrCard();
             }
         });
         dialog.setCancelable(true);

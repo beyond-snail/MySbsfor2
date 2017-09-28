@@ -7,7 +7,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.mycommonlib.core.PayCommon;
+import com.mycommonlib.model.ComTransInfo;
 import com.tool.utils.activityManager.AppManager;
+import com.tool.utils.dialog.CommonDialog;
 import com.tool.utils.utils.ALog;
 import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.SPUtils;
@@ -20,13 +23,14 @@ import com.zfsbs.config.Config;
 import com.zfsbs.config.Constants;
 import com.zfsbs.core.action.FyBat;
 import com.zfsbs.core.action.Printer;
+import com.zfsbs.core.myinterface.ActionCallbackListener;
+import com.zfsbs.model.ChargeBlance;
 import com.zfsbs.model.FailureData;
 import com.zfsbs.model.FyMicropayRequest;
 import com.zfsbs.model.FyMicropayResponse;
 import com.zfsbs.model.FyQueryRequest;
 import com.zfsbs.model.FyQueryResponse;
 import com.zfsbs.model.FyRefundResponse;
-import com.zfsbs.model.RechargeAmount;
 import com.zfsbs.model.RechargeUpLoad;
 import com.zfsbs.model.SbsPrinterData;
 import com.zfsbs.myapplication.MyApplication;
@@ -34,8 +38,10 @@ import com.zfsbs.myapplication.MyApplication;
 import org.litepal.crud.DataSupport;
 
 import static com.zfsbs.config.Constants.PAY_FY_ALY;
+import static com.zfsbs.config.Constants.PAY_FY_UNION;
 import static com.zfsbs.config.Constants.PAY_FY_WX;
 import static com.zfsbs.config.Constants.REQUEST_CAPTURE_ALY;
+import static com.zfsbs.config.Constants.REQUEST_CAPTURE_UNIPAY;
 import static com.zfsbs.config.Constants.REQUEST_CAPTURE_WX;
 import static com.zfsbs.config.Constants.REQUEST_CASH;
 import static com.zfsbs.config.Constants.REQUEST_flot_CASH;
@@ -45,10 +51,13 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
 
     private FyBat fybat;
 
-    private RechargeAmount vo;
+//    private RechargeAmount vo;
     private String cardNo;
     private String tgy;
-    private String cardId;
+//    private String cardId;
+    private String oldAmount;
+    private String actualAmount;
+    private String orderNo;
 
     private LinearLayout ll_payType;
     private LinearLayout ll_payFinish;
@@ -74,13 +83,17 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
 
         cardNo = getIntent().getBundleExtra("data").getString("cardNo");
         tgy = getIntent().getBundleExtra("data").getString("tgy");
-        cardId = getIntent().getBundleExtra("data").getString("card_id");
-        vo = (RechargeAmount) getIntent().getBundleExtra("data").getSerializable("RechargeAmount");
-        if (vo == null){
-            ToastUtils.CustomShow(mContext, "数据有误");
-            onBackPressed();
-            return;
-        }
+        oldAmount = getIntent().getBundleExtra("data").getString("oldAmount");
+        actualAmount = getIntent().getBundleExtra("data").getString("actualAmount");
+        orderNo = getIntent().getBundleExtra("data").getString("orderNo");
+
+//        cardId = getIntent().getBundleExtra("data").getString("card_id");
+//        vo = (RechargeAmount) getIntent().getBundleExtra("data").getSerializable("RechargeAmount");
+//        if (vo == null){
+//            ToastUtils.CustomShow(mContext, "数据有误");
+//            onBackPressed();
+//            return;
+//        }
 
         fybat = new FyBat(this, listener1);
     }
@@ -88,9 +101,9 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
     private void initView() {
 
         orderAmount = (TextView) findViewById(R.id.id_order_amount);
-        orderAmount.setText(StringUtils.formatIntMoney(vo.getReal_pay_money()));
+        orderAmount.setText(StringUtils.formatStrMoney(oldAmount));
 
-        textView(R.id.id_dz_amount).setText(StringUtils.formatIntMoney(vo.getReal_get_money()));
+        textView(R.id.id_dz_amount).setText(StringUtils.formatStrMoney(actualAmount));
         TextView etCardNo = textView(R.id.id_memberCardNo);
         etCardNo.setText(cardNo);
 
@@ -104,6 +117,7 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
         linearLayout(R.id.pay_aly).setOnClickListener(this);
         linearLayout(R.id.pay_cash).setOnClickListener(this);
         linearLayout(R.id.id_pay_flot).setOnClickListener(this);
+        linearLayout(R.id.id_ll_unionpay).setOnClickListener(this);
 
         button(R.id.id_print).setOnClickListener(this);
         button(R.id.id_finish).setOnClickListener(this);
@@ -148,6 +162,8 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
                 setFyPayFailureQuery(data.getOutOrderNum(), data.getAmount() + "", data.getType(), true, Constants.PAY_WAY_RECHARGE_ALY, Constants.FY_FAILURE_PAY);
             } else if (data.getType().equals(PAY_FY_WX)) {
                 setFyPayFailureQuery(data.getOutOrderNum(), data.getAmount() + "", data.getType(), true, Constants.PAY_WAY_RECHARGE_WX, Constants.FY_FAILURE_PAY);
+            } else if (data.getType().equals(PAY_FY_UNION)) {
+                setFyPayFailureQuery(data.getOutOrderNum(), data.getAmount() + "", data.getType(), true, Constants.PAY_WAY_RECHARGE_UNIPAY, Constants.FY_FAILURE_PAY);
             }
 
         }
@@ -163,6 +179,8 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
                 setFyQueryFailureQuery(data.getOutOrderNum(), data.getOrder_type(), data.getMchnt_order_no(), true, Constants.PAY_WAY_RECHARGE_ALY, Constants.FY_FAILURE_QUERY);
             } else if (data.getOrder_type().equals(PAY_FY_WX)) {
                 setFyQueryFailureQuery(data.getOutOrderNum(), data.getOrder_type(), data.getMchnt_order_no(), true, Constants.PAY_WAY_RECHARGE_WX, Constants.FY_FAILURE_QUERY);
+            } else if (data.getOrder_type().equals(PAY_FY_UNION)) {
+                setFyPayFailureQuery(data.getOutOrderNum(), data.getOrder_type(), data.getMchnt_order_no(), true, Constants.PAY_WAY_RECHARGE_UNIPAY, Constants.FY_FAILURE_QUERY);
             }
 
         }
@@ -197,9 +215,9 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
         data.setFaiureType(failureType);
         data.setApp_type(0);
         data.setMember(isMember);
-        data.setCardId(cardId);
-        data.setReal_get_money(vo.getReal_get_money());
-        data.setReal_pay_money(vo.getReal_pay_money());
+//        data.setCardId(cardId);
+        data.setReal_get_money(Integer.parseInt(actualAmount));
+        data.setReal_pay_money(Integer.parseInt(oldAmount));
         data.setTgy(tgy);
         CommonFunc.setBackFailureInfo(this, data);
 
@@ -224,9 +242,9 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
         data.setFaiureType(failureType);
         data.setApp_type(0);
         data.setMember(isMember);
-        data.setCardId(cardId);
-        data.setReal_get_money(vo.getReal_get_money());
-        data.setReal_pay_money(vo.getReal_pay_money());
+//        data.setCardId(cardId);
+        data.setReal_get_money(Integer.parseInt(actualAmount));
+        data.setReal_pay_money(Integer.parseInt(oldAmount));
         data.setTgy(tgy);
         CommonFunc.setBackFailureInfo(this, data);
     }
@@ -251,31 +269,43 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
         printerData.setTransNo(data.getTransaction_id());
         printerData.setAuthCode(data.getMchnt_order_no());
         printerData.setDateTime(StringUtils.formatTime(data.getTxn_begin_ts()));
-        printerData.setOrderAmount(vo.getReal_get_money());
+        printerData.setOrderAmount(Integer.parseInt(actualAmount));
         printerData.setAmount(StringUtils.formatStrMoney(data.getTotal_amount()));
-//        printerData.setPointCoverMoney(CommonFunc.recoveryMemberInfo(this).getPointCoverMoney());
-//        printerData.setCouponCoverMoney(CommonFunc.recoveryMemberInfo(this).getCouponCoverMoney());
         printerData.setScanPayType(MyApplication.getInstance().getLoginData().getScanPayType());
         if (data.getOrder_type().equals(PAY_FY_ALY)) {
             printerData.setPayType(Constants.PAY_WAY_RECHARGE_ALY);
         } else if (data.getOrder_type().equals(PAY_FY_WX)) {
             printerData.setPayType(Constants.PAY_WAY_RECHARGE_WX);
+        } else if (data.getOrder_type().equals(PAY_FY_UNION)) {
+            printerData.setPayType(Constants.PAY_WAY_RECHARGE_UNIPAY);
         }
 
-        printerData.setClientOrderNo(CommonFunc.getNewClientSn());
+        printerData.setClientOrderNo(orderNo);
 
         //流水上送
         RechargeUpLoad rechargeUpLoad = new RechargeUpLoad();
+
         rechargeUpLoad.setSid(MyApplication.getInstance().getLoginData().getSid());
-        rechargeUpLoad.setOpreator_num((String) SPUtils.get(mContext, Constants.USER_NAME, ""));
+        rechargeUpLoad.setPayAmount(Integer.parseInt(oldAmount));
+        rechargeUpLoad.setOrderNo(printerData.getClientOrderNo());
+        rechargeUpLoad.setActivateCode(MyApplication.getInstance().getLoginData().getActiveCode());
+        rechargeUpLoad.setMerchantNo(MyApplication.getInstance().getLoginData().getFyMerchantNo());
+        rechargeUpLoad.setT(StringUtils.getdate2TimeStamp(printerData.getDateTime()));
+        rechargeUpLoad.setSerialNum(StringUtils.getSerial());
         rechargeUpLoad.setPayType(printerData.getPayType());
+        rechargeUpLoad.setOperator_num((String) SPUtils.get(mContext, Constants.USER_NAME, ""));
+
+        //这个地方支付与充值传的是一样
+        if (data.getOrder_type().equals(PAY_FY_ALY)) {
+            rechargeUpLoad.setPayType(Constants.PAY_WAY_ALY);
+        } else if (data.getOrder_type().equals(PAY_FY_WX)) {
+            rechargeUpLoad.setPayType(Constants.PAY_WAY_WX);
+        } else if (data.getOrder_type().equals(PAY_FY_UNION)) {
+            rechargeUpLoad.setPayType(Constants.PAY_WAY_UNIPAY);
+        }
         rechargeUpLoad.setPromotion_num(tgy);
-        rechargeUpLoad.setRealize_card_id(cardId);
-        rechargeUpLoad.setRecharge_get_money(vo.getReal_get_money());
-        rechargeUpLoad.setRecharge_pay_money(vo.getReal_pay_money());
-        rechargeUpLoad.setRecharge_order_num(printerData.getClientOrderNo());
-        rechargeUpLoad.setTerminal_sn(StringUtils.getSerial());
-        rechargeUpLoad.setRecharge_time(StringUtils.getdate2TimeStamp(printerData.getDateTime()));
+        rechargeUpLoad.setTransNo(printerData.getTransNo());
+        rechargeUpLoad.setAuthCode(printerData.getAuthCode());
 
         rechargeUpload(rechargeUpLoad);
 
@@ -291,32 +321,44 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
         printerData.setTransNo(data.getTransaction_id());
         printerData.setAuthCode(data.getMchnt_order_no());
         printerData.setDateTime(StringUtils.getCurTime());
-        printerData.setOrderAmount(vo.getReal_get_money());
+        printerData.setOrderAmount(Integer.parseInt(actualAmount));
         printerData.setAmount(StringUtils.formatStrMoney(data.getOrder_amt()));
-//        printerData.setPointCoverMoney(CommonFunc.recoveryMemberInfo(this).getPointCoverMoney());
-//        printerData.setCouponCoverMoney(CommonFunc.recoveryMemberInfo(this).getCouponCoverMoney());
         printerData.setScanPayType(MyApplication.getInstance().getLoginData().getScanPayType());
         if (data.getOrder_type().equals(PAY_FY_ALY)) {
             printerData.setPayType(Constants.PAY_WAY_RECHARGE_ALY);
         } else if (data.getOrder_type().equals(PAY_FY_WX)) {
             printerData.setPayType(Constants.PAY_WAY_RECHARGE_WX);
+        } else if (data.getOrder_type().equals(PAY_FY_UNION)) {
+            printerData.setPayType(Constants.PAY_WAY_RECHARGE_UNIPAY);
         }
 
-        printerData.setClientOrderNo(CommonFunc.getNewClientSn());
+        printerData.setClientOrderNo(orderNo);
 
 
         //流水上送
         RechargeUpLoad rechargeUpLoad = new RechargeUpLoad();
         rechargeUpLoad.setSid(MyApplication.getInstance().getLoginData().getSid());
-        rechargeUpLoad.setOpreator_num((String) SPUtils.get(mContext, Constants.USER_NAME, ""));
+        rechargeUpLoad.setPayAmount(Integer.parseInt(oldAmount));
+        rechargeUpLoad.setOrderNo(printerData.getClientOrderNo());
+        rechargeUpLoad.setActivateCode(MyApplication.getInstance().getLoginData().getActiveCode());
+        rechargeUpLoad.setMerchantNo(MyApplication.getInstance().getLoginData().getFyMerchantNo());
+        rechargeUpLoad.setT(StringUtils.getdate2TimeStamp(printerData.getDateTime()));
+        rechargeUpLoad.setSerialNum(StringUtils.getSerial());
         rechargeUpLoad.setPayType(printerData.getPayType());
+        rechargeUpLoad.setOperator_num((String) SPUtils.get(mContext, Constants.USER_NAME, ""));
+
+        //这个地方支付与充值传的是一样
+        if (data.getOrder_type().equals(PAY_FY_ALY)) {
+            rechargeUpLoad.setPayType(Constants.PAY_WAY_ALY);
+        } else if (data.getOrder_type().equals(PAY_FY_WX)) {
+            rechargeUpLoad.setPayType(Constants.PAY_WAY_WX);
+        } else if (data.getOrder_type().equals(PAY_FY_UNION)) {
+            rechargeUpLoad.setPayType(Constants.PAY_WAY_UNIPAY);
+        }
         rechargeUpLoad.setPromotion_num(tgy);
-        rechargeUpLoad.setRealize_card_id(cardId);
-        rechargeUpLoad.setRecharge_get_money(vo.getReal_get_money());
-        rechargeUpLoad.setRecharge_pay_money(vo.getReal_pay_money());
-        rechargeUpLoad.setRecharge_order_num(printerData.getClientOrderNo());
-        rechargeUpLoad.setTerminal_sn(StringUtils.getSerial());
-        rechargeUpLoad.setRecharge_time(StringUtils.getdate2TimeStamp(printerData.getDateTime()));
+        rechargeUpLoad.setTransNo(printerData.getTransNo());
+        rechargeUpLoad.setAuthCode(printerData.getAuthCode());
+
 
         rechargeUpload(rechargeUpLoad);
 
@@ -330,11 +372,9 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
         printerData.setTerminalId(StringUtils.getSerial());
         printerData.setOperatorNo((String) SPUtils.get(this, Constants.USER_NAME, ""));
         printerData.setDateTime(StringUtils.getCurTime());
-        printerData.setAmount(StringUtils.formatIntMoney(vo.getReal_pay_money()));
-        printerData.setReceiveAmount(StringUtils.formatIntMoney(vo.getReal_get_money()));
+        printerData.setAmount(StringUtils.formatStrMoney(oldAmount));
+        printerData.setReceiveAmount(StringUtils.formatStrMoney(actualAmount));
         printerData.setOddChangeAmout(StringUtils.formatIntMoney(oddChangeAmout));
-//        printerData.setPointCoverMoney(CommonFunc.recoveryMemberInfo(this).getPointCoverMoney());
-//        printerData.setCouponCoverMoney(CommonFunc.recoveryMemberInfo(this).getCouponCoverMoney());
         printerData.setPayType(payType);
 
     }
@@ -350,20 +390,21 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
         setCashPrintData1(oddChangeAmout, payType);
 
         //打印订单号与流水上送统一
-        printerData.setClientOrderNo(CommonFunc.getNewClientSn());
+        printerData.setClientOrderNo(orderNo);
 
         //流水上送
         RechargeUpLoad rechargeUpLoad = new RechargeUpLoad();
         rechargeUpLoad.setSid(MyApplication.getInstance().getLoginData().getSid());
-        rechargeUpLoad.setOpreator_num((String) SPUtils.get(mContext, Constants.USER_NAME, ""));
+        rechargeUpLoad.setPayAmount(Integer.parseInt(oldAmount));
+        rechargeUpLoad.setOrderNo(printerData.getClientOrderNo());
+        rechargeUpLoad.setActivateCode(MyApplication.getInstance().getLoginData().getTerminalNo());
+        rechargeUpLoad.setMerchantNo(MyApplication.getInstance().getLoginData().getMerchantNo());
+        rechargeUpLoad.setT(StringUtils.getdate2TimeStamp(printerData.getDateTime()));
+        rechargeUpLoad.setSerialNum(StringUtils.getSerial());
         rechargeUpLoad.setPayType(printerData.getPayType());
+        rechargeUpLoad.setOperator_num((String) SPUtils.get(mContext, Constants.USER_NAME, ""));
+        rechargeUpLoad.setPayType(Constants.PAY_WAY_CASH);
         rechargeUpLoad.setPromotion_num(tgy);
-        rechargeUpLoad.setRealize_card_id(cardId);
-        rechargeUpLoad.setRecharge_get_money(vo.getReal_get_money());
-        rechargeUpLoad.setRecharge_pay_money(vo.getReal_pay_money());
-        rechargeUpLoad.setRecharge_order_num(printerData.getClientOrderNo());
-        rechargeUpLoad.setTerminal_sn(StringUtils.getSerial());
-        rechargeUpLoad.setRecharge_time(StringUtils.getdate2TimeStamp(printerData.getDateTime()));
 
         rechargeUpload(rechargeUpLoad);
 
@@ -372,6 +413,9 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.id_ll_unionpay:
+                CommonFunc.startResultAction(ZfPayRechargeActivity.this, CaptureActivity.class, null, REQUEST_CAPTURE_UNIPAY);
+                break;
             case R.id.pay_wx:
                 CommonFunc.startResultAction(ZfPayRechargeActivity.this, CaptureActivity.class, null, REQUEST_CAPTURE_WX);
                 break;
@@ -385,11 +429,7 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
             }
                 break;
             case R.id.id_pay_flot:
-            {
-                Bundle bundle = new Bundle();
-                bundle.putString("amount", orderAmount.getText().toString());
-                CommonFunc.startResultAction(this, ZfPayCashActivity.class, bundle, REQUEST_flot_CASH);
-            }
+                payflot1();
                 break;
             case R.id.id_print:
                 Printer.print(printerData, ZfPayRechargeActivity.this);
@@ -406,6 +446,92 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
                 break;
         }
     }
+
+
+
+    /**
+     * 刷卡
+     */
+    private void payflot1() {
+
+        String mid = MyApplication.getInstance().getLoginData().getMerchantNo();
+        String tid = MyApplication.getInstance().getLoginData().getTerminalNo();
+        PayCommon.sale(this, Integer.parseInt(oldAmount), mid, tid, new PayCommon.ComTransResult<ComTransInfo>() {
+            @Override
+            public void success(ComTransInfo transInfo) {
+                //设置打印的信息
+                setFlotPrintData1(transInfo);
+
+
+
+                printerData.setClientOrderNo(orderNo);
+
+
+                //流水上送
+                RechargeUpLoad rechargeUpLoad = new RechargeUpLoad();
+                rechargeUpLoad.setSid(MyApplication.getInstance().getLoginData().getSid());
+                rechargeUpLoad.setPayAmount(Integer.parseInt(oldAmount));
+                rechargeUpLoad.setOrderNo(printerData.getClientOrderNo());
+                rechargeUpLoad.setActivateCode(MyApplication.getInstance().getLoginData().getActiveCode());
+                rechargeUpLoad.setMerchantNo(MyApplication.getInstance().getLoginData().getFyMerchantNo());
+                rechargeUpLoad.setT(StringUtils.getdate2TimeStamp(printerData.getDateTime()));
+                rechargeUpLoad.setSerialNum(StringUtils.getSerial());
+                rechargeUpLoad.setPayType(printerData.getPayType());
+                rechargeUpLoad.setOperator_num((String) SPUtils.get(mContext, Constants.USER_NAME, ""));
+
+
+                rechargeUpLoad.setPayType(Constants.PAY_WAY_FLOT);
+
+                rechargeUpLoad.setPromotion_num(tgy);
+                rechargeUpLoad.setTransNo(printerData.getTransNo());
+                rechargeUpLoad.setAuthCode(printerData.getAuthCode());
+
+
+                rechargeUpload(rechargeUpLoad);
+
+            }
+
+            @Override
+            public void failed(String error) {
+                final CommonDialog confirmDialog = new CommonDialog(ZfPayRechargeActivity.this, error);
+                confirmDialog.show();
+                confirmDialog.setClicklistener(new CommonDialog.ClickListenerInterface() {
+                    @Override
+                    public void doConfirm() {
+
+                    }
+                });
+            }
+        });
+
+
+    }
+
+
+
+    protected void setFlotPrintData1(ComTransInfo transInfo) {
+        printerData.setMerchantName(MyApplication.getInstance().getLoginData().getTerminalName());
+        printerData.setMerchantNo(MyApplication.getInstance().getLoginData().getMerchantNo());//(transInfo.getMid());
+        printerData.setTerminalId(transInfo.getTid());
+        printerData.setOperatorNo((String) SPUtils.get(this, Constants.USER_NAME, ""));
+        printerData.setAcquirer(transInfo.getAcquirerCode());
+        printerData.setIssuer(transInfo.getIssuerCode());
+        printerData.setCardNo(StringUtils.formatCardNo(transInfo.getPan()));
+        printerData.setTransType(transInfo.getTransType() + "");
+        printerData.setExpDate(transInfo.getExpiryDate());
+        printerData.setBatchNO(StringUtils.fillZero(transInfo.getBatchNumber() + "", 6));
+        printerData.setVoucherNo(StringUtils.fillZero(transInfo.getTrace() + "", 6));
+        printerData.setDateTime(
+                StringUtils.formatTime(StringUtils.getCurYear() + transInfo.getTransDate() + transInfo.getTransTime()));
+        printerData.setAuthNo(transInfo.getAuthCode());
+        printerData.setReferNo(transInfo.getRrn());
+        printerData.setOrderAmount(Integer.parseInt(actualAmount));
+        printerData.setAmount(StringUtils.formatIntMoney(transInfo.getTransAmount()));
+        printerData.setPayType(Constants.PAY_WAY_RECHARGE_FLOT);
+    }
+
+
+
 
     private void setLastQuerySend1() {
 
@@ -469,6 +595,11 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
                 LogUtils.e("result", result_aly);
                 FyAlyPay1(result_aly);
                 break;
+            case REQUEST_CAPTURE_UNIPAY:
+                String result_uni = data.getExtras().getString(CaptureActivity.SCAN_RESULT);
+                LogUtils.e("result", result_uni);
+                FyUnionPay1(result_uni);
+                break;
             default:
                 break;
         }
@@ -477,18 +608,23 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
 
     private void FyWxPay1(String code) {
         printerData.setPayType(Constants.PAY_WAY_RECHARGE_WX);
-        printerData.setClientOrderNo(CommonFunc.getNewClientSn());
-        fybat.pay1(code, PAY_FY_WX, printerData.getClientOrderNo(), vo.getReal_pay_money());
+        printerData.setClientOrderNo(orderNo);
+        fybat.pay1(code, PAY_FY_WX, printerData.getClientOrderNo(), Integer.parseInt(oldAmount));
     }
 
 
     private void FyAlyPay1(String code) {
         printerData.setPayType(Constants.PAY_WAY_RECHARGE_ALY);
-        printerData.setClientOrderNo(CommonFunc.getNewClientSn());
-        fybat.pay1(code, PAY_FY_ALY, printerData.getClientOrderNo(), vo.getReal_pay_money());
+        printerData.setClientOrderNo(orderNo);
+        fybat.pay1(code, PAY_FY_ALY, printerData.getClientOrderNo(), Integer.parseInt(oldAmount));
     }
 
 
+    private void FyUnionPay1(String code) {
+        printerData.setPayType(Constants.PAY_WAY_UNIPAY);
+        printerData.setClientOrderNo(orderNo);
+        fybat.pay1(code, PAY_FY_UNION, printerData.getClientOrderNo(), Integer.parseInt(oldAmount));
+    }
 
 
 
@@ -509,48 +645,45 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
 
 
     private void rechargeUpload(final RechargeUpLoad rechargeUpLoad){
-//        sbsAction.rechargePay(mContext, rechargeUpLoad, new ActionCallbackListener<ChargeBlance>() {
-//            @Override
-//            public void onSuccess(ChargeBlance data) {
-////                ToastUtils.CustomShow(ZfPayRechargeActivity.this, data);
-//                setRechargeUpLoadData(rechargeUpLoad);
-//                printerData.setPromotion_num(rechargeUpLoad.getPromotion_num());
-//                printerData.setPacektRemian(data.getPacket_remain());
-//                printerData.setRealize_card_num(data.getRealize_card_num());
-//                printerData.setSh_name(data.getSh_name());
-//                printerData.setMember_name(data.getMember_name());
-//                printerData.setRecharge_order_num(data.getRecharge_order_num());
-//                PrinterDataSave();
-//
-//                showLayout();
-//
-//                // 打印
-//                Printer.getInstance(mContext).print(printerData, mContext);
-//            }
-//
-//            @Override
-//            public void onFailure(String errorEvent, String message) {
-//                ToastUtils.CustomShow(ZfPayRechargeActivity.this, errorEvent + "#" + message);
-//                showLayout();
-//                setRechargeUpLoadData(rechargeUpLoad);
-//                printerData.setUploadFlag(true);
-//                printerData.setApp_type(0);
-//                // 保存打印的数据，不保存图片数据
-//                PrinterDataSave();
-//                // 打印
-//                Printer.print(printerData, ZfPayRechargeActivity.this);
-//            }
-//
-//            @Override
-//            public void onFailurTimeOut(String s, String error_msg) {
-//
-//            }
-//
-//            @Override
-//            public void onLogin() {
-//
-//            }
-//        });
+        sbsAction.rechargePay(mContext, rechargeUpLoad, new ActionCallbackListener<ChargeBlance>() {
+            @Override
+            public void onSuccess(ChargeBlance data) {
+                setRechargeUpLoadData(rechargeUpLoad);
+                printerData.setPromotion_num(rechargeUpLoad.getPromotion_num());
+                printerData.setPacektRemian(data.getPacektRemian());
+                printerData.setRealize_card_num(data.getRealize_card_num());
+                printerData.setMember_name(data.getMember_name());
+                PrinterDataSave();
+
+                showLayout();
+
+                // 打印
+                Printer.getInstance(mContext).print(printerData, mContext);
+            }
+
+            @Override
+            public void onFailure(String errorEvent, String message) {
+                ToastUtils.CustomShow(ZfPayRechargeActivity.this, errorEvent + "#" + message);
+                showLayout();
+                setRechargeUpLoadData(rechargeUpLoad);
+                printerData.setUploadFlag(true);
+                printerData.setApp_type(0);
+                // 保存打印的数据，不保存图片数据
+                PrinterDataSave();
+                // 打印
+                Printer.print(printerData, ZfPayRechargeActivity.this);
+            }
+
+            @Override
+            public void onFailurTimeOut(String s, String error_msg) {
+
+            }
+
+            @Override
+            public void onLogin() {
+
+            }
+        });
     }
 
 

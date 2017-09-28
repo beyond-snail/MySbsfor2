@@ -102,7 +102,12 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
 
         if (couponResponse != null) {
             tMemberName.setText(couponResponse.getMemberName());
-            tMemberCardNo.setText(couponResponse.getMemberCardNo());
+            if (StringUtils.isBlank(couponResponse.getIcCardNo())){
+                tMemberCardNo.setText(couponResponse.getMemberCardNo());
+            }else{
+                tMemberCardNo.setText(couponResponse.getIcCardNo());
+            }
+
             tMemberPhoneNo.setText(couponResponse.getMobile());
             tDoPoint.setText(couponResponse.getPoint() + "点积分");
             tUseCouponsNum.setText(couponResponse.getCouponNum() + "张");
@@ -110,17 +115,11 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
             pointChangeRate = couponResponse.getPointChangeRate();
             frequency_min = couponResponse.getFrequency_min();
 
-            // 将金额转换成积分值
-//            int amountToPoint = (int) ((long) amount * pointChangeRate / 100);
-//            double amountBig = Arith.mul(amount, pointChangeRate);
 
-
-//                String amountToPoint = Arith.div2Int(amountBig, 100, 0);
             double amountBig = Arith.mul(amount, pointChangeRate);
             double amountToPoint = Arith.divide(amountBig, 100);
             LogUtils.e("amountToPoint:" + amountToPoint);
-//                pointMin = StringUtils.min(amountToPoint, couponResponse.getPoint(), couponResponse.getPointUseMax());
-//            LogUtils.e("pointMin:" + pointMin);
+
 
 
             pointMin = (int) Math.floor(StringUtils.min(amountToPoint, (double) couponResponse.getPoint(), (double) couponResponse.getPointUseMax()));
@@ -238,6 +237,7 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
                 member.setRealMoney(amount);
                 member.setTradeMoney(amount);
                 member.setMemberCardNo(couponResponse.isMember() ? couponResponse.getMemberCardNo() : "");
+                member.setStkCardNo(couponResponse.getIcCardNo());
                 CommonFunc.setBackMemberInfo(this, member);
                 CommonFunc.startAction(this, ZfPayActivity.class, true);
                 break;
@@ -286,6 +286,7 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
 
                 data.setPoint(point);
                 data.setPass(pass);
+                data.setStkCardNo(couponResponse.getIcCardNo());
                 CommonFunc.setBackMemberInfo(MemberActivity.this, data);
 
                 startAction(MemberActivity.this, ZfPayActivity.class, true);

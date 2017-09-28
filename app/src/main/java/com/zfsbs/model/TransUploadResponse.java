@@ -14,6 +14,7 @@ public class TransUploadResponse implements Serializable {
 	private String coupon_url; //红包领取二维码路径
 	private List<Couponsn> coupon; // 优惠券领取的路径
 	private int backAmt; //返利金额
+	private String responseMsg;
 
 	public String getPoint_url() {
 		return point_url;
@@ -61,5 +62,13 @@ public class TransUploadResponse implements Serializable {
 
 	public void setBackAmt(int backAmt) {
 		this.backAmt = backAmt;
+	}
+
+	public String getResponseMsg() {
+		return responseMsg;
+	}
+
+	public void setResponseMsg(String responseMsg) {
+		this.responseMsg = responseMsg;
 	}
 }

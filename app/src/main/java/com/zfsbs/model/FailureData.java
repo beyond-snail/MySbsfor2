@@ -200,6 +200,10 @@ public class FailureData {
                 ", app_type=" + app_type +
                 ", isMember=" + isMember +
                 ", cardNo='" + cardNo + '\'' +
+                ", tgy='" + tgy + '\'' +
+                ", cardId='" + cardId + '\'' +
+                ", real_pay_money=" + real_pay_money +
+                ", real_get_money=" + real_get_money +
                 '}';
     }
 }

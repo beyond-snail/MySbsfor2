@@ -48,6 +48,7 @@ import com.zfsbs.config.Config;
 import com.zfsbs.config.Constants;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
 import com.zfsbs.model.ApiResponse;
+import com.zfsbs.model.TransUploadResponse;
 import com.zfsbs.model.ZfQbResponse;
 
 import java.util.HashMap;
@@ -95,7 +96,7 @@ public class ZfQbAction {
         public void run() {
             // do something
             if (isPaying) {
-                query(old_sid, order_no, old_time, mListener);
+//                query(old_sid, order_no, old_time, mListener);
             } else {
                 ToastUtils.CustomShow(mContext, "交易失败");
                 CloseTimeDialog();
@@ -155,18 +156,18 @@ public class ZfQbAction {
                 CloseTimeDialog();
                 if (response != null) {
                     if (response.getCode().equals("A00006")) {
-                        if (StringUtils.isEquals(response.getResult().getTransStates(), "0000")){
-
-                            listener.onSuccess(response.getResult());
-                        }else{
-//                            order_no = orderNo;
-//                            old_time = time;
-//                            old_sid = sid;
-//                            mListener = listener;
-//                            handler.postDelayed(runnable, 5000);
-                            listener.onFailure(response.getResult().getTransStates(), response.getResult().getMsgTxt());
-                        }
-
+//                        if (StringUtils.isEquals(response.getResult().getTransStates(), "0000")){
+//
+//                            listener.onSuccess(response.getResult());
+//                        }else{
+////                            order_no = orderNo;
+////                            old_time = time;
+////                            old_sid = sid;
+////                            mListener = listener;
+////                            handler.postDelayed(runnable, 5000);
+//                            listener.onFailure(response.getResult().getTransStates(), response.getResult().getMsgTxt());
+//                        }
+                        listener.onSuccess(response.getResult());
                     } else {
 
                         listener.onFailure(response.getCode(), response.getMsg());
@@ -187,55 +188,55 @@ public class ZfQbAction {
     }
 
 
-    public void query(int sid, String orderNo, String time, final ActionCallbackListener<ZfQbResponse> listener){
+//    public void query(int sid, String orderNo, String time, final ActionCallbackListener<ZfQbResponse> listener){
+//
+//        Map<String, Object> paramsMap = new HashMap<String, Object>();
+//
+//        paramsMap.put("MerchantId", sid);
+//        paramsMap.put("TerminalNo", StringUtils.getSerial());
+//        paramsMap.put("OrgOrderNum", orderNo);
+//        paramsMap.put("OrgTranDateTime", time);
+//        paramsMap.put("operator_num", SPUtils.get(mContext, Constants.USER_NAME, ""));
+//
+//
+//        String data = CommonFunc.getJsonStr("qbQuery", paramsMap, "verify", Config.md5_key);
+//
+//
+//
+//        MyOkHttp.get().postJson(mContext, Config.SBS_URL_QB, data, new GsonResponseHandler<ApiResponse<ZfQbResponse>>() {
+//            @Override
+//            public void onSuccess(int statusCode, ApiResponse<ZfQbResponse> response) {
+//                if (response != null) {
+//                    if (response.getCode().equals("A00006")) {
+//                        if (StringUtils.isEquals(response.getResult().getTransStates(), "0000")){
+//                            CloseTimeDialog();
+//                            listener.onSuccess(response.getResult());
+//                        }else{
+//
+//                            handler.postDelayed(runnable, 5000);
+//                        }
+//
+//                    } else {
+//                        CloseTimeDialog();
+//                        listener.onFailure(response.getCode(), response.getMsg());
+//                    }
+//                } else {
+//                    CloseTimeDialog();
+//                    listener.onFailure("", "链接服务器异常");
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, String error_msg) {
+//                CloseTimeDialog();
+//                listener.onFailure("" + statusCode, error_msg);
+//            }
+//
+//        });
+//    }
 
-        Map<String, Object> paramsMap = new HashMap<String, Object>();
 
-        paramsMap.put("MerchantId", sid);
-        paramsMap.put("TerminalNo", StringUtils.getSerial());
-        paramsMap.put("OrgOrderNum", orderNo);
-        paramsMap.put("OrgTranDateTime", time);
-        paramsMap.put("operator_num", SPUtils.get(mContext, Constants.USER_NAME, ""));
-
-
-        String data = CommonFunc.getJsonStr("qbQuery", paramsMap, "verify", Config.md5_key);
-
-
-
-        MyOkHttp.get().postJson(mContext, Config.SBS_URL_QB, data, new GsonResponseHandler<ApiResponse<ZfQbResponse>>() {
-            @Override
-            public void onSuccess(int statusCode, ApiResponse<ZfQbResponse> response) {
-                if (response != null) {
-                    if (response.getCode().equals("A00006")) {
-                        if (StringUtils.isEquals(response.getResult().getTransStates(), "0000")){
-                            CloseTimeDialog();
-                            listener.onSuccess(response.getResult());
-                        }else{
-
-                            handler.postDelayed(runnable, 5000);
-                        }
-
-                    } else {
-                        CloseTimeDialog();
-                        listener.onFailure(response.getCode(), response.getMsg());
-                    }
-                } else {
-                    CloseTimeDialog();
-                    listener.onFailure("", "链接服务器异常");
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, String error_msg) {
-                CloseTimeDialog();
-                listener.onFailure("" + statusCode, error_msg);
-            }
-
-        });
-    }
-
-
-    public void query1(Context context, int sid, String orderNo, String time, final ActionCallbackListener<ZfQbResponse> listener){
+    public void query1(Context context, int sid, String orderNo, String time, final ActionCallbackListener<TransUploadResponse> listener){
 
         final LoadingDialog dialog = new LoadingDialog(context);
         dialog.show("正在查询...");
@@ -253,18 +254,18 @@ public class ZfQbAction {
 
 
 
-        MyOkHttp.get().postJson(mContext, Config.SBS_URL_QB, data, new GsonResponseHandler<ApiResponse<ZfQbResponse>>() {
+        MyOkHttp.get().postJson(mContext, Config.SBS_URL_QB, data, new GsonResponseHandler<ApiResponse<TransUploadResponse>>() {
             @Override
-            public void onSuccess(int statusCode, ApiResponse<ZfQbResponse> response) {
+            public void onSuccess(int statusCode, ApiResponse<TransUploadResponse> response) {
                 dialog.dismiss();
                 if (response != null) {
                     if (response.getCode().equals("A00006")) {
-                        if (StringUtils.isEquals(response.getResult().getTransStates(), "0000")) {
-                            listener.onSuccess(response.getResult());
-                        }else {
-                            listener.onFailure(response.getCode(), response.getMsg());
-                        }
-
+//                        if (StringUtils.isEquals(response.getResult().getTransStates(), "0000")) {
+//                            listener.onSuccess(response.getResult());
+//                        }else {
+//                            listener.onFailure(response.getCode(), response.getMsg());
+//                        }
+                        listener.onSuccess(response.getResult());
                     } else {
                         listener.onFailure(response.getCode(), response.getMsg());
                     }

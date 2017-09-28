@@ -77,6 +77,7 @@
     <string name="pay_wx">微信</string>
     <string name="pay_bd">百度</string>
     <string name="pay_qb">钱包</string>
+    <string name="pay_stk">会员卡</string>
     <string name="pay_end_des">您好，本次交易结束</string>
     <string name="pay_query">交易异常，点击查询该笔订单</string>
     <string name="pay_des">支付金额为0元，请直接确定</string>

@@ -52,7 +52,7 @@ import com.zfsbs.model.SbsPrinterData;
 import com.zfsbs.model.SetClientOrder;
 import com.zfsbs.model.ShiftRoomSave;
 import com.zfsbs.model.TransUploadRequest;
-import com.zfsbs.model.ZfQbResponse;
+import com.zfsbs.model.TransUploadResponse;
 import com.zfsbs.myapplication.MyApplication;
 
 import org.json.JSONObject;
@@ -448,7 +448,7 @@ public class CommonFunc {
      * @param context
      * @param listener
      */
-    public static void ZfQbFailQuery(Context context, ActionCallbackListener<ZfQbResponse> listener){
+    public static void ZfQbFailQuery(Context context, ActionCallbackListener<TransUploadResponse> listener){
         int sid = MyApplication.getInstance().getLoginData().getSid();
         final String orderNo = recoveryFailureInfo(context).getOrderNo();
         final String time = recoveryFailureInfo(context).getTime();

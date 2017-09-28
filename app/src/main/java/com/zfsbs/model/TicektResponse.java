@@ -40,27 +40,23 @@ package com.zfsbs.model;
 
 
 public class TicektResponse {
-    private String ticketType;
-    private String ticketName;
+//    private String ticketType;
+//    private String ticketName;
+//    private int oldAmount;
+//    private int payAmount;
+//    private String getWay;
+//    private String status;
+    private String goodName;
     private int oldAmount;
     private int payAmount;
-    private String getWay;
     private String status;
 
-    public String getTicketType() {
-        return ticketType;
+    public String getGoodName() {
+        return goodName;
     }
 
-    public void setTicketType(String ticketType) {
-        this.ticketType = ticketType;
-    }
-
-    public String getTicketName() {
-        return ticketName;
-    }
-
-    public void setTicketName(String ticketName) {
-        this.ticketName = ticketName;
+    public void setGoodName(String goodName) {
+        this.goodName = goodName;
     }
 
     public int getOldAmount() {
@@ -77,14 +73,6 @@ public class TicektResponse {
 
     public void setPayAmount(int payAmount) {
         this.payAmount = payAmount;
-    }
-
-    public String getGetWay() {
-        return getWay;
-    }
-
-    public void setGetWay(String getWay) {
-        this.getWay = getWay;
     }
 
     public String getStatus() {

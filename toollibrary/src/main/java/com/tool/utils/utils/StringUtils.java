@@ -57,6 +57,15 @@ public class StringUtils {
 	}
 
 
+	public static Double getDouble(String str) {
+		try {
+			return Double.valueOf(Double.parseDouble(str.trim()));
+		} catch (Exception ex) {
+		}
+		return null;
+	}
+
+
 	public static boolean isNumeric(String str){
 		Pattern pattern = Pattern.compile("[0-9]*");
 		return pattern.matcher(str).matches();
@@ -600,6 +609,32 @@ public class StringUtils {
 		return sb.toString();
 	}
 
+
+	/**
+	 * 屏蔽实体卡号
+	 *
+	 * @param cardNo
+	 *            银行卡号
+	 * @return 屏蔽后的卡号
+	 */
+	public static String formatSTCardNo(String cardNo) {
+		if (!checkNotNull(cardNo)) {
+			LogUtils.e("屏蔽卡号", " cardNo null");
+			return "";
+		}
+		int length = cardNo.length();
+
+		String shieldedText = "";
+		for (int i = 0; i < length - 4; i++) {
+			shieldedText += "*";
+		}
+		StringBuilder sb = new StringBuilder();
+		sb.append(shieldedText).append(cardNo.substring(length - 4, length));
+		return sb.toString();
+	}
+
+
+
 	/**
 	 * Method fill string
 	 * 
@@ -739,6 +774,68 @@ public class StringUtils {
 		return str;
 	}
 
+
+	/**
+	 * 带小数点的字串 转整形（小数点2位）
+	 *
+	 * @param string
+	 * @return
+	 */
+	public static int stringToInt(String string) {
+		if (isBlank(string)){
+			return 0;
+		}
+		String str = string.substring(0, string.indexOf("."));
+		String str2 = string.substring(string.indexOf(".") + 1);
+		if (str2.length() == 1) {
+			str2 += "0";
+		}
+		int intgeo = Integer.parseInt(str + str2);
+		return intgeo;
+	}
+
+
+	/**
+	 * 带小数点的字串 转整形（小数点2位）
+	 *
+	 * @param string
+	 * @return
+	 */
+	public static long stringToLong(String string) {
+		if (isBlank(string)){
+			return 0;
+		}
+		String str = string.substring(0, string.indexOf("."));
+		String str2 = string.substring(string.indexOf(".") + 1);
+		if (str2.length() == 1) {
+			str2 += "0";
+		}
+		long intgeo = Long.parseLong(str + str2);
+		return intgeo;
+	}
+
+
+	/**
+	 * 将元转成分
+	 * @param amount
+	 * @return
+	 */
+	public static String changeY2F(String amount){
+		String currency =  amount.replaceAll("\\$|\\￥|\\,", "");  //处理包含, ￥ 或者$的金额
+		int index = currency.indexOf(".");
+		int length = currency.length();
+		Long amLong = 0l;
+		if(index == -1){
+			amLong = Long.valueOf(currency+"00");
+		}else if(length - index >= 3){
+			amLong = Long.valueOf((currency.substring(0, index+3)).replace(".", ""));
+		}else if(length - index == 2){
+			amLong = Long.valueOf((currency.substring(0, index+2)).replace(".", "")+0);
+		}else{
+			amLong = Long.valueOf((currency.substring(0, index+1)).replace(".", "")+"00");
+		}
+		return amLong.toString();
+	}
 
 
 }
