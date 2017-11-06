@@ -126,15 +126,16 @@ public class EmvImpl implements Emv {
                         transInfo.setOldRRN(oldRrn);
                     } else if (curProcessCode == EnumProgressCode.InputOldTicket.getCode()) {
                         transInfo.setOldTrace(oldTraceNo);
+                     LogUtils.e("交易流水："+ transInfo.getOldTrace());
                     } else if (curProcessCode == EnumProgressCode.InputOldTransDate.getCode()) {
-                        transInfo.setOldTransDate(oldDate); // MMDD
+//                        transInfo.setOldTransDate(oldDate); // MMDD
                     } else if (curProcessCode == EnumProgressCode.ShowTransTotal.getCode()) {
                         LogUtils.e("交易累计：\r\n内卡借记 " + settleInfo.getCupDebitCount() + "/" + settleInfo.getCupDebitAmount()
                                 + "\r\n外卡借记 " + settleInfo.getAbrDebitCount() + "/"
                                 + settleInfo.getAbrDebitAmount());
                     } else if (curProcessCode == EnumProgressCode.InputPIN.getCode()) {
                         LogUtils.e("EnumProgressCode.InputPIN.getCode()");
-                        ToastUtils.CustomShowLong(mContext, "请在密码框输入密码!");
+//                        ToastUtils.CustomShowLong(mContext, "请在密码框输入密码!");
 
                     }
 
@@ -146,12 +147,43 @@ public class EmvImpl implements Emv {
                         case Balance:
                             posApi.balance(transInfo);
                             break;
+                        case PreAuth: //预授权
+                            LogUtils.e("<<<<PreAuth>>>>");
+                            if (curProcessCode == EnumProgressCode.ProcessOnline.getCode()) {
+                                dialog.show("正在连接服务器...");
+                            } else {
+                            }
+                            posApi.preauth(transInfo);
+                            break;
+                        case AuthCancel: //预授权撤销
+                            LogUtils.e("<<<<AuthCancel>>>>");
+                            if (curProcessCode == EnumProgressCode.ProcessOnline.getCode()) {
+                                dialog.show("正在连接服务器...");
+                            } else {
+                            }
+                            posApi.authCancel(transInfo);
+                            break;
+                        case AuthComplete: //预授权完成
+                            LogUtils.e("<<<<AuthComplete>>>>");
+                            if (curProcessCode == EnumProgressCode.ProcessOnline.getCode()) {
+                                dialog.show("正在连接服务器...");
+                            } else {
+                            }
+                            posApi.authComplete(transInfo);
+                            break;
+                        case VoidAuthComplete: //预授权完成撤销
+                            LogUtils.e("<<<<VoidAuthComplete>>>>");
+                            if (curProcessCode == EnumProgressCode.ProcessOnline.getCode()) {
+                                dialog.show("正在连接服务器...");
+                            } else {
+                            }
+                            posApi.voidAuthComplete(transInfo);
+                            break;
                         case Sale:
                             LogUtils.e("<<<<Sale>>>>");
                             if (curProcessCode == EnumProgressCode.ProcessOnline.getCode()) {
                                 dialog.show("正在连接服务器...");
                             } else {
-//						dialog.show(curProcessMessage);
                             }
                             posApi.sale(transInfo);
 
@@ -160,7 +192,6 @@ public class EmvImpl implements Emv {
                             if (curProcessCode == EnumProgressCode.ProcessOnline.getCode()) {
                                 dialog.show("正在连接服务器...");
                             } else {
-//						dialog.show(curProcessMessage);
                             }
                             posApi.voidSale(transInfo);
 
@@ -231,22 +262,10 @@ public class EmvImpl implements Emv {
                             break;
                         // 5.结算
                         case Settle:
-//					ToastUtils.CustomShow(mContext, "结算 完成, \r\n内卡消费[" + settleInfo.getCupDebitCount() + ", "
-//							+ settleInfo.getCupDebitAmount() + "]");
-//                            String settleData = GsonUtils.parseObjToJson(settleInfo);
-//                            LogUtils.e(StringUtils.isEmpty(settleData) ? "数据为空" : settleData);
-//                            transResult.success(settleInfo);
-
-
-//                            if (settleInfo.getRespCode().equals("00")){
                                 String settleData = GsonUtils.parseObjToJson(settleInfo);
                                 LogUtils.e(StringUtils.isEmpty(settleData) ? "数据为空" : settleData);
                                 transResult.success(settleInfo);
                                 ToastUtils.CustomShow(mContext, "结算 完成");
-//                            }else {
-//                                transResult.failed(settleInfo.getRespCode() + "#" + settleInfo.getRespDesc());
-//                            }
-
 
                             break;
                         case DownloadAID:
@@ -271,13 +290,50 @@ public class EmvImpl implements Emv {
                             ToastUtils.CustomShow(mContext, "查询余额 完成, \r\nrespCode[" + transInfo.getRespCode()
                                     + "]\r\nrespDesc[" + transInfo.getRespDesc() + "]");
                             break;
+                        case PreAuth: //预授权
+                            if (transInfo.getRespCode().equals("00")) {
+                                transResult.success(transInfo);
+                            } else {
+                                transResult.failed("预授权失败, \r\nrespCode[" + transInfo.getRespCode() + "]\r\nrespDesc["
+                                        + transInfo.getRespDesc() + "]" );
+                            }
+                            posApi.endTrans();
+                            break;
+                        case AuthCancel:
+                            if (transInfo.getRespCode().equals("00")) {
+                                transResult.success(transInfo);
+                                posApi.endTrans();
+
+                            } else {
+                                transResult.failed("预授权撤销失败, \r\nrespCode[" + transInfo.getRespCode() + "]\r\nrespDesc["
+                                        + transInfo.getRespDesc() + "]" );
+                                posApi.endTrans();
+                            }
+                            break;
+                        case AuthComplete:
+                            if (transInfo.getRespCode().equals("00")) {
+                                transResult.success(transInfo);
+                                posApi.endTrans();
+
+                            } else {
+                                transResult.failed("预授权完成失败, \r\nrespCode[" + transInfo.getRespCode() + "]\r\nrespDesc["
+                                        + transInfo.getRespDesc() + "]");
+                                posApi.endTrans();
+                            }
+                            break;
+                        case VoidAuthComplete:
+                            if (transInfo.getRespCode().equals("00")) {
+                                transResult.success(transInfo);
+                                posApi.endTrans();
+
+                            } else {
+                                transResult.failed("预授权完成撤销失败, \r\nrespCode[" + transInfo.getRespCode() + "]\r\nrespDesc["
+                                        + transInfo.getRespDesc() + "]" );
+                                posApi.endTrans();
+                            }
+                            break;
                         // 2.消费
                         case Sale:
-//					ToastUtils.CustomShow(mContext,
-//							"消费 完成, \r\nrespCode[" + transInfo.getRespCode() + "]\r\nrespDesc["
-//									+ transInfo.getRespDesc() + "]\r\n卡号[" + transInfo.getPan() + "]\r\n日期["
-//									+ transInfo.getTransDate() + "]\r\n时间[" + transInfo.getTransTime() + "]");
-
                             if (transInfo.getRespCode().equals("00")) {
                                 transResult.success(transInfo);
                                 posApi.endTrans();
@@ -306,13 +362,11 @@ public class EmvImpl implements Emv {
                         case QueryLastTrans:
                             if (transInfo.getRespCode().equals("00")) {
                                 transResult.success(transInfo);
-//                                posApi.endTrans();
 
                             } else {
                                 ToastUtils.CustomShow(mContext, "消费 完成, \r\nrespCode[" + transInfo.getRespCode() + "]\r\nrespDesc["
                                         + transInfo.getRespDesc() + "]\r\n卡号[" + transInfo.getPan() + "]\r\n日期["
                                         + transInfo.getTransDate() + "]\r\n时间[" + transInfo.getTransTime() + "]");
-//                                posApi.endTrans();
 
                             }
                             break;
@@ -464,84 +518,7 @@ public class EmvImpl implements Emv {
         }
     }
 
-//	protected void SaveMidTid(String mid, String tid) {
-//		LoginApiResponse loginData = MyApplication.getInstance().getLoginData();
-//		loginData.setMerchantNo(transInfo.getMid());
-//		loginData.setTerminalNo(transInfo.getTid());
-//		loginData.setDownMasterKey(true);
-////		loginData.setTerminalName(transInfo.getMerchantName());
-//
-//		//更新数据库
-//		ContentValues values = new ContentValues();
-//		values.put("merchantNo", transInfo.getMid());
-//		values.put("terminalNo", transInfo.getTid());
-//		values.put("isDownMasterKey", true);
-//		DataSupport.update(LoginApiResponse.class, values, loginData.getId());
-//	}
 
-//	protected void SaveLoginMasterKey() {
-//		LoginApiResponse loginData = MyApplication.getInstance().getLoginData();
-//		loginData.setDownMasterKey(true);
-//
-//		//更新数据库
-//		ContentValues values = new ContentValues();
-//		values.put("isDownMasterKey", true);
-//		DataSupport.update(LoginApiResponse.class, values, loginData.getId());
-//	}
-
-//	private void setTransSettle() {
-//		LoginApiResponse loginData = MyApplication.getInstance().getLoginData();
-//		posApi.settle(loginData.getTerminalNo(), loginData.getMerchantNo());
-//	}
-
-//	private TransInfo setInitkey() {
-//		transInfo = new TransInfo();
-//
-//		LoginApiResponse loginData = MyApplication.getInstance().getLoginData();
-//		transInfo.setAuthCode(loginData.getOther());
-//		transInfo.setMid(loginData.getMerchantNo());
-//		transInfo.setTid(loginData.getTerminalNo());
-//		LogUtils.e("授权码： "+transInfo.getAuthCode());
-//		LogUtils.e("商户号： "+transInfo.getMid());
-//		LogUtils.e("终端号： "+transInfo.getTid());
-//
-//		return transInfo;
-//	}
-
-//	private ParamInfo setParmInfo() {
-//		ParamInfo param = new ParamInfo();
-//
-//		LoginApiResponse loginData = MyApplication.getInstance().getLoginData();
-//		param.setMid(loginData.getMerchantNo());
-//		param.setTid(loginData.getTerminalNo());
-//		param.setServerIP((String) SPUtils.get(mContext, Constants.HS_IP, Constants.DEFAULT_HS_IP));
-//		param.setServerPort(
-//				Integer.parseInt((String) SPUtils.get(mContext, Constants.HS_PORT, Constants.DEFAULT_HS_PORT)));
-//		param.setTpdu((String) SPUtils.get(mContext, Constants.HS_TPDU, Constants.DEFAULT_HS_TPDU));
-//		param.setKeyIndex(loginData.getKeyIndex());
-//		return param;
-//	}
-
-//	public TransInfo setTransInfo() {
-//		transInfo = new TransInfo();
-//
-//		LoginApiResponse loginData = MyApplication.getInstance().getLoginData();
-//		transInfo.setMid(loginData.getMerchantNo());
-//		transInfo.setTid(loginData.getTerminalNo());
-//		LogUtils.e("商户号： "+transInfo.getMid()+" 终端号： "+transInfo.getTid());
-//		return transInfo;
-//	}
-
-//	public TransInfo setTransUndoInfo(int oldTraceNo) {
-//		transInfo = new TransInfo();
-//
-//		LoginApiResponse loginData = MyApplication.getInstance().getLoginData();
-//		transInfo.setMid(loginData.getMerchantNo());
-//		transInfo.setTid(loginData.getTerminalNo());
-//		transInfo.setOldTrace(oldTraceNo);
-//		LogUtils.e("商户号： "+transInfo.getMid()+" 终端号： "+transInfo.getTid());
-//		return transInfo;
-//	}
 
     /**
      * 获取参数
@@ -696,6 +673,68 @@ public class EmvImpl implements Emv {
     }
 
     /**
+     * 预授权
+     */
+    public void preauth(Context context, int amount, String mid, String tid, TransResult result) {
+        CustomDialog(context, "请刷卡或者插卡");
+        trans_amount = amount;
+        transResult = result;
+        transInfo = new TransInfo();
+        transInfo.setMid(mid);
+        transInfo.setTid(tid);
+        LogUtils.e("商户号： " + transInfo.getMid() + " 终端号： " + transInfo.getTid());
+        posApi.preauth(transInfo);
+    }
+
+    /**
+     * 预授权撤销
+     */
+    public void authCancel(Context context, int amount, String mid, String tid, String authCode, String oldDate,TransResult result) {
+        CustomDialog(context, "请刷卡或者插卡");
+        trans_amount = amount;
+        transResult = result;
+        transInfo = new TransInfo();
+        transInfo.setMid(mid);
+        transInfo.setTid(tid);
+        transInfo.setAuthCode(authCode);
+        transInfo.setOldTransDate(oldDate);
+        LogUtils.e("商户号： " + transInfo.getMid() + " 终端号： " + transInfo.getTid());
+        posApi.authCancel(transInfo);
+    }
+
+    /**
+     * 预授权完成
+     */
+    public void authComplete(Context context, int amount, String mid, String tid, String authCode, String oldDate, TransResult result) {
+        CustomDialog(context, "请刷卡或者插卡");
+        trans_amount = amount;
+        transResult = result;
+        transInfo = new TransInfo();
+        transInfo.setMid(mid);
+        transInfo.setTid(tid);
+        transInfo.setAuthCode(authCode);
+        transInfo.setOldTransDate(oldDate);
+        LogUtils.e("商户号： " + transInfo.getMid() + " 终端号： " + transInfo.getTid());
+        posApi.authComplete(transInfo);
+    }
+
+    /**
+     * 预授权完成撤销
+     */
+    public void voidAuthComplete(Context context, int amount, String mid, String tid, int trace_no,TransResult result) {
+        CustomDialog(context, "请刷卡或者插卡");
+        trans_amount = amount;
+        oldTraceNo = trace_no;
+        transResult = result;
+        transInfo = new TransInfo();
+        transInfo.setMid(mid);
+        transInfo.setTid(tid);
+        LogUtils.e("商户号： " + transInfo.getMid() +"终端号： " + transInfo.getTid() + "流水号: "+ transInfo.getOldTrace());
+        posApi.voidAuthComplete(transInfo);
+    }
+
+
+    /**
      * 消费撤销
      */
     public void voidSale(Context context, int trace_no, String mid, String tid, TransResult result) {//, int mid) {
@@ -737,7 +776,7 @@ public class EmvImpl implements Emv {
         transInfo = new TransInfo();
         transInfo.setMid(mid);
         transInfo.setTid(tid);
-        LogUtils.e("商户号： " + transInfo.getMid() + " 终端号： " + transInfo.getTid());
+        LogUtils.e("商户号： " + transInfo.getMid() + " 终端号： " + transInfo.getTid() );
         posApi.refund(transInfo);
 
     }

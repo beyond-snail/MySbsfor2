@@ -329,6 +329,10 @@ public class LoginAction {
 //            SPUtils.saveDrawable(this, bitmap);
 //        }
 
+        if (StringUtils.isBlank(MyApplication.getInstance().getLoginData().getPrintPic())){
+            return;
+        }
+
         new Thread(new Runnable() {
             @Override
             public void run() {

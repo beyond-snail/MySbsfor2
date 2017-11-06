@@ -215,6 +215,10 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
         switch (payType) {
             case Constants.PAY_WAY_FLOT:
             case Constants.PAY_WAY_UNDO:
+            case Constants.PAY_WAY_AUTHCANCEL:
+            case Constants.PAY_WAY_AUTHCOMPLETE:
+            case Constants.PAY_WAY_VOID_AUTHCOMPLETE:
+            case Constants.PAY_WAY_PREAUTH:
                 show_flot();
                 break;
             case Constants.PAY_WAY_ALY:
@@ -242,6 +246,8 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
     private void showLayout(int type) {
         switch (type) {
             case Constants.PAY_WAY_FLOT:
+            case Constants.PAY_WAY_AUTHCOMPLETE:
+            case Constants.PAY_WAY_PREAUTH:
                 lv_cash.setVisibility(View.GONE);
                 lv_bat.setVisibility(View.GONE);
                 lv_flot.setVisibility(View.VISIBLE);
@@ -249,6 +255,8 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
 
                 break;
             case Constants.PAY_WAY_UNDO:
+            case Constants.PAY_WAY_AUTHCANCEL:
+            case Constants.PAY_WAY_VOID_AUTHCOMPLETE:
                 lv_cash.setVisibility(View.GONE);
                 lv_bat.setVisibility(View.GONE);
                 lv_flot.setVisibility(View.VISIBLE);
@@ -415,7 +423,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
         tvTerminalNo.setText(StringUtils.isEmpty(recordData.getTerminalId()) ? "" : recordData.getTerminalId());
         tvClientOrderNo.setText(StringUtils.isEmpty(recordData.getClientOrderNo()) ? "" : recordData.getClientOrderNo());
         tvOldOrderNo.setText(StringUtils.isEmpty(recordData.getOldOrderId()) ? "" : recordData.getOldOrderId());
-        tvCardNo.setText(StringUtils.isEmpty(recordData.getCardNo()) ? "" : recordData.getCardNo());
+        tvCardNo.setText(StringUtils.isEmpty(recordData.getCardNo()) ? "" : StringUtils.formatCardNo(recordData.getCardNo()));
         tvFOrderAmount.setText(StringUtils.isEmpty(StringUtils.formatIntMoney(recordData.getOrderAmount())) ? "" : StringUtils.formatIntMoney(recordData.getOrderAmount()));
         tvFAmount.setText(StringUtils.isEmpty(recordData.getAmount()) ? "" : recordData.getAmount());
         tvFBackAmount.setText(StringUtils.isEmpty(StringUtils.formatIntMoney(recordData.getBackAmt())) ? "" : StringUtils.formatIntMoney(recordData.getBackAmt()));
@@ -1049,7 +1057,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
             DataSupport.update(SbsPrinterData.class, values, recordData.getId());
 
 
-            myintent.putExtra("isRefund", (recordData.getPayType() == Constants.PAY_WAY_UNDO) ? false : true);
+            myintent.putExtra("isRefund", (recordData.getPayType() == Constants.PAY_WAY_UNDO || recordData.getPayType() == Constants.PAY_WAY_AUTHCANCEL || recordData.getPayType() == Constants.PAY_WAY_VOID_AUTHCOMPLETE) ? false : true);
             myintent.putExtra("isRefundUpload", true);
             setResult(Activity.RESULT_OK, myintent);
 
@@ -1070,7 +1078,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
             DataSupport.update(SbsPrinterData.class, values, recordData.getId());
 
 
-            myintent.putExtra("isRefund", (recordData.getPayType() == Constants.PAY_WAY_UNDO) ? false : true);
+            myintent.putExtra("isRefund", (recordData.getPayType() == Constants.PAY_WAY_UNDO || recordData.getPayType() == Constants.PAY_WAY_AUTHCANCEL || recordData.getPayType() == Constants.PAY_WAY_VOID_AUTHCOMPLETE) ? false : true);
             myintent.putExtra("isRefundUpload", true);
             setResult(Activity.RESULT_OK, myintent);
 
@@ -1120,7 +1128,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
                 recordData.setRefund(true);
                 recordData.setRefundUpload(true);
 
-                myintent.putExtra("isRefund", (recordData.getPayType() == Constants.PAY_WAY_UNDO) ? false : true);
+                myintent.putExtra("isRefund", (recordData.getPayType() == Constants.PAY_WAY_UNDO || recordData.getPayType() == Constants.PAY_WAY_AUTHCANCEL || recordData.getPayType() == Constants.PAY_WAY_VOID_AUTHCOMPLETE) ? false : true);
                 myintent.putExtra("isRefundUpload", true);
 
 
@@ -1145,7 +1153,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
                 recordData.setRefund_order_no(authCode);
                 btnRefund.setText("退款流水上送");
 
-                myintent.putExtra("isRefund", (recordData.getPayType() == Constants.PAY_WAY_UNDO) ? false : true);
+                myintent.putExtra("isRefund", (recordData.getPayType() == Constants.PAY_WAY_UNDO || recordData.getPayType() == Constants.PAY_WAY_AUTHCANCEL || recordData.getPayType() == Constants.PAY_WAY_VOID_AUTHCOMPLETE) ? false : true);
                 setResult(Activity.RESULT_OK, myintent);
             }
 
@@ -1223,7 +1231,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
                 recordData.setRefund(true);
 
 
-                myintent.putExtra("isRefund", (recordData.getPayType() == Constants.PAY_WAY_UNDO) ? false : true);
+                myintent.putExtra("isRefund", (recordData.getPayType() == Constants.PAY_WAY_UNDO || recordData.getPayType() == Constants.PAY_WAY_AUTHCANCEL || recordData.getPayType() == Constants.PAY_WAY_VOID_AUTHCOMPLETE) ? false : true);
                 myintent.putExtra("isRefundUpload", true);
 //                setResult(Activity.RESULT_OK, myintent);
                 if (recordData.getApp_type() == Config.APP_Richer_e) {

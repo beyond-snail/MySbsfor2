@@ -416,18 +416,18 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
         if (point <= 0 && StringUtils.isEmpty(getSn())) {
             return true;
         }
-        final PassWordDialog dialog = new PassWordDialog(MemberActivity.this, R.layout.activity_psw, new PassWordDialog.OnResultInterface() {
-
-            @Override
-            public void onResult(String data) {
-                LogUtils.e(data);
-                pass = Base64Utils.getBase64(data);
-                memberTransAmountAction();
-            }
-        });
-        dialog.setCancelable(true);
-        dialog.show();
-        return false;
+//        final PassWordDialog dialog = new PassWordDialog(MemberActivity.this, R.layout.activity_psw, new PassWordDialog.OnResultInterface() {
+//
+//            @Override
+//            public void onResult(String data) {
+//                LogUtils.e(data);
+//                pass = Base64Utils.getBase64(data);
+//                memberTransAmountAction();
+//            }
+//        });
+//        dialog.setCancelable(true);
+//        dialog.show();
+        return true;
     }
 
     private boolean IsMember() {

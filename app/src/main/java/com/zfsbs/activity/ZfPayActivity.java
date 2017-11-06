@@ -422,7 +422,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (ll_payType.getVisibility() == View.VISIBLE) {
+        if (ll_payType.getVisibility() == View.VISIBLE || ll_no_pay_amount.getVisibility() == View.VISIBLE) {
             sbsAction.OrderCancel(this, clientNo);
         }
     }
@@ -1372,7 +1372,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
         printerData.setOperatorNo((String) SPUtils.get(this, Constants.USER_NAME, ""));
         printerData.setAcquirer(transInfo.getAcquirerCode());
         printerData.setIssuer(transInfo.getIssuerCode());
-        printerData.setCardNo(StringUtils.formatCardNo(transInfo.getPan()));
+        printerData.setCardNo(transInfo.getPan());
         printerData.setTransType(transInfo.getTransType() + "");
         printerData.setExpDate(transInfo.getExpiryDate());
         printerData.setBatchNO(StringUtils.fillZero(transInfo.getBatchNumber() + "", 6));

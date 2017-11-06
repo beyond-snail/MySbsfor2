@@ -271,6 +271,7 @@ public class SbsAction {
         Map<String, Object> paramsMap = new HashMap<String, Object>();
         paramsMap.put("sid", request.getSid());
         paramsMap.put("cardNo", request.getCardNo());
+        paramsMap.put("payCardNo", request.getPayCardNo());
         paramsMap.put("password", request.getPassword());
         paramsMap.put("cash", request.getCash());
         paramsMap.put("bankAmount", request.getBankAmount());

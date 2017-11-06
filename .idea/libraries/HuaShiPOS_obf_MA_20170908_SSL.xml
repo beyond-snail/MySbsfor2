@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="HuaShiPOS_obf_MA_20170908_SSL">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/myhslib/src/main/libs/HuaShiPOS_obf_MA_20170908_SSL.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

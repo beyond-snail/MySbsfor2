@@ -47,6 +47,15 @@ public class Couponsn extends DataSupport implements Serializable {
 
     private String coupon_name;
     private int coupon_money;
+    private int coupon_type;
+
+    public int getCoupon_type() {
+        return coupon_type;
+    }
+
+    public void setCoupon_type(int coupon_type) {
+        this.coupon_type = coupon_type;
+    }
 
     public String getCoupon_name() {
         return coupon_name;

@@ -18,9 +18,19 @@ public class Coupons implements Serializable {
 	private String remark; // 说明信息
 	private int validTimeType;
 	private int days;
+	private int couponType;
 
 	private int canMultiChoose; // 是否可多选
 	private boolean isChecked; // 是否使用
+
+
+	public int getCouponType() {
+		return couponType;
+	}
+
+	public void setCouponType(int couponType) {
+		this.couponType = couponType;
+	}
 
 	public int getId() {
 		return id;

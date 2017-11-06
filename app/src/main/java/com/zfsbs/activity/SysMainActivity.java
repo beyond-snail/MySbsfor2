@@ -5,8 +5,10 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -21,10 +23,13 @@ import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
+import com.tool.utils.view.MyGridView;
 import com.zfsbs.R;
+import com.zfsbs.adapter.MyMenuAdapter;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Config;
 import com.zfsbs.config.Constants;
+import com.zfsbs.config.EnumConstsSbs;
 import com.zfsbs.core.action.FyBat;
 import com.zfsbs.core.action.Printer;
 import com.zfsbs.core.action.RicherQb;
@@ -37,6 +42,7 @@ import com.zfsbs.model.FyMicropayResponse;
 import com.zfsbs.model.FyQueryRequest;
 import com.zfsbs.model.FyQueryResponse;
 import com.zfsbs.model.FyRefundResponse;
+import com.zfsbs.model.Menu;
 import com.zfsbs.model.RechargeUpLoad;
 import com.zfsbs.model.RicherGetMember;
 import com.zfsbs.model.SbsPrinterData;
@@ -46,6 +52,7 @@ import com.zfsbs.myapplication.MyApplication;
 
 import org.litepal.crud.DataSupport;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -54,7 +61,11 @@ import static com.zfsbs.config.Constants.PAY_FY_WX;
 
 
 public class SysMainActivity extends BaseActivity implements OnClickListener {
+	private String TAG = "SysMainActivity";
 
+	private List<Menu> list = new ArrayList<Menu>();
+	private MyGridView gridView;
+	private MyMenuAdapter adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,41 +79,108 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 
 	private void initView() {
 
-		linearLayout(R.id.id_ll_login).setOnClickListener(this);
-		linearLayout(R.id.id_ll_pay_info).setOnClickListener(this);
-		linearLayout(R.id.id_ll_bj).setOnClickListener(this);
-		linearLayout(R.id.id_ll_sm_end_query).setOnClickListener(this);
-		linearLayout(R.id.id_ll_change_master_pass).setOnClickListener(this);
-		linearLayout(R.id.id_ll_sale_manager).setOnClickListener(this);
+//		linearLayout(R.id.id_ll_login).setOnClickListener(this);
+//		linearLayout(R.id.id_ll_pay_info).setOnClickListener(this);
+//		linearLayout(R.id.id_ll_bj).setOnClickListener(this);
+//		linearLayout(R.id.id_ll_sm_end_query).setOnClickListener(this);
+//		linearLayout(R.id.id_ll_change_master_pass).setOnClickListener(this);
+//		linearLayout(R.id.id_ll_sale_manager).setOnClickListener(this);
+
+		for (int i = 0; i < EnumConstsSbs.SystemMenuType.values().length; i++){
+			Menu menu = new Menu();
+			menu.setBg(EnumConstsSbs.SystemMenuType.values()[i].getBg());
+			menu.setName(EnumConstsSbs.SystemMenuType.values()[i].getName());
+			list.add(menu);
+		}
+
+
+
+		gridView = (MyGridView) findViewById(R.id.id_gridview);
+		adapter = new MyMenuAdapter(mContext, list);
+		gridView.setAdapter(adapter);
+		gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Log.e(TAG, "onItemClick " + position);
+				// 下拉刷新占据一个位置
+				int index = EnumConstsSbs.SystemMenuType.getCodeByName(list.get(position).getName());
+				switch (index){
+					case 1:
+						CommonFunc.startAction(SysMainActivity.this, GetLoginInfoActivity1.class, true);
+						break;
+					case 2:
+						CommonFunc.startAction(SysMainActivity.this, LoginInfoActivity.class, false);
+						break;
+					case 7:
+						CommonFunc.startAction(SysMainActivity.this, ShiftRoomActivity.class, false);
+						break;
+					case 4:
+						endQuery1();
+						break;
+					case 5:
+						CommonFunc.startAction(SysMainActivity.this, MasterChangePass.class, false);
+						break;
+					case 6:
+						CommonFunc.startAction(SysMainActivity.this, HsSaleManagerActivity.class, false);
+						break;
+					case 3:
+						SPUtils.put(SysMainActivity.this, Config.APP_TYPE, Config.APP_SBS);
+						if (isCheckStatus()) {
+							CommonFunc.startAction(SysMainActivity.this, InputAmountActivity2.class, false);
+						} else {
+							CommonFunc.startAction(SysMainActivity.this, HsSaleManagerActivity.class, false);
+						}
+						break;
+				}
+			}
+		});
+	}
+
+	private boolean isCheckStatus() {
+
+		if (!MyApplication.getInstance().getLoginData().isDownMasterKey()) {
+//            DownMasterKey();
+			ToastUtils.CustomShow(this, "请下载主密钥。。。");
+			return false;
+		}
+
+		if (CommonFunc.isLogin(this, Constants.HS_LOGIN_TIME, Constants.DEFAULT_HS_LOGIN_TIME)) {
+//            Hslogin();
+			ToastUtils.CustomShow(this, "请签到。。。");
+			return false;
+		}
+
+		return true;
 	}
 
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.id_ll_login:
-				CommonFunc.startAction(this, GetLoginInfoActivity1.class, true);
-				break;
-			case R.id.id_ll_pay_info:
-				CommonFunc.startAction(this, LoginInfoActivity.class, false);
-				break;
-//			case R.id.id_ll_change_pwd:
-//				CommonFunc.startAction(this, ChangePassActivity.class, false);
+//			case R.id.id_ll_login:
+//				CommonFunc.startAction(this, GetLoginInfoActivity1.class, true);
 //				break;
-			case R.id.id_ll_bj:
-				CommonFunc.startAction(this, ShiftRoomActivity.class, false);
-				break;
-			case R.id.id_ll_sm_end_query:
-				endQuery1();
-				break;
-			case R.id.id_ll_change_master_pass:
-				CommonFunc.startAction(this, MasterChangePass.class, false);
-				break;
-			case R.id.id_ll_sale_manager:
-                CommonFunc.startAction(this, HsSaleManagerActivity.class, false);
-                break;
-			default:
-				break;
+//			case R.id.id_ll_pay_info:
+//				CommonFunc.startAction(this, LoginInfoActivity.class, false);
+//				break;
+////			case R.id.id_ll_change_pwd:
+////				CommonFunc.startAction(this, ChangePassActivity.class, false);
+////				break;
+//			case R.id.id_ll_bj:
+//				CommonFunc.startAction(this, ShiftRoomActivity.class, false);
+//				break;
+//			case R.id.id_ll_sm_end_query:
+//				endQuery1();
+//				break;
+//			case R.id.id_ll_change_master_pass:
+//				CommonFunc.startAction(this, MasterChangePass.class, false);
+//				break;
+//			case R.id.id_ll_sale_manager:
+//                CommonFunc.startAction(this, HsSaleManagerActivity.class, false);
+//                break;
+//			default:
+//				break;
 		}
 	}
 
@@ -401,7 +479,6 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 	/**
 	 * 设置钱包参数
 	 *
-	 * @param data
 	 * @param orderNo
 	 * @param time
 	 * @param traceNum

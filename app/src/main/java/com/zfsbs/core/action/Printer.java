@@ -301,6 +301,10 @@ public class Printer {
         switch (printerData.getPayType()) {
             case Constants.PAY_WAY_FLOT:
             case Constants.PAY_WAY_UNDO:
+            case Constants.PAY_WAY_AUTHCANCEL:
+            case Constants.PAY_WAY_AUTHCOMPLETE:
+            case Constants.PAY_WAY_VOID_AUTHCOMPLETE:
+            case Constants.PAY_WAY_PREAUTH:
                 printer_flot(printerData);
                 break;
             case Constants.PAY_WAY_ALY:
@@ -377,6 +381,9 @@ public class Printer {
             }
             if (!StringUtils.isEmpty(printerData.getExpDate())) {
                 printerDevice.printlnText(format, "有效期：" + printerData.getExpDate());
+            }
+            if (!StringUtils.isEmpty(printerData.getAuthNo())) {
+                printerDevice.printlnText(format, "授权码：" + printerData.getAuthNo());
             }
             if (!StringUtils.isEmpty(printerData.getBatchNO())) {
                 printerDevice.printlnText(format, "批次号：" + printerData.getBatchNO());
@@ -499,8 +506,13 @@ public class Printer {
                     List<Couponsn> couponsns = gson.fromJson(printerData.getCouponData(), new TypeToken<List<Couponsn>>() {
                     }.getType());
                     for (int i=0; i < couponsns.size(); i++){
-                        printerDevice.printlnText(format, "优惠券名称：" + couponsns.get(i).getCoupon_name());
-                        printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(couponsns.get(i).getCoupon_money()));
+                        if (couponsns.get(i).getCoupon_type() == 2){
+                            printerDevice.printlnText(format, "折扣券名称：" + couponsns.get(i).getCoupon_name());
+                            printerDevice.printlnText(format, "折扣券折扣：" + couponsns.get(i).getCoupon_money()/100+"折");
+                        }else {
+                            printerDevice.printlnText(format, "优惠券名称：" + couponsns.get(i).getCoupon_name());
+                            printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(couponsns.get(i).getCoupon_money()));
+                        }
                     }
 //                    if (!StringUtils.isEmpty(printerData.getTitle_url())) {
 //
@@ -676,8 +688,13 @@ public class Printer {
                     List<Couponsn> couponsns = gson.fromJson(printerData.getCouponData(), new TypeToken<List<Couponsn>>() {
                     }.getType());
                     for (int i=0; i < couponsns.size(); i++){
-                        printerDevice.printlnText(format, "优惠券名称：" + couponsns.get(i).getCoupon_name());
-                        printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(couponsns.get(i).getCoupon_money()));
+                        if (couponsns.get(i).getCoupon_type() == 2){
+                            printerDevice.printlnText(format, "折扣券名称：" + couponsns.get(i).getCoupon_name());
+                            printerDevice.printlnText(format, "折扣券折扣：" + couponsns.get(i).getCoupon_money()/100+"折");
+                        }else {
+                            printerDevice.printlnText(format, "优惠券名称：" + couponsns.get(i).getCoupon_name());
+                            printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(couponsns.get(i).getCoupon_money()));
+                        }
                     }
 //                    if (!StringUtils.isEmpty(printerData.getTitle_url())) {
 //
@@ -851,8 +868,13 @@ public class Printer {
                     List<Couponsn> couponsns = gson.fromJson(printerData.getCouponData(), new TypeToken<List<Couponsn>>() {
                     }.getType());
                     for (int i=0; i < couponsns.size(); i++){
-                        printerDevice.printlnText(format, "优惠券名称：" + couponsns.get(i).getCoupon_name());
-                        printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(couponsns.get(i).getCoupon_money()));
+                        if (couponsns.get(i).getCoupon_type() == 2){
+                            printerDevice.printlnText(format, "折扣券名称：" + couponsns.get(i).getCoupon_name());
+                            printerDevice.printlnText(format, "折扣券折扣：" + couponsns.get(i).getCoupon_money()/100+"折");
+                        }else {
+                            printerDevice.printlnText(format, "优惠券名称：" + couponsns.get(i).getCoupon_name());
+                            printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(couponsns.get(i).getCoupon_money()));
+                        }
                     }
 //                    if (!StringUtils.isEmpty(printerData.getTitle_url())) {
 //

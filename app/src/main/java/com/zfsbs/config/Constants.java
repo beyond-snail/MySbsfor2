@@ -88,6 +88,11 @@ public class Constants {
 	public static final int PAY_WAY_REFUND_UNIPAY = 23; //银联二维码支付
 	public static final int PAY_WAY_RECHARGE_UNIPAY = 22; //银联二维码支付
 
+	public static final int PAY_WAY_PREAUTH = 24; //预授权
+	public static final int PAY_WAY_AUTHCANCEL = 25; //预授权撤销
+	public static final int PAY_WAY_AUTHCOMPLETE = 26; //预授权完成
+	public static final int PAY_WAY_VOID_AUTHCOMPLETE = 27; //预授权完成撤销
+
 	//富友双商户 密钥索引对应
 	public static final int FY_INDEX_0 = 0;
 	public static final int FY_INDEX_1 = 1;
@@ -194,6 +199,18 @@ public class Constants {
 		switch (type) {
 			case PAY_WAY_FLOT:
 				str += "刷卡/插卡";
+				break;
+			case PAY_WAY_AUTHCANCEL:
+				str += "预授权撤销";
+				break;
+			case PAY_WAY_PREAUTH:
+				str += "预授权";
+				break;
+			case PAY_WAY_AUTHCOMPLETE:
+				str += "预授权完成";
+				break;
+			case PAY_WAY_VOID_AUTHCOMPLETE:
+				str += "预授权完成撤销";
 				break;
 			case PAY_WAY_UNDO:
 				str += "刷卡/插卡(已撤销)";

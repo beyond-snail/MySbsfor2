@@ -58,6 +58,61 @@ public class EnumConstsSbs {
 
 	}
 
+	public enum SystemMenuType {
+
+		SYS_MENU_1(1, R.color.menu1,"签到"),
+		SYS_MENU_2(2, R.color.menu2,"收款信息"),
+		SYS_MENU_7(3, R.color.menu3,"预授权"),
+		SYS_MENU_4(4, R.color.menu4,"扫码末笔查询"),
+		SYS_MENU_5(5, R.color.menu5,"主管理员密码修改"),
+		SYS_MENU_6(6, R.color.menu6,"消费管理"),
+		SYS_MENU_3(7, R.color.menu1,"班结"),
+		;
+
+		private int code;
+		private int bg;
+		private String name;
+
+		SystemMenuType(int code, int bg, String name) {
+			this.code = code;
+			this.bg = bg;
+			this.name = name;
+		}
+
+		public int getCode() {
+			return code;
+		}
+
+		public int getBg() {
+			return bg;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public static SystemMenuType getByCode(int code) {
+			SystemMenuType[] timeZoneTypes = SystemMenuType.values();
+			for (SystemMenuType timeZoneType : timeZoneTypes) {
+				if (timeZoneType.getCode() == code) {
+					return timeZoneType;
+				}
+			}
+			return null;
+		}
+
+		public static int getCodeByName(String name) {
+			SystemMenuType[] timeZoneTypes = SystemMenuType.values();
+			for (SystemMenuType timeZoneType : timeZoneTypes) {
+				if (timeZoneType.getName() == name) {
+					return timeZoneType.getCode();
+				}
+			}
+			return -1;
+		}
+
+	}
+
 
 
 	// 支付方式

@@ -12,6 +12,7 @@ public class TransUploadRequest extends DataSupport implements Serializable {
 	private int id;
 	private int sid; // 商户ID
 	private String cardNo; // 会员卡号
+	private String payCardNo; //银行卡号
 	private String password; // 根据是否免密判断是否有密码输入(此处可以连带)
 	private int cash; // 现金消费金额
 	private int bankAmount; // 网银支付额度
@@ -49,6 +50,14 @@ public class TransUploadRequest extends DataSupport implements Serializable {
 
 	public void setCardNo(String cardNo) {
 		this.cardNo = cardNo;
+	}
+
+	public String getPayCardNo() {
+		return payCardNo;
+	}
+
+	public void setPayCardNo(String payCardNo) {
+		this.payCardNo = payCardNo;
 	}
 
 	public String getPassword() {
@@ -227,6 +236,7 @@ public class TransUploadRequest extends DataSupport implements Serializable {
 				"id=" + id +
 				", sid=" + sid +
 				", cardNo='" + cardNo + '\'' +
+				", payCardNo='" + payCardNo + '\'' +
 				", password='" + password + '\'' +
 				", cash=" + cash +
 				", bankAmount=" + bankAmount +

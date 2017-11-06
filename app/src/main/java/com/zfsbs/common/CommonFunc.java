@@ -417,6 +417,7 @@ public class CommonFunc {
             request.setCash(memberData.getRealMoney());
             request.setBankAmount(0);
         } else {
+            request.setPayCardNo(printerData.getCardNo());
             request.setCash(0);
             request.setBankAmount(memberData.getRealMoney());
         }

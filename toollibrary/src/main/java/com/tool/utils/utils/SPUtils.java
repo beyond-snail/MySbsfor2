@@ -470,6 +470,9 @@ public class SPUtils {
     public static Bitmap loadDrawable(Context context) {
 //		String temp = share.getString("P", "");
         String temp = (String) get(context, "bitmap", "");
+        if ("".equals(temp)){
+            return null;
+        }
         ByteArrayInputStream bais = new ByteArrayInputStream(Base64.decode(temp.getBytes(), Base64.DEFAULT));
         return drawableToBitmap(Drawable.createFromStream(bais, ""));
     }

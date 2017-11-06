@@ -118,6 +118,7 @@ public class MyMenuAdapter extends BaseAdapter {
 
         holder.ll.setBackgroundColor(mContext.getResources().getColor(vo.getBg()));
         holder.tv.setText(vo.getName());
+        holder.tv.setTextSize(16f);
 
 
         return convertView;

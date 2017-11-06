@@ -38,6 +38,7 @@ import android.content.Context;
 import com.mycommonlib.model.ComSettleInfo;
 import com.mycommonlib.model.ComTransInfo;
 import com.myhslib.core.EmvImpl;
+import com.tool.utils.utils.ALog;
 import com.tool.utils.utils.GsonUtils;
 import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.StringUtils;
@@ -53,6 +54,10 @@ import com.wizarpos.hspos.api.TransInfo;
 
 
 public class PayCommon {
+
+
+    private static final String TAG = "PayCommon";
+
 
 
     public interface ComTransResult<T> {
@@ -280,6 +285,112 @@ public class PayCommon {
             @Override
             public void success(TransInfo transInfo) {
                 ComTransInfo comTransInfo = GsonUtils.modelA2B(transInfo, ComTransInfo.class);
+                ALog.e(TAG, comTransInfo.toString());
+                comTransResult.success(comTransInfo);
+
+            }
+
+            @Override
+            public void failed(String error) {
+                comTransResult.failed(error);
+            }
+
+        });
+    }
+
+    /**
+     * 预授权
+     *
+     * @param context
+     * @param amount
+     * @param comTransResult
+     */
+    public static void PreAuth(Context context, int amount, String mid, String tid, final ComTransResult comTransResult) {
+        EmvImpl.getInstance(context).preauth(context, amount, mid, tid, new EmvImpl.TransResult<TransInfo>() {
+
+            @Override
+            public void success(TransInfo transInfo) {
+                ComTransInfo comTransInfo = GsonUtils.modelA2B(transInfo, ComTransInfo.class);
+                ALog.e(TAG, comTransInfo.toString());
+                comTransResult.success(comTransInfo);
+
+            }
+
+            @Override
+            public void failed(String error) {
+                comTransResult.failed(error);
+            }
+
+        });
+    }
+
+    /**
+     * 预授权撤销
+     *
+     * @param context
+     * @param amount
+     * @param comTransResult
+     */
+    public static void AuthCancel(Context context, int amount, String mid, String tid, String authCode, String oldDate, final ComTransResult comTransResult) {
+        EmvImpl.getInstance(context).authCancel(context, amount, mid, tid, authCode, oldDate, new EmvImpl.TransResult<TransInfo>() {
+
+            @Override
+            public void success(TransInfo transInfo) {
+                ComTransInfo comTransInfo = GsonUtils.modelA2B(transInfo, ComTransInfo.class);
+                ALog.e(TAG, comTransInfo.toString());
+                comTransResult.success(comTransInfo);
+
+            }
+
+            @Override
+            public void failed(String error) {
+                comTransResult.failed(error);
+            }
+
+        });
+    }
+
+
+    /**
+     * 预授权完成
+     *
+     * @param context
+     * @param amount
+     * @param comTransResult
+     */
+    public static void AuthComplete(Context context, int amount, String mid, String tid, String authCode, String oldDate, final ComTransResult comTransResult) {
+        EmvImpl.getInstance(context).authComplete(context, amount, mid, tid, authCode, oldDate, new EmvImpl.TransResult<TransInfo>() {
+
+            @Override
+            public void success(TransInfo transInfo) {
+                ComTransInfo comTransInfo = GsonUtils.modelA2B(transInfo, ComTransInfo.class);
+                ALog.e(TAG, comTransInfo.toString());
+                comTransResult.success(comTransInfo);
+
+            }
+
+            @Override
+            public void failed(String error) {
+                comTransResult.failed(error);
+            }
+
+        });
+    }
+
+    /**
+     * 预授权完成撤销
+     *
+     * @param context
+     * @param amount
+     * @param comTransResult
+     */
+    public static void VoidAuthComplete(Context context, int amount, String mid, String tid, int trace_no, final ComTransResult comTransResult) {
+        EmvImpl.getInstance(context).voidAuthComplete(context, amount, mid, tid, trace_no, new EmvImpl.TransResult<TransInfo>() {
+
+            @Override
+            public void success(TransInfo transInfo) {
+                ComTransInfo comTransInfo = GsonUtils.modelA2B(transInfo, ComTransInfo.class);
+                ALog.e(TAG, comTransInfo.toString());
                 comTransResult.success(comTransInfo);
 
             }
