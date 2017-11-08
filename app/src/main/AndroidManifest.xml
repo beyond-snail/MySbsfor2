@@ -182,7 +182,14 @@
             android:enabled="true"
             android:exported="true"></receiver>
 
-        <activity android:name=".activity.VerificationActivity"></activity>
+        <activity android:name=".activity.VerificationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name=".activity.YyVerificationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".activity.RechargeActivity"
             android:screenOrientation="portrait"

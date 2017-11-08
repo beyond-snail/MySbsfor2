@@ -17,7 +17,7 @@ import com.zfsbs.model.TicektResponse;
 import com.zfsbs.myapplication.MyApplication;
 
 
-public class VerificationActivity extends BaseActivity implements View.OnClickListener {
+public class YyVerificationActivity extends BaseActivity implements View.OnClickListener {
 
     private LinearLayout ll;
     private TextView tType;
@@ -33,8 +33,8 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
-        setContentView(R.layout.activity_veriflation);
-        initTitle("券码核销");
+        setContentView(R.layout.activity_yy_veriflation);
+        initTitle("异业券码核销");
         initView();
     }
 
@@ -72,7 +72,7 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
                 commitTicket();
                 break;
             case R.id.id_scan:
-                CommonFunc.startResultAction(VerificationActivity.this, CaptureActivity.class, null, 1);
+                CommonFunc.startResultAction(YyVerificationActivity.this, CaptureActivity.class, null, 1);
                 break;
         }
     }
@@ -104,13 +104,13 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
         sbsAction.ticketPay(this, sid, ticketNo, sn, orderNo, new ActionCallbackListener<String>() {
             @Override
             public void onSuccess(String data) {
-                ToastUtils.CustomShow(VerificationActivity.this, data);
+                ToastUtils.CustomShow(YyVerificationActivity.this, data);
                 onBackPressed();
             }
 
             @Override
             public void onFailure(String errorEvent, String message) {
-                ToastUtils.CustomShow(VerificationActivity.this, message);
+                ToastUtils.CustomShow(YyVerificationActivity.this, message);
             }
 
             @Override
@@ -135,7 +135,7 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onSuccess(TicektResponse data) {
                 if (data == null){
-                    ToastUtils.CustomShow(VerificationActivity.this, "无券信息");
+                    ToastUtils.CustomShow(YyVerificationActivity.this, "无券信息");
                     return;
                 }
                 ll.setVisibility(View.VISIBLE);
@@ -152,7 +152,7 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
 
             @Override
             public void onFailure(String errorEvent, String message) {
-                ToastUtils.CustomShow(VerificationActivity.this, message);
+                ToastUtils.CustomShow(YyVerificationActivity.this, message);
             }
 
             @Override

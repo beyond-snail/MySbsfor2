@@ -34,6 +34,7 @@ import com.zfsbs.view.ConponsDialog;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.zfsbs.common.CommonFunc.getNewClientSn;
@@ -81,6 +82,7 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
         tDoPoint = (TextView) findViewById(R.id.id_do_point);
         etUsedPoint = (EditText) findViewById(R.id.id_use_point);
         etUsedPoint.setCursorVisible(false);// 隐藏光标
+        etUsedPoint.setEnabled(true);
         tPointAmount = (TextView) findViewById(R.id.id_point_amount);
         tIsUsedPoint = (TextView) findViewById(R.id.id_isUsed_point);
         tUseCouponsNum = (TextView) findViewById(R.id.id_coupon_num);
@@ -115,18 +117,26 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
             pointChangeRate = couponResponse.getPointChangeRate();
             frequency_min = couponResponse.getFrequency_min();
 
+            if (couponResponse.getCantVerifyReason() == 1){
+                rinearLayout(R.id.ll_show_do_point).setVisibility(View.GONE);
+                linearLayout(R.id.ll_show_edit_point).setVisibility(View.GONE);
+            }
 
-            double amountBig = Arith.mul(amount, pointChangeRate);
-            double amountToPoint = Arith.divide(amountBig, 100);
-            LogUtils.e("amountToPoint:" + amountToPoint);
+            getMaxUsePoint(amount);
 
-
-
-            pointMin = (int) Math.floor(StringUtils.min(amountToPoint, (double) couponResponse.getPoint(), (double) couponResponse.getPointUseMax()));
-
-            LogUtils.e("pointMin:" + pointMin);
             showCouponsChecked();
         }
+    }
+
+    //计算最大使用积分数
+    private void getMaxUsePoint(int amount){
+        double amountBig = Arith.mul(amount, pointChangeRate);
+        double amountToPoint = Arith.divide(amountBig, 100);
+        LogUtils.e("amountToPoint:" + amountToPoint);
+
+        pointMin = (int) Math.floor(StringUtils.min(amountToPoint, (double) couponResponse.getPoint(), (double) couponResponse.getPointUseMax()));
+
+        LogUtils.e("pointMin:" + pointMin);
     }
 
 
@@ -143,15 +153,12 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//            LogUtils.e("beforeTextChanged:" + s.toString());
         }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             tIsUsedPoint.setSelected(false);
             point = 0;
-
-//            LogUtils.e("onTextChanged:" + s.toString());
         }
 
         @Override
@@ -174,9 +181,10 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
 
                     tPointAmount.setText("可抵用" + StringUtils.formatIntMoney((int) temp1) + "元");
 
-
-                    tIsUsedPoint.setSelected(true);
-                    point = pointMin;//(int) (Double.parseDouble(etUsedPoint.getText().toString()));
+                    if (pointMin != 0) {
+                        tIsUsedPoint.setSelected(true);
+                    }
+                    point = pointMin;
                     isChanged = false;
                     return;
                 } else {
@@ -210,23 +218,20 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
                         point = 0;
                     }
                 }
-                if (IsInputPass()) {
-                    memberTransAmountAction();
+
+                int money = 0;
+                for (int i = 0; i < couponResponse.getCouponNum(); i++) {
+                    if (couponResponse.getCoupons().get(i).getCouponType() ==1 &&
+                            couponResponse.getCoupons().get(i).isChecked()){
+                        money += couponResponse.getCoupons().get(i).getMoney();
+                    }
                 }
-//                if (IsMember()) {
-//                    if (IsInputPass()) {
-//                        memberTransAmountAction();
-//                    }
-//                }
+                if (amount <= money){
+                    point = 0;
+                }
+                memberTransAmountAction();
                 break;
             case R.id.id_no_used:
-//                Bundle bundle = new Bundle();
-//                bundle.putString("amount", StringUtils.formatIntMoney(amount));
-//                if (couponResponse.isMember()) {
-//                    bundle.putString("member", couponResponse.getMemberCardNo());
-//                }
-//                startAction(this, ZfPayActivity.class, bundle, true);
-
 
                 //备份订单号
                 SetClientOrder order = new SetClientOrder();
@@ -322,24 +327,52 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
                 case 0:
                     for (int i = 0; i < couponResponse.getCouponNum(); i++) {
                         if (couponResponse.getCoupons().get(i).isChecked()) {
-                            tShowUsedCoupons.setText("当前默认使用了1张优惠券，面额为："
-                                    + StringUtils.formatIntMoney(couponResponse.getCoupons().get(i).getMoney()) + "元");
+                            if (couponResponse.getCoupons().get(i).getCouponType() == 2) {
+
+                                    tShowUsedCoupons.setText("当前默认使用了1张打折券，面额为："
+                                            +couponResponse.getCoupons().get(i).getMoney()/100.0 + "折");
+
+                            }else{
+                                tShowUsedCoupons.setText("当前默认使用了1张优惠券，面额为："
+                                        + StringUtils.formatIntMoney(couponResponse.getCoupons().get(i).getMoney()) + "元");
+                            }
                             break;
                         }
                     }
 
                     break;
                 case 1:
+
                     int num = 0;
                     int money = 0;
+
+                    tShowUsedCoupons.setText("");
+                    etUsedPoint.setEnabled(true);
                     for (int i = 0; i < couponResponse.getCouponNum(); i++) {
                         if (couponResponse.getCoupons().get(i).isChecked()) {
-                            money+=couponResponse.getCoupons().get(i).getMoney();
-                            num++;
+                            if (couponResponse.getCoupons().get(i).getCouponType() == 1) {
+                                money += couponResponse.getCoupons().get(i).getMoney();
+                                num++;
+                                tShowUsedCoupons.setText("当前使用了 " + num + " 张优惠券,面额为："+StringUtils.formatIntMoney(money) + "元");
+                                if (amount <= money) {
+                                    etUsedPoint.setEnabled(false);
+                                    etUsedPoint.setText("");
+                                    tIsUsedPoint.setSelected(false);
+                                }else {
+                                    getMaxUsePoint(amount-money);
+                                    etUsedPoint.setText("");
+                                    tIsUsedPoint.setSelected(false);
+                                }
+                            }else{
+                                tShowUsedCoupons.setText("当前使用了1张打折券,面额为："+ couponResponse.getCoupons().get(i).getMoney()/100.0 + "折\n");
+                                getMaxUsePoint((amount * couponResponse.getCoupons().get(i).getMoney())/1000);
+                                etUsedPoint.setText("");
+                                tIsUsedPoint.setSelected(false);
+                            }
                         }
                     }
-//                    tShowUsedCoupons.setText("当前使用了 " + num + " 张优惠券,请通过列表查看");
-                    tShowUsedCoupons.setText("当前使用了 " + num + " 张优惠券,面额为："+StringUtils.formatIntMoney(money) + "元");
+//                }
+
                     break;
                 default:
                     break;
@@ -353,18 +386,50 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
     // 默认选中最大金额的
     private void CheckMaxAmount() {
         int max = 0;
-        // 找出最大金额
-        for (int i = 0; i < couponResponse.getCouponNum(); i++) {
-            if (couponResponse.getCoupons().get(i).getMoney() > max) {
-                max = couponResponse.getCoupons().get(i).getMoney();
+        int min = 0;
+
+        List<Integer> inputMax = new ArrayList<Integer>();
+        List<Integer> inputMin = new ArrayList<Integer>();
+        for (int i = 0; i < couponResponse.getCouponNum(); i++){
+            if (couponResponse.getCoupons().get(i).getCouponType() == 1) {
+                inputMax.add(couponResponse.getCoupons().get(i).getMoney());
+            }else {
+                inputMin.add(couponResponse.getCoupons().get(i).getMoney());
             }
         }
+        if (inputMin.size() > 0) {
+            min = Collections.min(inputMin);
+        }
+        if (inputMax.size() > 0) {
+            max = Collections.max(inputMax);
+        }
         LogUtils.e("max= " + max);
+        LogUtils.e("min= " + min);
         // 判断是哪个选项
         for (int i = 0; i < couponResponse.getCouponNum(); i++) {
-            if (couponResponse.getCoupons().get(i).getMoney() == max) {
-                couponResponse.getCoupons().get(i).setChecked(true);
-                break;
+
+            if (inputMin.size() > 0){
+                if (couponResponse.getCoupons().get(i).getMoney() == min){
+                    couponResponse.getCoupons().get(i).setChecked(true);
+                    getMaxUsePoint((amount * couponResponse.getCoupons().get(i).getMoney())/1000);
+                    etUsedPoint.setText("");
+                    tIsUsedPoint.setSelected(false);
+                    break;
+                }
+            }
+            if (inputMax.size() > 0){
+                if (couponResponse.getCoupons().get(i).getMoney() == max){
+                    couponResponse.getCoupons().get(i).setChecked(true);
+                    if (couponResponse.getCoupons().get(i).getMoney() >= amount){
+                        etUsedPoint.setEnabled(false);
+                    }else{
+                        getMaxUsePoint(amount-couponResponse.getCoupons().get(i).getMoney());
+                        etUsedPoint.setText("");
+                        tIsUsedPoint.setSelected(false);
+                    }
+
+                    break;
+                }
             }
         }
     }
@@ -409,62 +474,62 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
         return (sn.toString().length() > 0 ? sn.substring(0, sn.toString().length() - 1) : "");
     }
 
-    private boolean IsInputPass() {
-        if (couponResponse.isFreePassword()) {
-            return true;
-        }
-        if (point <= 0 && StringUtils.isEmpty(getSn())) {
-            return true;
-        }
-//        final PassWordDialog dialog = new PassWordDialog(MemberActivity.this, R.layout.activity_psw, new PassWordDialog.OnResultInterface() {
+//    private boolean IsInputPass() {
+//        if (couponResponse.isFreePassword()) {
+//            return true;
+//        }
+//        if (point <= 0 && StringUtils.isEmpty(getSn())) {
+//            return true;
+//        }
+////        final PassWordDialog dialog = new PassWordDialog(MemberActivity.this, R.layout.activity_psw, new PassWordDialog.OnResultInterface() {
+////
+////            @Override
+////            public void onResult(String data) {
+////                LogUtils.e(data);
+////                pass = Base64Utils.getBase64(data);
+////                memberTransAmountAction();
+////            }
+////        });
+////        dialog.setCancelable(true);
+////        dialog.show();
+//        return true;
+//    }
 //
-//            @Override
-//            public void onResult(String data) {
-//                LogUtils.e(data);
-//                pass = Base64Utils.getBase64(data);
-//                memberTransAmountAction();
-//            }
-//        });
-//        dialog.setCancelable(true);
+//    private boolean IsMember() {
+//        // 根据姓名来判断是否输入会员
+//        if (StringUtils.isEmpty(couponResponse.getMemberName())) {
+//            MemberDialog dialog = new MemberDialog(MemberActivity.this, R.layout.activity_member_name,
+//                    new MemberDialog.onClickLeftListener() {
+//
+//                        @Override
+//                        public void onClickLeft(MemberDialog dialog, String result) {
+//                            dialog.dismiss();
+//                            couponResponse.setMemberName(result);
+//                            memberTransAmountAction();
+//                        }
+//
+//                    }, new MemberDialog.onClickRightListener() {
+//                @Override
+//                public void onClickRight(MemberDialog dialog) {
+//                    dialog.dismiss();
+//                }
+//            });
+//            dialog.show();
+//            return false;
+//        }
+//        return true;
+//    }
+//
+//    private void testData() {
+//        List<Coupons> data = new ArrayList<>();
+//        for (int i = 0; i < 15; i++) {
+//            Coupons coupons = new Coupons();
+//            coupons.setMoney(12);
+//            coupons.setName("优惠券名称" + i);
+//            data.add(coupons);
+//        }
+//        ConponsDialog dialog = new ConponsDialog(this, R.layout.activity_coupons_list, data);
 //        dialog.show();
-        return true;
-    }
-
-    private boolean IsMember() {
-        // 根据姓名来判断是否输入会员
-        if (StringUtils.isEmpty(couponResponse.getMemberName())) {
-            MemberDialog dialog = new MemberDialog(MemberActivity.this, R.layout.activity_member_name,
-                    new MemberDialog.onClickLeftListener() {
-
-                        @Override
-                        public void onClickLeft(MemberDialog dialog, String result) {
-                            dialog.dismiss();
-                            couponResponse.setMemberName(result);
-                            memberTransAmountAction();
-                        }
-
-                    }, new MemberDialog.onClickRightListener() {
-                @Override
-                public void onClickRight(MemberDialog dialog) {
-                    dialog.dismiss();
-                }
-            });
-            dialog.show();
-            return false;
-        }
-        return true;
-    }
-
-    private void testData() {
-        List<Coupons> data = new ArrayList<>();
-        for (int i = 0; i < 15; i++) {
-            Coupons coupons = new Coupons();
-            coupons.setMoney(12);
-            coupons.setName("优惠券名称" + i);
-            data.add(coupons);
-        }
-        ConponsDialog dialog = new ConponsDialog(this, R.layout.activity_coupons_list, data);
-        dialog.show();
-    }
+//    }
 
 }

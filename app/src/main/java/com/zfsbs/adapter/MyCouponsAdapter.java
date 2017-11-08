@@ -25,8 +25,13 @@ public class MyCouponsAdapter extends CommonAdapter<Coupons> {
 
 	@Override
 	public void convert(final Context context, final ViewHolder holder, final Coupons coupons) {
-		holder.setText(R.id.id_coupon_amount, StringUtils.formatIntMoney(coupons.getMoney()) + "元券").setText(
-				R.id.id_coupon_name, coupons.getName() + " (" + ((coupons.isCanMultiChoose() != 0) ? "可多选" : "不可多选") + ")");
+		if(coupons.getCouponType() == 2){
+				holder.setText(R.id.id_coupon_amount, coupons.getMoney() / 100.0 + "折").setText(
+						R.id.id_coupon_name, coupons.getName() + " (" + ((coupons.isCanMultiChoose() != 0) ? "可多选" : "不可多选") + ")");
+		}else {
+			holder.setText(R.id.id_coupon_amount, StringUtils.formatIntMoney(coupons.getMoney()) + "元券").setText(
+					R.id.id_coupon_name, coupons.getName() + " (" + ((coupons.isCanMultiChoose() != 0) ? "可多选" : "不可多选") + ")");
+		}
 		final CheckBox cBox = (CheckBox) (holder.getView(R.id.id_isUsed));
 		if (cBox != null) {
 			cBox.setChecked(coupons.isChecked());
@@ -39,7 +44,6 @@ public class MyCouponsAdapter extends CommonAdapter<Coupons> {
 					if (coupons.isCanMultiChoose() == 0 && !coupons.isChecked()) {
 						coupons.setChecked(cBox.isChecked());
 						CouponsResetCheckUI(coupons);
-//						ToastUtils.CustomShow(context, "该券不可与其他共用");
 					} else if (coupons.isCanMultiChoose() == 0 && coupons.isChecked()) {
 						coupons.setChecked(cBox.isChecked());
 						notifyDataSetChanged();

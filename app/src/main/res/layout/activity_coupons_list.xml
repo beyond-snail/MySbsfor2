@@ -34,7 +34,7 @@
             android:layout_centerVertical="true"
             android:text="优惠券列表"
             android:textColor="@color/white"
-            android:textSize="28.0sp" />
+            android:textSize="20.0sp" />
 
         <LinearLayout
 

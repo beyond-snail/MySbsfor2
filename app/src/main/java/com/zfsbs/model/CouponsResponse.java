@@ -20,6 +20,7 @@ public class CouponsResponse implements Serializable{
 	private List<Coupons> coupons; // 优惠券列表
 	private boolean isMember; // 是否为会员
 	private boolean freePassword; // 是否免密
+	private int cantVerifyReason; //1门店不可核销 2未设置积分核销规则 3当前时段不可核销 4 积分数量不符合核销风控规则 5当日核销积分数已超限
 
 	public String getMemberName() {
 		return memberName;
@@ -117,12 +118,21 @@ public class CouponsResponse implements Serializable{
 		this.freePassword = freePassword;
 	}
 
+	public int getCantVerifyReason() {
+		return cantVerifyReason;
+	}
+
+	public void setCantVerifyReason(int cantVerifyReason) {
+		this.cantVerifyReason = cantVerifyReason;
+	}
+
 	@Override
 	public String toString() {
 		return "CouponsResponse{" +
 				"memberName='" + memberName + '\'' +
 				", memberCardNo='" + memberCardNo + '\'' +
 				", mobile='" + mobile + '\'' +
+				", icCardNo='" + icCardNo + '\'' +
 				", pointUseMax=" + pointUseMax +
 				", frequency_min=" + frequency_min +
 				", point=" + point +
@@ -131,6 +141,7 @@ public class CouponsResponse implements Serializable{
 				", coupons=" + coupons +
 				", isMember=" + isMember +
 				", freePassword=" + freePassword +
+				", cantVerifyReason=" + cantVerifyReason +
 				'}';
 	}
 }

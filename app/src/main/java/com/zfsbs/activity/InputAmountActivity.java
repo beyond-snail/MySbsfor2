@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.hd.core.HdAction;
@@ -39,6 +40,8 @@ import static com.zfsbs.common.CommonFunc.startResultAction;
 public class InputAmountActivity extends BaseActivity implements OnClickListener {
 
     public static final int REQUEST_CAPTURE = 0;
+
+    public static final int REQUEST_YY = 1;
 
     private TextView tKey1;
     private TextView tKey2;
@@ -91,29 +94,8 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
         });
 
         //是否是赢消费
-        app_type = (int) SPUtils.get(this, Config.APP_TYPE, Config.DEFAULT_APP_TYPE);//getIntent().getBooleanExtra("yxf", false);
+        app_type = (int) SPUtils.get(this, Config.APP_TYPE, Config.DEFAULT_APP_TYPE);
 
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Bitmap bitmap = Glide.with(InputAmountActivity.this)
-//                            .load(MyApplication.getInstance().getLoginData().getPrintPic())
-//                            .asBitmap()
-//                            .centerCrop()
-//                            .into(200, 200).get();
-//
-//                    if (bitmap != null) {
-//                        SPUtils.saveDrawable(InputAmountActivity.this, bitmap);
-//                    }
-//
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                } catch (ExecutionException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).start();
 
 
     }
@@ -121,6 +103,11 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
 
 
     private void initView() {
+
+        Button btnYy = (Button) findViewById(R.id.id_edit);
+        btnYy.setVisibility(View.VISIBLE);
+        btnYy.setOnClickListener(this);
+        btnYy.setText("增加优惠");
 
         tKey0 = (TextView) findViewById(R.id.id_key_0);
         tkey00 = (TextView) findViewById(R.id.id_key_00);
@@ -198,11 +185,15 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
             case R.id.id_key_caculate:
                 Caculate();
                 break;
-
+            case R.id.id_edit:
+                CommonFunc.startResultAction(InputAmountActivity.this, YyVerificationActivity.class, null, 1);
+                break;
             default:
                 break;
         }
     }
+
+
 
     private void Caculate() {
 
@@ -265,7 +256,8 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
                 String phoneNo = data.getStringExtra(CaptureActivity.SCAN_RESULT);
                 MemberNoDialog.setMemberNo(phoneNo);
                 break;
-
+            case REQUEST_YY:
+                break;
             default:
                 break;
         }
