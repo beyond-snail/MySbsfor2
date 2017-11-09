@@ -236,7 +236,7 @@ public class ZfQbAction {
 //    }
 
 
-    public void query1(Context context, int sid, String orderNo, String time, final ActionCallbackListener<TransUploadResponse> listener){
+    public void query1(Context context, Long sid, String orderNo, String time, final ActionCallbackListener<TransUploadResponse> listener){
 
         final LoadingDialog dialog = new LoadingDialog(context);
         dialog.show("正在查询...");

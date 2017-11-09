@@ -243,7 +243,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
     }
 
     private void loadData() {
-        int sid = MyApplication.getInstance().getLoginData().getSid();
+        Long sid = MyApplication.getInstance().getLoginData().getSid();
         sbsAction.recharge(mContext, sid, new ActionCallbackListener<RechargeMeal>() {
             @Override
             public void onSuccess(RechargeMeal data) {
@@ -321,7 +321,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 
         long amount = Long.parseLong(StringUtils.changeY2F(etAmount.getText().toString().trim()));
 
-        int sid = MyApplication.getInstance().getLoginData().getSid();
+        Long sid = MyApplication.getInstance().getLoginData().getSid();
         String cardNo = etCardNo.getText().toString().trim();
         final String orderNo = CommonFunc.getNewClientSn();
         sbsAction.rechargeSure(mContext, sid, amount, orderNo, cardNo, new ActionCallbackListener<CardId>() {

@@ -429,7 +429,7 @@ public class LoginAction {
      */
     private void activateAction(int isSuccess) {
         final LoginApiResponse loginData = MyApplication.getInstance().getLoginData();
-        int sid = loginData.getSid();
+        Long sid = loginData.getSid();
         String activateCode = loginData.getActiveCode();
         MyApplication.getInstance().getSbsAction().active(mContext, sid, isSuccess, activateCode, new ActionCallbackListener<ActivateApiResponse>() {
             @Override

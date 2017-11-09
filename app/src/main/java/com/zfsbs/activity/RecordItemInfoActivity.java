@@ -572,7 +572,7 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
     }
 
 
-    private void getPrinterData(int sid, String ClientOrderNo) {
+    private void getPrinterData(Long sid, String ClientOrderNo) {
 
         final LoadingDialog dialog = new LoadingDialog(this);
         dialog.show("获取打印信息...");

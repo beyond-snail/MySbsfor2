@@ -27,12 +27,14 @@ import com.zfsbs.config.Constants;
 import com.zfsbs.core.action.RicherQb;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
 import com.zfsbs.model.CouponsResponse;
+import com.zfsbs.model.MemberTransAmountRequest;
 import com.zfsbs.model.MemberTransAmountResponse;
 import com.zfsbs.model.RicherGetMember;
 import com.zfsbs.model.SetClientOrder;
 import com.zfsbs.myapplication.MyApplication;
 import com.zfsbs.tool.CustomDialog_2;
 
+import static com.zfsbs.common.CommonFunc.getNewClientSn;
 import static com.zfsbs.common.CommonFunc.startAction;
 import static com.zfsbs.common.CommonFunc.startResultAction;
 
@@ -61,9 +63,15 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
 
     private int amount = 0;
 
+    private int yyAmount = 0;
+    private Long yyId;
+    private String couponCode;
+
     private int app_type = 0;
 
     private String g_phone; //输入的手机号
+
+    private boolean yy_flag = false; //是否使用异业优惠券
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,6 +217,14 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
             return;
         }
 
+        //是否使用异业优惠券
+        if (yy_flag){
+            memberTransAmountAction();
+            return;
+        }
+
+
+
         if (amount > 0 && amount <= 999999999) {
             if (app_type == Config.APP_HD) {
                 isHdInputMemberNo();
@@ -257,6 +273,14 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
                 MemberNoDialog.setMemberNo(phoneNo);
                 break;
             case REQUEST_YY:
+                String name = data.getStringExtra("name");
+                yyAmount = Integer.valueOf(data.getStringExtra("amount")).intValue();
+                yyId = data.getLongExtra("yyId", 0);
+                couponCode = data.getStringExtra("couponCode");
+                linearLayout(R.id.ll_show_yy).setVisibility(View.VISIBLE);
+                textView(R.id.id_show_yy).setText(name+":"+StringUtils.formatIntMoney(yyAmount)+"元");
+
+                yy_flag = true;
                 break;
             default:
                 break;
@@ -407,7 +431,7 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
      * @param phone
      */
     private void memberInfoAction(String phone) {
-        int sid = MyApplication.getInstance().getLoginData().getSid();
+        Long sid = MyApplication.getInstance().getLoginData().getSid();
 
         this.sbsAction.getMemberInfo(this, sid, phone, amount, "",new ActionCallbackListener<CouponsResponse>() {
             @Override
@@ -439,6 +463,67 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
             }
         });
     }
+
+
+
+    private void memberTransAmountAction() {
+//        final MemberTransAmountRequest request = new MemberTransAmountRequest();
+//        request.setSid(MyApplication.getInstance().getLoginData().getSid());
+//        request.setMemberCardNo("");
+//        request.setPassword("");
+//        request.setTradeMoney(amount);
+//        request.setPoint(0);
+//        request.setCouponSn(""+yyId);
+//        request.setMemberName("");
+//        request.setClientOrderNo(getNewClientSn());
+
+        Long sid = MyApplication.getInstance().getLoginData().getSid();
+        final String orderNo = getNewClientSn();
+
+        this.sbsAction.otherCouponLock(InputAmountActivity.this, sid, couponCode, orderNo, amount, new ActionCallbackListener<MemberTransAmountResponse>() {
+            @Override
+            public void onSuccess(MemberTransAmountResponse data) {
+
+
+                //备份订单号
+                SetClientOrder order = new SetClientOrder();
+                order.setStatus(true);
+                order.setClientNo(orderNo);
+                CommonFunc.setMemberClientOrderNo(InputAmountActivity.this, order);
+
+
+                data.setPoint(0);
+                data.setPass("");
+                data.setStkCardNo("");
+                CommonFunc.setBackMemberInfo(InputAmountActivity.this, data);
+
+                CommonFunc.startAction(InputAmountActivity.this, ZfPayActivity.class, true);
+            }
+
+            @Override
+            public void onFailure(String errorEvent, String message) {
+                ToastUtils.CustomShow(InputAmountActivity.this, message);
+            }
+
+            @Override
+            public void onFailurTimeOut(String s, String error_msg) {
+
+            }
+
+            @Override
+            public void onLogin() {
+                AppManager.getAppManager().finishAllActivity();
+
+                if (Config.OPERATOR_UI_BEFORE) {
+                    CommonFunc.startAction(InputAmountActivity.this, OperatorLoginActivity.class, false);
+                } else {
+                    CommonFunc.startAction(InputAmountActivity.this, OperatorLoginActivity1.class, false);
+                }
+            }
+        });
+    }
+
+
 
     private void Richer_memberInfoAction(String phone) {
         g_phone = phone;

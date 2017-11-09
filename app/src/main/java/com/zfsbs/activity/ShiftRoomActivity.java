@@ -68,7 +68,7 @@ public class ShiftRoomActivity extends BaseActivity {
      */
     private void getShiftRoom() {
 
-        int sid = MyApplication.getInstance().getLoginData().getSid();
+        Long sid = MyApplication.getInstance().getLoginData().getSid();
         final long start_time = StringUtils.getdate2TimeStamp((String) SPUtils.get(this, Constants.SHIFT_ROOM_TIME, Constants.DEFAULT_SHIFT_ROOM_TIME));
         LogUtils.e("start_time=", (String) SPUtils.get(this, Constants.SHIFT_ROOM_TIME, Constants.DEFAULT_SHIFT_ROOM_TIME));
         final long end_time = StringUtils.getdate2TimeStamp(StringUtils.getCurTime());
@@ -116,7 +116,7 @@ public class ShiftRoomActivity extends BaseActivity {
      */
     private void getShiftRoomDay() {
 
-        int sid = MyApplication.getInstance().getLoginData().getSid();
+        Long sid = MyApplication.getInstance().getLoginData().getSid();
         final long start_time = StringUtils.getdate2TimeStamp(StringUtils.formatTime(StringUtils.getCurDate()+"000000"));
         LogUtils.e("start_time=", StringUtils.formatTime(StringUtils.getCurDate()+"000000"));
         final long end_time = StringUtils.getdate2TimeStamp(StringUtils.getCurTime());

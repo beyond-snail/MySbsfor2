@@ -88,7 +88,7 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
             case 1:
                 String result = data.getExtras().getString(CaptureActivity.SCAN_RESULT);
                 tNo.setText(result);
-                commitTicket();
+                checkTicket();
                 break;
             default:
                 break;
@@ -96,7 +96,7 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void commitTicket() {
-        int sid = MyApplication.getInstance().getLoginData().getSid();
+        Long sid = MyApplication.getInstance().getLoginData().getSid();
         String sn = StringUtils.getSerial();
         String ticketNo = tNo.getText().toString().trim();
         String orderNo = CommonFunc.getNewClientSn();
@@ -127,7 +127,7 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
 
     private void checkTicket() {
 
-        int sid = MyApplication.getInstance().getLoginData().getSid();
+        Long sid = MyApplication.getInstance().getLoginData().getSid();
         String sn = StringUtils.getSerial();
         String ticketNo = tNo.getText().toString().trim();
 

@@ -2,6 +2,9 @@ package com.zfsbs.config;
 
 import com.zfsbs.R;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class EnumConstsSbs {
 
@@ -169,5 +172,55 @@ public class EnumConstsSbs {
 		}
 	}
 
+
+
+	public enum CouponUseStatus{
+		Verified("已核销", 1),
+		//UnVerify("未核销", 2),
+		Received("已领取", 3),
+		locked("已锁定", 4),
+		Expire("已过期", 5),
+		Sent("已转赠", 99),
+		Refunded("已退回", 101),
+		;
+		private String name;
+		private int type;
+		static Map<Integer, CouponUseStatus> allCouponUseStatuss;
+		private CouponUseStatus(String name, int type){
+			this.name
+
+					= name;
+			this.type = type;
+		}
+		public String getName() {
+			return name;
+		}
+		public void setName(String name) {
+			this.name
+
+					= name;
+		}
+		public int getType() {
+			return type;
+		}
+		public void setType(int type) {
+			this.type = type;
+		}
+
+		public static CouponUseStatus fromType(int type){
+			CouponUseStatus actType = allCouponUseStatuss.get(type);
+			return actType;
+		}
+		public static boolean supported(int type){
+			return allCouponUseStatuss.containsKey(type);
+		}
+		static {
+			allCouponUseStatuss = new HashMap<Integer, CouponUseStatus>();
+			CouponUseStatus[] types = values();
+			for (CouponUseStatus type : types){
+				allCouponUseStatuss.put(type.getType(), type);
+			}
+		}
+	}
 
 }

@@ -10,7 +10,7 @@ public class TransUploadRequest extends DataSupport implements Serializable {
 	 */
 	private static final long serialVersionUID = -1173505418601061326L;
 	private int id;
-	private int sid; // 商户ID
+	private Long sid; // 商户ID
 	private String cardNo; // 会员卡号
 	private String payCardNo; //银行卡号
 	private String password; // 根据是否免密判断是否有密码输入(此处可以连带)
@@ -36,11 +36,11 @@ public class TransUploadRequest extends DataSupport implements Serializable {
 //	private String payType;             //11：微信撤销 12：支付宝撤销 14：钱包撤销
 	private String phone; //
 
-	public int getSid() {
+	public Long getSid() {
 		return sid;
 	}
 
-	public void setSid(int sid) {
+	public void setSid(Long sid) {
 		this.sid = sid;
 	}
 

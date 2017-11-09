@@ -124,7 +124,7 @@ public class CommonFunc {
         String device = "2"; // 1:手机 2:Pos机
         String timestamp = StringUtils.getFormatCurTime();
         String randomNum = StringUtils.createRandomNumStr(3);
-        String serial_no = StringUtils.getSerial();
+        String serial_no = StringUtils.getTerminalNo(StringUtils.getSerial());
 
         return device + timestamp + randomNum + serial_no;
     }
@@ -450,7 +450,7 @@ public class CommonFunc {
      * @param listener
      */
     public static void ZfQbFailQuery(Context context, ActionCallbackListener<TransUploadResponse> listener){
-        int sid = MyApplication.getInstance().getLoginData().getSid();
+        Long sid = MyApplication.getInstance().getLoginData().getSid();
         final String orderNo = recoveryFailureInfo(context).getOrderNo();
         final String time = recoveryFailureInfo(context).getTime();
 

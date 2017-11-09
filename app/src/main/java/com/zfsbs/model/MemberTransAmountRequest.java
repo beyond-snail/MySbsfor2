@@ -1,7 +1,7 @@
 package com.zfsbs.model;
 
 public class MemberTransAmountRequest {
-	private int sid; // 商户ID
+	private Long sid; // 商户ID
 	private String memberCardNo = ""; // 会员卡号
 	private String password = ""; // 根据是否免密判断是否有密码输入
 	private int tradeMoney = 0; // 交易金额
@@ -10,11 +10,11 @@ public class MemberTransAmountRequest {
 	private String memberName = ""; // 用户名（非会员注册）
 	private String clientOrderNo; //pos机生成订单号
 
-	public int getSid() {
+	public Long getSid() {
 		return sid;
 	}
 
-	public void setSid(int sid) {
+	public void setSid(Long sid) {
 		this.sid = sid;
 	}
 

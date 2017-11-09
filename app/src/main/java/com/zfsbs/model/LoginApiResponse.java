@@ -11,7 +11,7 @@ public class LoginApiResponse extends DataSupport implements Serializable {
 	 */
 	private static final long serialVersionUID = -5060863143246134147L;
 	private int id;
-	private int sid; // 商户id
+	private Long sid; // 商户id
 	private String printPic;
 	private String printContent;
 	private String merchantNo; // 商户号
@@ -38,11 +38,11 @@ public class LoginApiResponse extends DataSupport implements Serializable {
 	private String activateCodemerchantName; // 激活码商户名字
 	private String activateMerchantNanme; //激活码名称/终端名称(这个有可能POS返回的是商户名称)
 
-	public int getSid() {
+	public Long getSid() {
 		return sid;
 	}
 
-	public void setSid(int sid) {
+	public void setSid(Long sid) {
 		this.sid = sid;
 	}
 

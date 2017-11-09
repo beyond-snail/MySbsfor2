@@ -390,7 +390,7 @@ public class ShiftRoomShowActivity extends BaseActivity implements View.OnClickL
      */
     private void getShiftRoom() {
 
-        int sid = MyApplication.getInstance().getLoginData().getSid();
+        Long sid = MyApplication.getInstance().getLoginData().getSid();
 
         final long startTime = StringUtils.getdate2TimeStamp1(tvStartTime.getText().toString());
         LogUtils.e("start_time=", tvStartTime.getText().toString());

@@ -2083,7 +2083,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
 
 
         final LoginApiResponse loginData = MyApplication.getInstance().getLoginData();
-        int sid = loginData.getSid();
+        Long sid = loginData.getSid();
         String activateCode = loginData.getActiveCode();
         this.sbsAction.active(this, sid, isSuccess, activateCode, new ActionCallbackListener<ActivateApiResponse>() {
             @Override

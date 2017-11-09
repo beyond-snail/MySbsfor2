@@ -57,6 +57,28 @@ public class StringUtils {
 	}
 
 
+	/**
+	 * 去除空格首尾，中间
+	 * @param resource
+	 * @param ch
+	 * @return
+	 */
+	public static String removeBlank(String resource,char ch)
+	{
+		StringBuffer buffer=new StringBuffer();
+		int position=0;
+		char currentChar;
+
+		while(position<resource.length())
+		{
+			currentChar=resource.charAt(position++);
+			//如果当前字符不是要去除的字符，则将当前字符加入到StringBuffer中
+			if(currentChar!=ch) buffer.append(currentChar);
+		}
+		return buffer.toString();
+	}
+
+
 	public static Double getDouble(String str) {
 		try {
 			return Double.valueOf(Double.parseDouble(str.trim()));

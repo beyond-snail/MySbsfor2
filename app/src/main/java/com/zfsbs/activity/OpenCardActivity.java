@@ -132,7 +132,7 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void changeCard() {
-        int sid = MyApplication.getInstance().getLoginData().getSid();
+        Long sid = MyApplication.getInstance().getLoginData().getSid();
 //        String memberName = etName.getText().toString().trim();
         final String memberCard = etCard.getText().toString().trim();
         final String memberPhone = etPhone.getText().toString().trim();
@@ -198,7 +198,7 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
 
     private void openRealizeCard() {
 
-        int sid = MyApplication.getInstance().getLoginData().getSid();
+        Long sid = MyApplication.getInstance().getLoginData().getSid();
         String memberName = etName.getText().toString().trim();
         final String memberCard = etCard.getText().toString().trim();
         final String memberPhone = etPhone.getText().toString().trim();
@@ -276,7 +276,7 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void ComfirmBindCard(String memberCard, String memberPhone) {
-        int sid = MyApplication.getInstance().getLoginData().getSid();
+        Long sid = MyApplication.getInstance().getLoginData().getSid();
         sbsAction.confirmBindCard(mContext, sid, memberPhone, memberCard, new ActionCallbackListener<ApiResponse<VipCardNo>>() {
 
             @Override

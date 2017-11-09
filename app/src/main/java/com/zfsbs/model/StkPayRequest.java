@@ -40,7 +40,7 @@ package com.zfsbs.model;
 
 
 public class StkPayRequest {
-    private int sid;
+    private Long sid;
     private String qrCode;
     private String cardNo;
     private String orderNo;
@@ -57,12 +57,11 @@ public class StkPayRequest {
     private int payAmount;
     private String transNo;
 
-
-    public int getSid() {
+    public Long getSid() {
         return sid;
     }
 
-    public void setSid(int sid) {
+    public void setSid(Long sid) {
         this.sid = sid;
     }
 

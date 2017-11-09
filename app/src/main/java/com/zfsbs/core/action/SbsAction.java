@@ -63,6 +63,7 @@ import com.zfsbs.model.TicektResponse;
 import com.zfsbs.model.TransUploadRequest;
 import com.zfsbs.model.TransUploadResponse;
 import com.zfsbs.model.VipCardNo;
+import com.zfsbs.model.YyTicektResponse;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -129,7 +130,7 @@ public class SbsAction {
      * @param activateCode
      * @param listener
      */
-    public void active(final Context context, int sid, int isSuccess, String activateCode,
+    public void active(final Context context, Long sid, int isSuccess, String activateCode,
                        final ActionCallbackListener<ActivateApiResponse> listener) {
         final LoadingDialog dialog = new LoadingDialog(context);
         dialog.show("正在激活反馈...");
@@ -171,7 +172,7 @@ public class SbsAction {
      * @param tradeMoney
      * @param listener
      */
-    public void getMemberInfo(final Context context, int sid, String mobile, int tradeMoney, String icCardNo,
+    public void getMemberInfo(final Context context, Long sid, String mobile, int tradeMoney, String icCardNo,
                               final ActionCallbackListener<CouponsResponse> listener) {
         final LoadingDialog dialog = new LoadingDialog(context);
         dialog.show("正在获取会员信息...");
@@ -258,6 +259,50 @@ public class SbsAction {
         });
     }
 
+
+    /**
+     * 商博士-异业优惠券锁定
+     *
+     * @param listener
+     */
+    public void otherCouponLock(final Context context, Long sid, String couponCode, String orderNo, int orderAmount,
+                                  final ActionCallbackListener<MemberTransAmountResponse> listener) {
+
+        final LoadingDialog dialog = new LoadingDialog(context);
+        dialog.show("正在会员交易计算...");
+
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+
+        paramsMap.put("sid", sid);
+        paramsMap.put("couponCode", couponCode);
+        paramsMap.put("orderNo", orderNo);
+        paramsMap.put("orderAmount",orderAmount);
+
+
+        String data = CommonFunc.getJsonStr("otherCouponLock", paramsMap, "verify", Config.md5_key);
+        MyOkHttp.get().postJson(context, Config.SBS_URL, data, new GsonResponseHandler<ApiResponse<MemberTransAmountResponse>>() {
+            @Override
+            public void onFailure(int statusCode, String error_msg) {
+                dialog.dismiss();
+                listener.onFailure("" + statusCode, error_msg);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, ApiResponse<MemberTransAmountResponse> response) {
+                dialog.dismiss();
+                if (response != null) {
+                    if (response.getCode().equals("A00006")) {
+                        listener.onSuccess(response.getResult());
+                    } else {
+                        listener.onFailure(response.getCode(), response.getMsg());
+                    }
+                } else {
+                    listener.onFailure("", "链接服务器异常");
+                }
+            }
+        });
+    }
+
     /**
      * 商博士-交易流水上送
      *
@@ -321,7 +366,7 @@ public class SbsAction {
      * @param clientOrderNo
      * @param listener
      */
-    public void getPrinterData(final Context context, int sid, String clientOrderNo,
+    public void getPrinterData(final Context context, Long sid, String clientOrderNo,
                                final ActionCallbackListener<TransUploadResponse> listener) {
 
 
@@ -362,7 +407,7 @@ public class SbsAction {
      * @param sid
      * @param listener
      */
-    public void getSmData(final Context context, int sid,
+    public void getSmData(final Context context, Long sid,
                           final ActionCallbackListener<QueryScanReturn> listener) {
         final LoadingDialog dialog = new LoadingDialog(context);
         dialog.show("正在获取支付通道...");
@@ -548,7 +593,7 @@ public class SbsAction {
      * @param end_time
      * @param listener
      */
-    public void shift_room(final Context context, int sid, long start_time, long end_time,
+    public void shift_room(final Context context, Long sid, long start_time, long end_time,
                            final ActionCallbackListener<ShiftRoom> listener) {
         final LoadingDialog dialog = new LoadingDialog(context);
         dialog.show("正在获取班接信息...");
@@ -591,7 +636,7 @@ public class SbsAction {
      * @param cardNo
      * @param *       @param listener
      */
-    public void ticketcheck(final Context context, int sid, String cardNo, String sn, final ActionCallbackListener<TicektResponse> listener) {
+    public void ticketcheck(final Context context, Long sid, String cardNo, String sn, final ActionCallbackListener<TicektResponse> listener) {
         final LoadingDialog dialog = new LoadingDialog(context);
         dialog.show("加载中...");
 
@@ -627,6 +672,48 @@ public class SbsAction {
     }
 
     /**
+     * 异业券码 识别
+     *
+     * @param context
+     * @param sid
+     * @param cardNo
+     * @param *       @param listener
+     */
+    public void yyticketcheck(final Context context, Long sid, String cardNo, final ActionCallbackListener<YyTicektResponse> listener) {
+        final LoadingDialog dialog = new LoadingDialog(context);
+        dialog.show("加载中...");
+
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("sid", sid);
+        paramsMap.put("couponCode", cardNo);
+
+        String data = CommonFunc.getJsonStr("otherCouponInfo", paramsMap, "verify", Config.md5_key);
+        LogUtils.e(TAG, "URL: " + Config.SBS_URL);
+
+        MyOkHttp.get().postJson(context, Config.SBS_URL, data, new GsonResponseHandler<ApiResponse<YyTicektResponse>>() {
+            @Override
+            public void onSuccess(int statusCode, ApiResponse<YyTicektResponse> response) {
+                dialog.dismiss();
+                if (response != null) {
+                    if (response.getCode().equals("A00006")) {
+                        listener.onSuccess(response.getResult());
+                    } else {
+                        listener.onFailure(response.getCode(), response.getMsg());
+                    }
+                } else {
+                    listener.onFailure("", "链接服务器异常");
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, String error_msg) {
+                dialog.dismiss();
+                listener.onFailure("" + statusCode, error_msg);
+            }
+        });
+    }
+
+    /**
      * 券码核销
      *
      * @param context
@@ -635,7 +722,7 @@ public class SbsAction {
      * @param sn
      * @param listener
      */
-    public void ticketPay(final Context context, int sid, String cardNo, String sn, String orderNo, final ActionCallbackListener<String> listener) {
+    public void ticketPay(final Context context, Long sid, String cardNo, String sn, String orderNo, final ActionCallbackListener<String> listener) {
         final LoadingDialog dialog = new LoadingDialog(context);
         dialog.show("加载中...");
 
@@ -679,7 +766,7 @@ public class SbsAction {
      * @param sid
      * @param listener
      */
-    public void openCard(final Context context, int sid, String mobile, String icCardNo, String username, final ActionCallbackListener<ApiResponse<VipCardNo>> listener) {
+    public void openCard(final Context context, Long sid, String mobile, String icCardNo, String username, final ActionCallbackListener<ApiResponse<VipCardNo>> listener) {
         final LoadingDialog dialog = new LoadingDialog(context);
         dialog.show("加载中...");
 
@@ -723,7 +810,7 @@ public class SbsAction {
     }
 
 
-    public void confirmBindCard(final Context context, int sid, String mobile, String icCardNo, final ActionCallbackListener<ApiResponse<VipCardNo>> listener){
+    public void confirmBindCard(final Context context, Long sid, String mobile, String icCardNo, final ActionCallbackListener<ApiResponse<VipCardNo>> listener){
         final LoadingDialog dialog = new LoadingDialog(context);
         dialog.show("加载中...");
 
@@ -771,7 +858,7 @@ public class SbsAction {
      * @param icCardNo
      * @param listener
      */
-    public void changeCard(final Context context, int sid, String mobile, String icCardNo,  final ActionCallbackListener<ApiResponse<VipCardNo>> listener){
+    public void changeCard(final Context context, Long sid, String mobile, String icCardNo,  final ActionCallbackListener<ApiResponse<VipCardNo>> listener){
         final LoadingDialog dialog = new LoadingDialog(context);
         dialog.show("加载中...");
 
@@ -818,7 +905,7 @@ public class SbsAction {
      * @param sid
      * @param listener
      */
-    public void recharge(final Context context, int sid, final ActionCallbackListener<RechargeMeal> listener) {
+    public void recharge(final Context context, Long sid, final ActionCallbackListener<RechargeMeal> listener) {
         final LoadingDialog dialog = new LoadingDialog(context);
         dialog.show("正在获取充值套餐...");
 
@@ -860,7 +947,7 @@ public class SbsAction {
      * @param cardNo
      * @param listener
      */
-    public void rechargeSure(final Context context, int sid, long amount, String orderNo, String cardNo, final ActionCallbackListener<CardId> listener){
+    public void rechargeSure(final Context context, Long sid, long amount, String orderNo, String cardNo, final ActionCallbackListener<CardId> listener){
         final LoadingDialog dialog = new LoadingDialog(context);
         dialog.show("加载中...");
 

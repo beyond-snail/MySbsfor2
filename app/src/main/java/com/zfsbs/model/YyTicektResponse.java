@@ -33,122 +33,74 @@ package com.zfsbs.model;
 //                  不见满街漂亮妹，哪个归得程序员？                   //
 ////////////////////////////////////////////////////////////////////
 
-import java.io.Serializable;
-
 /**********************************************************
  *                                                        *
- *                  Created by wucongpeng on 2017/7/27.        *
+ *                  Created by wucongpeng on 2017/7/28.        *
  **********************************************************/
 
 
-public class RechargeUpLoad implements Serializable {
-    private Long sid;
-    private long payAmount;
-    private String orderNo;
-    private String activateCode;
-    private String merchantNo;
-    private long t;
-    private String transNo;
-    private String authCode;
-    private String serialNum;
-    private int payType;
-    private String operator_num;
-    private String promotion_num;
+public class YyTicektResponse {
+    private Long id; //	优惠券ID
+    private String name; //优惠券名称
+    private Integer value; //优惠券面额
+    private Integer limitAmount; //限制使用金额
+    private String startTime; //允许核销开始时间
+    private String endTime; //允许核销结束时间
+    private int status; //券状态 1 : 已核销
 
-    public Long getSid() {
-        return sid;
+    public Long getId() {
+        return id;
     }
 
-    public void setSid(Long sid) {
-        this.sid = sid;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public long getPayAmount() {
-        return payAmount;
+    public String getName() {
+        return name;
     }
 
-    public void setPayAmount(long payAmount) {
-        this.payAmount = payAmount;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getOrderNo() {
-        return orderNo;
+    public Integer getValue() {
+        return value;
     }
 
-    public void setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
+    public void setValue(Integer value) {
+        this.value = value;
     }
 
-    public String getActivateCode() {
-        return activateCode;
+    public Integer getLimitAmount() {
+        return limitAmount;
     }
 
-    public void setActivateCode(String activateCode) {
-        this.activateCode = activateCode;
+    public void setLimitAmount(Integer limitAmount) {
+        this.limitAmount = limitAmount;
     }
 
-    public String getMerchantNo() {
-        return merchantNo;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setMerchantNo(String merchantNo) {
-        this.merchantNo = merchantNo;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
-    public long getT() {
-        return t;
+    public String getEndTime() {
+        return endTime;
     }
 
-    public void setT(long t) {
-        this.t = t;
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
-    public String getTransNo() {
-        return transNo;
+    public int getStatus() {
+        return status;
     }
 
-    public void setTransNo(String transNo) {
-        this.transNo = transNo;
-    }
-
-    public String getAuthCode() {
-        return authCode;
-    }
-
-    public void setAuthCode(String authCode) {
-        this.authCode = authCode;
-    }
-
-    public String getSerialNum() {
-        return serialNum;
-    }
-
-    public void setSerialNum(String serialNum) {
-        this.serialNum = serialNum;
-    }
-
-    public int getPayType() {
-        return payType;
-    }
-
-    public void setPayType(int payType) {
-        this.payType = payType;
-    }
-
-    public String getOperator_num() {
-        return operator_num;
-    }
-
-    public void setOperator_num(String operator_num) {
-        this.operator_num = operator_num;
-    }
-
-
-    public String getPromotion_num() {
-        return promotion_num;
-    }
-
-    public void setPromotion_num(String promotion_num) {
-        this.promotion_num = promotion_num;
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

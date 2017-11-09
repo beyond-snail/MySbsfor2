@@ -34,7 +34,7 @@ public class TestActivity extends BaseActivity {
         dialog.setCancelable(false);
 
         final TransUploadRequest request = new TransUploadRequest();
-        request.setSid(195);
+        request.setSid((long) 195);
         request.setCardNo("");
         request.setPassword("");
 
