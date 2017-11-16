@@ -378,7 +378,11 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
         tvBTerminalNo.setText(StringUtils.isEmpty(recordData.getTerminalId()) ? "" : recordData.getTerminalId());
 //        if (!recordData.isStatus()) {
         tvBClientOrderNo.setText(StringUtils.isEmpty(recordData.getClientOrderNo()) ? "" : recordData.getClientOrderNo());
-        tvBAuthCode.setText(StringUtils.isEmpty(recordData.getAuthCode()) ? "" : recordData.getAuthCode());
+        if (!StringUtils.isEmpty(recordData.getAuthCode())) {
+            tvBAuthCode.setText(StringUtils.isEmpty(recordData.getAuthCode()) ? "" : recordData.getAuthCode());
+        }else{
+            tvBAuthCode.setVisibility(View.GONE);
+        }
 
 
         if (recordData.getPayType() == Constants.PAY_WAY_RECHARGE_ALY || recordData.getPayType() == Constants.PAY_WAY_RECHARGE_WX ||

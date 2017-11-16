@@ -261,7 +261,7 @@ public class SaleUndoActivity extends BaseActivity implements OnClickListener {
         request.setNew_trade_order_num(orderId);
         request.setPayType(Constants.PAY_WAY_UNDO);
         request.setAuthCode(printerData.getVoucherNo());
-//        request.setClientOrderNo(orderNo);
+        request.setClientOrderNo(orderNo);
         request.setT(StringUtils.getdate2TimeStamp(printerData.getDateTime()));
 
         this.sbsAction.transCancelRefund(this, request, new ActionCallbackListener<String>() {

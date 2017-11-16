@@ -440,6 +440,7 @@ public class CommonFunc {
         request.setPayType(printerData.getPayType());
         request.setPointAmount(memberData.getPoint());
         request.setPhone(memberData.getPhone());
+        request.setOld_trade_order_num(clientOrderNo);
         return request;
     }
 

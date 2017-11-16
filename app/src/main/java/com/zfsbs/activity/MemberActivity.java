@@ -345,9 +345,11 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
 
                     int num = 0;
                     int money = 0;
+                    int count = 0;
 
                     tShowUsedCoupons.setText("");
                     etUsedPoint.setEnabled(true);
+
                     for (int i = 0; i < couponResponse.getCouponNum(); i++) {
                         if (couponResponse.getCoupons().get(i).isChecked()) {
                             if (couponResponse.getCoupons().get(i).getCouponType() == 1) {
@@ -371,8 +373,13 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
                             }
                         }
                     }
-//                }
-
+                    //当没有选中的时候返回清空编辑框
+                    if (count == 0){
+                        getMaxUsePoint(amount);
+                        etUsedPoint.setEnabled(true);
+                        etUsedPoint.setText("");
+                        tIsUsedPoint.setSelected(false);
+                    }
                     break;
                 default:
                     break;
