@@ -321,7 +321,9 @@ public class LoginAction {
     private void Save(LoginApiResponse data) {
         MyApplication.getInstance().setLoginData(data);
 
-        SPUtils.put(mContext, "printContent", data.getPrintContent());
+        if (!StringUtils.isBlank(data.getPrintContent())) {
+            SPUtils.put(mContext, "printContent", data.getPrintContent());
+        }
 
         //下载图片
 //        Bitmap bitmap = Constants.ImageLoad(MyApplication.getInstance().getLoginData().getPrintPic());
