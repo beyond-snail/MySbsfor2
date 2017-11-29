@@ -256,6 +256,7 @@
             android:gravity="center"
             android:textSize="18sp"
             android:textColor="@color/white"
+            android:padding="10dp"
             android:text="确认核销"/>
     </LinearLayout>
 

@@ -45,6 +45,7 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
     private TextView tMemberName;
     private TextView tMemberCardNo;
     private TextView tMemberPhoneNo;
+    private TextView tMemberStkNo;
     private TextView tDoPoint;
     private EditText etUsedPoint;
     private TextView tPointAmount;
@@ -79,6 +80,7 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
         tMemberName = (TextView) findViewById(R.id.id_member_name);
         tMemberCardNo = (TextView) findViewById(R.id.id_memberCardNo);
         tMemberPhoneNo = (TextView) findViewById(R.id.id_phoneNo);
+        tMemberStkNo = (TextView) findViewById(R.id.id_stk_cardNo);
         tDoPoint = (TextView) findViewById(R.id.id_do_point);
         etUsedPoint = (EditText) findViewById(R.id.id_use_point);
         etUsedPoint.setCursorVisible(false);// 隐藏光标
@@ -103,14 +105,24 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
         textView(R.id.id_order_amount).setText(bundle.getString("amount"));
 
         if (couponResponse != null) {
-            tMemberName.setText(couponResponse.getMemberName());
-            if (StringUtils.isBlank(couponResponse.getIcCardNo())){
-                tMemberCardNo.setText(couponResponse.getMemberCardNo());
-            }else{
-                tMemberCardNo.setText(couponResponse.getIcCardNo());
+            if (!StringUtils.isBlank(couponResponse.getMemberName())) {
+                rinearLayout(R.id.id_ll_member_name).setVisibility(View.VISIBLE);
+                tMemberName.setText(couponResponse.getMemberName());
             }
-
-            tMemberPhoneNo.setText(couponResponse.getMobile());
+            if (!StringUtils.isBlank(couponResponse.getIcCardNo())){
+                rinearLayout(R.id.id_ll_stk_cardNo).setVisibility(View.VISIBLE);
+                tMemberStkNo.setText(couponResponse.getIcCardNo());
+            }
+            tMemberCardNo.setText(couponResponse.getMemberCardNo());
+//            if (StringUtils.isBlank(couponResponse.getIcCardNo())){
+//                tMemberCardNo.setText(couponResponse.getMemberCardNo());
+//            }else{
+//                tMemberCardNo.setText(couponResponse.getIcCardNo());
+//            }
+            if (!StringUtils.isBlank(couponResponse.getMobile())) {
+                rinearLayout(R.id.id_ll_phone).setVisibility(View.VISIBLE);
+                tMemberPhoneNo.setText(couponResponse.getMobile());
+            }
             tDoPoint.setText(couponResponse.getPoint() + "点积分");
             tUseCouponsNum.setText(couponResponse.getCouponNum() + "张");
             tPointAmount.setText("可抵扣0元");
@@ -193,7 +205,9 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
                     double temp1 = Arith.divide(temp, pointChangeRate);
 
                     tPointAmount.setText("可抵用" + StringUtils.formatIntMoney((int) temp1) + "元");
-                    tIsUsedPoint.setSelected(true);
+                    if (showPoint != 0) {
+                        tIsUsedPoint.setSelected(true);
+                    }
                     point = (int) (Double.parseDouble(etUsedPoint.getText().toString()));
                 }
             } else {
@@ -371,6 +385,7 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
                                 etUsedPoint.setText("");
                                 tIsUsedPoint.setSelected(false);
                             }
+                            count++;
                         }
                     }
                     //当没有选中的时候返回清空编辑框

@@ -10,6 +10,7 @@ import com.google.gson.reflect.TypeToken;
 import com.mycommonlib.model.ComSettleInfo;
 import com.tool.utils.dialog.SignDialog;
 import com.tool.utils.utils.LogUtils;
+import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
 import com.unionpay.cloudpos.wizarposexternal.DeviceException;
@@ -467,6 +468,15 @@ public class Printer {
             printerDevice.printText(format, "I ACKNOWLEDGE SATISFACTORY RECEIPT OF RELATIVE GOODS/SERVICES\n");
             printerDevice.printText(format, "    \n");
             printerDevice.printText(format, "    \n");
+
+            String printContent = (String) SPUtils.get(mContext, "printContent", "");
+            if (!StringUtils.isBlank(printContent)) {
+                printerDevice.printlnText(format,printContent);
+            }
+
+            if (SPUtils.loadDrawable(mContext) != null){
+                printerDevice.printBitmap(format, SPUtils.loadDrawable(mContext));
+            }
             if (printerData.getApp_type() != Config.APP_HD) {
                 format.clear();
                 format.setParameter("align", "center");
@@ -488,20 +498,13 @@ public class Printer {
                     printerDevice.printlnText(format, "积分余额：" + printerData.getPointCurrent());
                 }
 
-                format.clear();
-                format.setParameter("align", "center");
-                format.setParameter("size", "medium");
-                if (printerData.getCoupon_bitmap() != null) {
-                    LogUtils.e("width: " + printerData.getCoupon_bitmap().getWidth() + " height: "
-                            + printerData.getCoupon_bitmap().getHeight());
-                    printerDevice.printBitmap(format, printerData.getCoupon_bitmap());
-                }
+
                 format.clear();
                 format.setParameter("align", "left");
                 format.setParameter("size", "medium");
                 if (!StringUtils.isBlank(printerData.getCouponData())) {
-                    printerDevice.printlnText(format, "--------------------------------");
-                    printerDevice.printlnText(format, "本次消费获得：");
+//                    printerDevice.printlnText(format, "--------------------------------");
+//                    printerDevice.printlnText(format, "本次消费获得：");
                     Gson gson = new Gson();
                     List<Couponsn> couponsns = gson.fromJson(printerData.getCouponData(), new TypeToken<List<Couponsn>>() {
                     }.getType());
@@ -514,13 +517,17 @@ public class Printer {
                             printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(couponsns.get(i).getCoupon_money()));
                         }
                     }
-//                    if (!StringUtils.isEmpty(printerData.getTitle_url())) {
-//
-//                        printerDevice.printlnText(format, "优惠券名称：" + printerData.getTitle_url());
-//                    }
-//                    if (printerData.getMoney() > 0) {
-//                        printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(printerData.getMoney()));
-//                    }
+                }
+
+                format.clear();
+                format.setParameter("align", "center");
+                format.setParameter("size", "medium");
+                if (printerData.getCoupon_bitmap() != null) {
+                    LogUtils.e("width: " + printerData.getCoupon_bitmap().getWidth() + " height: "
+                            + printerData.getCoupon_bitmap().getHeight());
+                    printerDevice.printlnText(format, "--------------------------------");
+                    printerDevice.printlnText(format, "扫一扫领取红包");
+                    printerDevice.printBitmap(format, printerData.getCoupon_bitmap());
                 }
             }
             printerDevice.printText(format, "\n");
@@ -649,6 +656,16 @@ public class Printer {
             printerDevice.printText(format, "I ACKNOWLEDGE SATISFACTORY RECEIPT OF RELATIVE GOODS/SERVICES\n");
             printerDevice.printText(format, "\n");
             printerDevice.printText(format, "\n");
+
+            String printContent = (String) SPUtils.get(mContext, "printContent", "");
+            if (!StringUtils.isBlank(printContent)) {
+                printerDevice.printlnText(format,printContent);
+            }
+
+            if (SPUtils.loadDrawable(mContext) != null){
+                printerDevice.printBitmap(format, SPUtils.loadDrawable(mContext));
+            }
+
             if (printerData.getApp_type() != Config.APP_HD) {
                 format.clear();
                 format.setParameter("align", "center");
@@ -670,20 +687,13 @@ public class Printer {
                     printerDevice.printlnText(format, "积分余额：" + printerData.getPointCurrent());
                 }
 
-                format.clear();
-                format.setParameter("align", "center");
-                format.setParameter("size", "medium");
-                if (printerData.getCoupon_bitmap() != null) {
-                    LogUtils.e("width: " + printerData.getCoupon_bitmap().getWidth() + " height: "
-                            + printerData.getCoupon_bitmap().getHeight());
-                    printerDevice.printBitmap(format, printerData.getCoupon_bitmap());
-                }
+
                 format.clear();
                 format.setParameter("align", "left");
                 format.setParameter("size", "medium");
                 if (!StringUtils.isBlank(printerData.getCouponData())) {
-                    printerDevice.printlnText(format, "--------------------------------");
-                    printerDevice.printlnText(format, "本次消费获得：");
+//                    printerDevice.printlnText(format, "--------------------------------");
+//                    printerDevice.printlnText(format, "本次消费获得：");
                     Gson gson = new Gson();
                     List<Couponsn> couponsns = gson.fromJson(printerData.getCouponData(), new TypeToken<List<Couponsn>>() {
                     }.getType());
@@ -696,13 +706,17 @@ public class Printer {
                             printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(couponsns.get(i).getCoupon_money()));
                         }
                     }
-//                    if (!StringUtils.isEmpty(printerData.getTitle_url())) {
-//
-//                        printerDevice.printlnText(format, "优惠券名称：" + printerData.getTitle_url());
-//                    }
-//                    if (printerData.getMoney() > 0) {
-//                        printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(printerData.getMoney()));
-//                    }
+                }
+
+                format.clear();
+                format.setParameter("align", "center");
+                format.setParameter("size", "medium");
+                if (printerData.getCoupon_bitmap() != null) {
+                    LogUtils.e("width: " + printerData.getCoupon_bitmap().getWidth() + " height: "
+                            + printerData.getCoupon_bitmap().getHeight());
+                    printerDevice.printlnText(format, "--------------------------------");
+                    printerDevice.printlnText(format, "扫一扫领取红包");
+                    printerDevice.printBitmap(format, printerData.getCoupon_bitmap());
                 }
             }
             printerDevice.printText(format, "\n");
@@ -829,6 +843,15 @@ public class Printer {
             printerDevice.printText(format, "\n");
             printerDevice.printText(format, "\n");
 
+            String printContent = (String) SPUtils.get(mContext, "printContent", "");
+            if (!StringUtils.isBlank(printContent)) {
+                printerDevice.printlnText(format,printContent);
+            }
+
+            if (SPUtils.loadDrawable(mContext) != null){
+                printerDevice.printBitmap(format, SPUtils.loadDrawable(mContext));
+            }
+
             if (printerData.getApp_type() != Config.APP_HD) {
                 format.clear();
                 format.setParameter("align", "center");
@@ -850,20 +873,13 @@ public class Printer {
                     printerDevice.printlnText(format, "积分余额：" + printerData.getPointCurrent());
                 }
 
-                format.clear();
-                format.setParameter("align", "center");
-                format.setParameter("size", "medium");
-                if (printerData.getCoupon_bitmap() != null) {
-                    LogUtils.e("width: " + printerData.getCoupon_bitmap().getWidth() + " height: "
-                            + printerData.getCoupon_bitmap().getHeight());
-                    printerDevice.printBitmap(format, printerData.getCoupon_bitmap());
-                }
+
                 format.clear();
                 format.setParameter("align", "left");
                 format.setParameter("size", "medium");
                 if (!StringUtils.isBlank(printerData.getCouponData())) {
-                    printerDevice.printlnText(format, "--------------------------------");
-                    printerDevice.printlnText(format, "本次消费获得：");
+//                    printerDevice.printlnText(format, "--------------------------------");
+//                    printerDevice.printlnText(format, "本次消费获得：");
                     Gson gson = new Gson();
                     List<Couponsn> couponsns = gson.fromJson(printerData.getCouponData(), new TypeToken<List<Couponsn>>() {
                     }.getType());
@@ -876,13 +892,17 @@ public class Printer {
                             printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(couponsns.get(i).getCoupon_money()));
                         }
                     }
-//                    if (!StringUtils.isEmpty(printerData.getTitle_url())) {
-//
-//                        printerDevice.printlnText(format, "优惠券名称：" + printerData.getTitle_url());
-//                    }
-//                    if (printerData.getMoney() > 0) {
-//                        printerDevice.printlnText(format, "优惠券金额：" + StringUtils.formatIntMoney(printerData.getMoney()));
-//                    }
+                }
+
+                format.clear();
+                format.setParameter("align", "center");
+                format.setParameter("size", "medium");
+                if (printerData.getCoupon_bitmap() != null) {
+                    LogUtils.e("width: " + printerData.getCoupon_bitmap().getWidth() + " height: "
+                            + printerData.getCoupon_bitmap().getHeight());
+                    printerDevice.printlnText(format, "--------------------------------");
+                    printerDevice.printlnText(format, "扫一扫领取红包");
+                    printerDevice.printBitmap(format, printerData.getCoupon_bitmap());
                 }
             }
             printerDevice.printText(format, "\n");

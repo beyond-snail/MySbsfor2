@@ -467,6 +467,10 @@ public class SPUtils {
         put(context, "bitmap", imageBase64);
     }
 
+    public static void deleDrawable(Context context){
+        remove(context,"bitmap");
+    }
+
     public static Bitmap loadDrawable(Context context) {
 //		String temp = share.getString("P", "");
         String temp = (String) get(context, "bitmap", "");

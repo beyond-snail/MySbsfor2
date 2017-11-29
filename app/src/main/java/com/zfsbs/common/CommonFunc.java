@@ -121,7 +121,7 @@ public class CommonFunc {
      * @return
      */
     public static String getNewClientSn() {
-        String device = "2"; // 1:手机 2:Pos机
+        String device = "POS"; // 1:手机 2:Pos机
         String timestamp = StringUtils.getFormatCurTime();
         String randomNum = StringUtils.createRandomNumStr(3);
         String serial_no = StringUtils.getTerminalNo(StringUtils.getSerial());

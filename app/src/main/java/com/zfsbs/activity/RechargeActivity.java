@@ -203,9 +203,23 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
                         ToastUtils.CustomShow(mContext, "请输入金额");
                         return;
                     }
+
+                    if (StringUtils.changeY2F(etAmount.getText().toString().trim()).length() > 10){
+                        ToastUtils.CustomShow(mContext, "金额过大");
+                        return;
+                    }
+
+                    long amount = Long.parseLong(StringUtils.changeY2F(etAmount.getText().toString().trim()));
+                    loadRechargeSureData(amount);
+                } else {
+                    if (vo != null) {
+                        loadRechargeSureData(vo.getReal_get_money());
+                    }else{
+                        ToastUtils.CustomShow(mContext, "数据错误");
+                    }
                 }
 
-                loadRechargeSureData();
+
                 break;
             case R.id.id_scan:
                 CommonFunc.startResultAction(RechargeActivity.this, CaptureActivity.class, null, REQUEST_CAPTURE);
@@ -311,15 +325,10 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 
 
 
-    private void loadRechargeSureData(){
+    private void loadRechargeSureData(final long amount){
 
 
-        if (StringUtils.changeY2F(etAmount.getText().toString().trim()).length() > 10){
-            ToastUtils.CustomShow(mContext, "金额过大");
-            return;
-        }
 
-        long amount = Long.parseLong(StringUtils.changeY2F(etAmount.getText().toString().trim()));
 
         Long sid = MyApplication.getInstance().getLoginData().getSid();
         String cardNo = etCardNo.getText().toString().trim();
@@ -333,7 +342,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
                 bundle.putString("orderNo", orderNo);
                 bundle.putString("cardNo", etCardNo.getText().toString().trim());
                 bundle.putString("actualAmount", data.getActualAmount());
-                bundle.putString("oldAmount", StringUtils.changeY2F(etAmount.getText().toString().trim()));
+                bundle.putString("oldAmount", amount+"");
                 bundle.putString("tgy", etOperator.getText().toString().trim());
 //                bundle.putString("card_id", data.getActualAmount());
 

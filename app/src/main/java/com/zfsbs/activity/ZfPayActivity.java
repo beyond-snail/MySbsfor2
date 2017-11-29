@@ -1998,6 +1998,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {
+
                         e.printStackTrace();
                     }
                 }
