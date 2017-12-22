@@ -44,10 +44,10 @@ import java.io.Serializable;
 public class ShiftCount implements Serializable {
 
     private int trade_num; //交易笔数
-    private String real_pay_money; //实付金额
-    private String real_undo_money; //交易撤销总金额
-    private String coupon_deduct; //优惠券抵扣金额
-    private String intergral_deduct; //积分抵扣金额
+    private int real_pay_money; //实付金额
+    private int real_undo_money; //交易撤销总金额
+    private int coupon_deduct; //优惠券抵扣金额
+    private int intergral_deduct; //积分抵扣金额
 
     public int getTrade_num() {
         return trade_num;
@@ -57,35 +57,35 @@ public class ShiftCount implements Serializable {
         this.trade_num = trade_num;
     }
 
-    public String getReal_pay_money() {
+    public int getReal_pay_money() {
         return real_pay_money;
     }
 
-    public void setReal_pay_money(String real_pay_money) {
+    public void setReal_pay_money(int real_pay_money) {
         this.real_pay_money = real_pay_money;
     }
 
-    public String getReal_undo_money() {
+    public int getReal_undo_money() {
         return real_undo_money;
     }
 
-    public void setReal_undo_money(String real_undo_money) {
+    public void setReal_undo_money(int real_undo_money) {
         this.real_undo_money = real_undo_money;
     }
 
-    public String getCoupon_deduct() {
+    public int getCoupon_deduct() {
         return coupon_deduct;
     }
 
-    public void setCoupon_deduct(String coupon_deduct) {
+    public void setCoupon_deduct(int coupon_deduct) {
         this.coupon_deduct = coupon_deduct;
     }
 
-    public String getIntergral_deduct() {
+    public int getIntergral_deduct() {
         return intergral_deduct;
     }
 
-    public void setIntergral_deduct(String intergral_deduct) {
+    public void setIntergral_deduct(int intergral_deduct) {
         this.intergral_deduct = intergral_deduct;
     }
 

@@ -49,7 +49,8 @@ public class TicektResponse {
     private String goodName;
     private int oldAmount;
     private int payAmount;
-    private String status;
+    private int status;
+    private String statusName;
 
     public String getGoodName() {
         return goodName;
@@ -75,11 +76,19 @@ public class TicektResponse {
         this.payAmount = payAmount;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
     }
 }

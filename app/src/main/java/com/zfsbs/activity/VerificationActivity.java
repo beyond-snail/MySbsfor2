@@ -27,7 +27,7 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
     private TextView tGet;
     private TextView tStatus;
     private EditText tNo;
-
+    private int status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +42,7 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
         tNo = editText(R.id.id_ticket_no);
         button(R.id.id_ticket_check).setOnClickListener(this);
         button(R.id.id_sure).setOnClickListener(this);
+        button(R.id.id_cz).setOnClickListener(this);
         ll = linearLayout(R.id.id_ll_ticket);
         tType = textView(R.id.id_ticket_type);
         tName = textView(R.id.id_ticket_name);
@@ -63,6 +64,13 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
                     return;
                 }
                 checkTicket();
+                break;
+            case R.id.id_cz:
+                if (StringUtils.isEmpty(tNo.getText().toString().trim())){
+                    ToastUtils.CustomShow(this, "请输入券码或扫码");
+                    return;
+                }
+                commitTicketRefund();
                 break;
             case R.id.id_sure:
                 if (StringUtils.isEmpty(tNo.getText().toString().trim())){
@@ -93,6 +101,36 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
             default:
                 break;
         }
+    }
+
+
+    private void commitTicketRefund() {
+        Long sid = MyApplication.getInstance().getLoginData().getSid();
+        String sn = StringUtils.getSerial();
+        String ticketNo = tNo.getText().toString().trim();
+
+        sbsAction.ticketRefund(this, sid, ticketNo, sn, new ActionCallbackListener<String>() {
+            @Override
+            public void onSuccess(String data) {
+                ToastUtils.CustomShow(VerificationActivity.this, data);
+                onBackPressed();
+            }
+
+            @Override
+            public void onFailure(String errorEvent, String message) {
+                ToastUtils.CustomShow(VerificationActivity.this, message);
+            }
+
+            @Override
+            public void onFailurTimeOut(String s, String error_msg) {
+
+            }
+
+            @Override
+            public void onLogin() {
+
+            }
+        });
     }
 
     private void commitTicket() {
@@ -147,7 +185,8 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
                 tPayPrice.setText(StringUtils.formatIntMoney(data.getOldAmount()));
                 tOldPrice.setText(StringUtils.formatIntMoney(data.getPayAmount()));
 //                tGet.setText(data.getGetWay());
-                tStatus.setText(data.getStatus());
+                tStatus.setText(data.getStatusName());
+                status = data.getStatus();
             }
 
             @Override

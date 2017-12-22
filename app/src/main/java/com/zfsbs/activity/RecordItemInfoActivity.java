@@ -872,8 +872,10 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
     private void refundTrans() {
 
 
-        if (recordData.getPayType() == Constants.PAY_WAY_UNDO) {
-            setTransCancel(Constants.PAY_WAY_UNDO, recordData.getVoucherNo());
+        if (recordData.getPayType() == Constants.PAY_WAY_UNDO ||
+                recordData.getPayType() == Constants.PAY_WAY_AUTHCANCEL ||
+                recordData.getPayType() == Constants.PAY_WAY_VOID_AUTHCOMPLETE) {
+            setTransCancel(recordData.getPayType(), recordData.getVoucherNo());
             return;
         }
 

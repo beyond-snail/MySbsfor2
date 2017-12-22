@@ -122,11 +122,11 @@ public class CommonFunc {
      */
     public static String getNewClientSn() {
         String device = "POS"; // 1:手机 2:Pos机
-        String timestamp = StringUtils.getFormatCurTime();
-        String randomNum = StringUtils.createRandomNumStr(3);
         String serial_no = StringUtils.getTerminalNo(StringUtils.getSerial());
+        String randomNum = StringUtils.createRandomNumStr(3);
+        String timestamp = StringUtils.getFormatCurTime();
 
-        return device + timestamp + randomNum + serial_no;
+        return device +serial_no+ randomNum+timestamp;
     }
 
 //    public static String getNewClientSn(Context context, int PayType) {

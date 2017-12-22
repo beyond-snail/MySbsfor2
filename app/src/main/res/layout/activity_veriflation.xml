@@ -245,19 +245,39 @@
                 android:textSize="15sp" />
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/id_sure"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/btn_purple_selector"
-            android:layout_marginTop="25dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:padding="10dp"
-            android:text="确认核销"/>
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/id_sure"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/btn_purple_selector"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:padding="5dp"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:text="确认核销"/>
+            <Button
+                android:id="@+id/id_cz"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_purple_selector"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:padding="5dp"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:text="冲正"/>
+        </LinearLayout>
     </LinearLayout>
 
 

@@ -449,7 +449,7 @@
             android:padding="5dp"
             android:background="@drawable/btn_purple_selector"
             android:text="@string/print_again"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="20sp" />
 
         <Button
@@ -464,7 +464,7 @@
             android:background="@drawable/btn_purple_selector"
             
             android:text="@string/pay_end"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -508,7 +508,7 @@
             android:background="@drawable/btn_purple_selector"
 
             android:text="@string/pay_order_query"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="20sp" />
 
         <Button
@@ -523,7 +523,7 @@
             android:background="@drawable/btn_purple_selector"
 
             android:text="@string/pay_end"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -566,7 +566,7 @@
             android:background="@drawable/btn_purple_selector"
             
             android:text="@string/sure"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="20sp" />
     </LinearLayout>
 

@@ -944,74 +944,74 @@ public class Printer {
             printerDevice.printlnText(format, "--------------------------------");
             printerDevice.printlnText(format, "刷卡：");
             printerDevice.printlnText(format, "交易笔数："+ ((data.getPay_swipe() != null) ? data.getPay_swipe().getTrade_num() : "0")+"笔");
-            printerDevice.printlnText(format, "实收金额："+ ((data.getPay_swipe() != null) ? data.getPay_swipe().getReal_pay_money() : "0")+"元");
-            printerDevice.printlnText(format, "优惠券抵扣金额："+ ((data.getPay_swipe() != null) ? data.getPay_swipe().getCoupon_deduct() : "0")+"元");
-            printerDevice.printlnText(format, "积分抵扣金额："+ ((data.getPay_swipe() != null) ? data.getPay_swipe().getIntergral_deduct() : "0")+"元");
+            printerDevice.printlnText(format, "实收金额："+ ((data.getPay_swipe() != null) ? StringUtils.formatIntMoney(data.getPay_swipe().getReal_pay_money()) : "0")+"元");
+            printerDevice.printlnText(format, "优惠券抵扣金额："+ ((data.getPay_swipe() != null) ? StringUtils.formatIntMoney(data.getPay_swipe().getCoupon_deduct()) : "0")+"元");
+            printerDevice.printlnText(format, "积分抵扣金额："+ ((data.getPay_swipe() != null) ? StringUtils.formatIntMoney(data.getPay_swipe().getIntergral_deduct()) : "0")+"元");
 
             printerDevice.printlnText(format, "--------------------------------");
             printerDevice.printlnText(format, "现金：");
             printerDevice.printlnText(format, "交易笔数："+ ((data.getPay_cash() != null) ? data.getPay_cash().getTrade_num() : "0")+"笔");
-            printerDevice.printlnText(format, "实收金额："+ ((data.getPay_cash() != null) ? data.getPay_cash().getReal_pay_money() : "0") +"元");
-            printerDevice.printlnText(format, "优惠券抵扣金额："+ ((data.getPay_cash() != null) ? data.getPay_cash().getCoupon_deduct() : "0")+"元");
-            printerDevice.printlnText(format, "积分抵扣金额："+ ((data.getPay_cash() != null) ? data.getPay_cash().getIntergral_deduct()  : "0")+"元");
+            printerDevice.printlnText(format, "实收金额："+ ((data.getPay_cash() != null) ? StringUtils.formatIntMoney(data.getPay_cash().getReal_pay_money()) : "0") +"元");
+            printerDevice.printlnText(format, "优惠券抵扣金额："+ ((data.getPay_cash() != null) ? StringUtils.formatIntMoney(data.getPay_cash().getCoupon_deduct()) : "0")+"元");
+            printerDevice.printlnText(format, "积分抵扣金额："+ ((data.getPay_cash() != null) ? StringUtils.formatIntMoney(data.getPay_cash().getIntergral_deduct())  : "0")+"元");
 
 
             printerDevice.printlnText(format, "--------------------------------");
             printerDevice.printlnText(format, "微信：");
             printerDevice.printlnText(format, "交易笔数："+ ((data.getPay_wx() != null) ? data.getPay_wx().getTrade_num() : "0")+"笔");
-            printerDevice.printlnText(format, "实收金额："+ ((data.getPay_wx() != null) ? data.getPay_wx().getReal_pay_money() : "0") +"元");
-            printerDevice.printlnText(format, "优惠券抵扣金额："+ ((data.getPay_wx() != null) ? data.getPay_wx().getCoupon_deduct() : "0")+"元");
-            printerDevice.printlnText(format, "积分抵扣金额："+ ((data.getPay_wx() != null) ? data.getPay_wx().getIntergral_deduct()  : "0")+"元");
+            printerDevice.printlnText(format, "实收金额："+ ((data.getPay_wx() != null) ? StringUtils.formatIntMoney(data.getPay_wx().getReal_pay_money()) : "0") +"元");
+            printerDevice.printlnText(format, "优惠券抵扣金额："+ ((data.getPay_wx() != null) ? StringUtils.formatIntMoney(data.getPay_wx().getCoupon_deduct()) : "0")+"元");
+            printerDevice.printlnText(format, "积分抵扣金额："+ ((data.getPay_wx() != null) ? StringUtils.formatIntMoney(data.getPay_wx().getIntergral_deduct())  : "0")+"元");
 
 
             printerDevice.printlnText(format, "--------------------------------");
             printerDevice.printlnText(format, "支付宝：");
             printerDevice.printlnText(format, "交易笔数："+ ((data.getPay_aly() != null) ? data.getPay_aly().getTrade_num() : "0")+"笔");
-            printerDevice.printlnText(format, "实收金额："+ ((data.getPay_aly() != null) ? data.getPay_aly().getReal_pay_money() : "0") +"元");
-            printerDevice.printlnText(format, "优惠券抵扣金额："+ ((data.getPay_aly() != null) ? data.getPay_aly().getCoupon_deduct() : "0")+"元");
-            printerDevice.printlnText(format, "积分抵扣金额："+ ((data.getPay_aly() != null) ? data.getPay_aly().getIntergral_deduct()  : "0")+"元");
+            printerDevice.printlnText(format, "实收金额："+ ((data.getPay_aly() != null) ? StringUtils.formatIntMoney(data.getPay_aly().getReal_pay_money()) : "0") +"元");
+            printerDevice.printlnText(format, "优惠券抵扣金额："+ ((data.getPay_aly() != null) ? StringUtils.formatIntMoney(data.getPay_aly().getCoupon_deduct()) : "0")+"元");
+            printerDevice.printlnText(format, "积分抵扣金额："+ ((data.getPay_aly() != null) ? StringUtils.formatIntMoney(data.getPay_aly().getIntergral_deduct())  : "0")+"元");
 
 
             printerDevice.printlnText(format, "--------------------------------");
             printerDevice.printlnText(format, "钱包：");
 
             printerDevice.printlnText(format, "交易笔数："+ ((data.getPay_qb() != null) ? data.getPay_qb().getTrade_num() : "0")+"笔");
-            printerDevice.printlnText(format, "实收金额："+ ((data.getPay_qb() != null) ? data.getPay_qb().getReal_pay_money() : "0") +"元");
-            printerDevice.printlnText(format, "优惠券抵扣金额："+ ((data.getPay_qb() != null) ? data.getPay_qb().getCoupon_deduct() : "0")+"元");
-            printerDevice.printlnText(format, "积分抵扣金额："+ ((data.getPay_qb() != null) ? data.getPay_qb().getIntergral_deduct()  : "0")+"元");
+            printerDevice.printlnText(format, "实收金额："+ ((data.getPay_qb() != null) ? StringUtils.formatIntMoney(data.getPay_qb().getReal_pay_money()) : "0") +"元");
+            printerDevice.printlnText(format, "优惠券抵扣金额："+ ((data.getPay_qb() != null) ? StringUtils.formatIntMoney(data.getPay_qb().getCoupon_deduct()) : "0")+"元");
+            printerDevice.printlnText(format, "积分抵扣金额："+ ((data.getPay_qb() != null) ? StringUtils.formatIntMoney(data.getPay_qb().getIntergral_deduct())  : "0")+"元");
 
 
             printerDevice.printlnText(format, "--------------------------------");
             printerDevice.printlnText(format, "刷卡撤销：");
             printerDevice.printlnText(format, "交易笔数："+ ((data.getPay_unswipe() != null) ? data.getPay_unswipe().getTrade_num() : "0")+"笔");
-            printerDevice.printlnText(format, "撤销金额："+ ((data.getPay_unswipe() != null) ? data.getPay_unswipe().getReal_pay_money() : "0") +"元");
+            printerDevice.printlnText(format, "撤销金额："+ ((data.getPay_unswipe() != null) ? StringUtils.formatIntMoney(data.getPay_unswipe().getReal_undo_money()) : "0") +"元");
 
 
             printerDevice.printlnText(format, "--------------------------------");
             printerDevice.printlnText(format, "微信撤销：");
             printerDevice.printlnText(format, "交易笔数："+ ((data.getPay_unwx() != null) ? data.getPay_unwx().getTrade_num() : "0")+"笔");
-            printerDevice.printlnText(format, "撤销金额："+ ((data.getPay_unwx() != null) ? data.getPay_unwx().getReal_pay_money() : "0") +"元");
+            printerDevice.printlnText(format, "撤销金额："+ ((data.getPay_unwx() != null) ? StringUtils.formatIntMoney(data.getPay_unwx().getReal_undo_money()) : "0") +"元");
 
 
             printerDevice.printlnText(format, "--------------------------------");
             printerDevice.printlnText(format, "支付宝撤销：");
             printerDevice.printlnText(format, "交易笔数："+ ((data.getPay_unaly() != null) ? data.getPay_unaly().getTrade_num() : "0")+"笔");
-            printerDevice.printlnText(format, "撤销金额："+ ((data.getPay_unaly() != null) ? data.getPay_unaly().getReal_pay_money() : "0") +"元");
+            printerDevice.printlnText(format, "撤销金额："+ ((data.getPay_unaly() != null) ? StringUtils.formatIntMoney(data.getPay_unaly().getReal_undo_money()) : "0") +"元");
 
 
             printerDevice.printlnText(format, "--------------------------------");
             printerDevice.printlnText(format, "钱包撤销：");
             printerDevice.printlnText(format, "交易笔数："+ ((data.getPay_unqb() != null) ? data.getPay_unqb().getTrade_num() : "0")+"笔");
-            printerDevice.printlnText(format, "撤销金额："+ ((data.getPay_unqb() != null) ? data.getPay_unqb().getReal_pay_money() : "0") +"元");
+            printerDevice.printlnText(format, "撤销金额："+ ((data.getPay_unqb() != null) ? StringUtils.formatIntMoney(data.getPay_unqb().getReal_undo_money()) : "0") +"元");
 
             printerDevice.printlnText(format, "--------------------------------");
             printerDevice.printlnText(format, "交易统计：");
 
             printerDevice.printlnText(format, "交易总笔数："+ ((data.getTotal() != null) ? data.getTotal().getTrade_num() : "0")+"笔");
-            printerDevice.printlnText(format, "实收总金额："+ ((data.getTotal() != null) ? data.getTotal().getReal_pay_money() : "0")+"元");
-            printerDevice.printlnText(format, "交易撤销总金额："+ ((data.getTotal() != null) ? data.getTotal().getReal_undo_money() : "0")+"元");
-            printerDevice.printlnText(format, "优惠券抵扣总金额："+ ((data.getTotal() != null) ? data.getTotal().getCoupon_deduct() : "0")+"元");
-            printerDevice.printlnText(format, "积分抵扣总金额："+ ((data.getTotal() != null) ? data.getTotal().getIntergral_deduct() : "0") +"元");
+            printerDevice.printlnText(format, "实收总金额："+ ((data.getTotal() != null) ? StringUtils.formatIntMoney(data.getTotal().getReal_pay_money()) : "0")+"元");
+            printerDevice.printlnText(format, "交易撤销总金额："+ ((data.getTotal() != null) ? StringUtils.formatIntMoney(data.getTotal().getReal_undo_money()) : "0")+"元");
+            printerDevice.printlnText(format, "优惠券抵扣总金额："+ ((data.getTotal() != null) ? StringUtils.formatIntMoney(data.getTotal().getCoupon_deduct()) : "0")+"元");
+            printerDevice.printlnText(format, "积分抵扣总金额："+ ((data.getTotal() != null) ? StringUtils.formatIntMoney(data.getTotal().getIntergral_deduct()) : "0") +"元");
 
 
             printerDevice.printText(format, "\n");
@@ -1052,73 +1052,73 @@ public class Printer {
 
             printerDevice.printlnText(format, "--------------------------------");
             printerDevice.printlnText(format, "刷卡：");
-            printerDevice.printlnText(format, "交数："+ ((data.getPay_swipe() != null) ? data.getPay_swipe().getTrade_num() : "0")+"笔");
-            printerDevice.printlnText(format, "实收金额："+ ((data.getPay_swipe() != null) ? data.getPay_swipe().getReal_pay_money() : "0")+"元");
-            printerDevice.printlnText(format, "优惠券抵扣金额："+ ((data.getPay_swipe() != null) ? data.getPay_swipe().getCoupon_deduct() : "0")+"元");
-            printerDevice.printlnText(format, "积分抵扣金额："+ ((data.getPay_swipe() != null) ? data.getPay_swipe().getIntergral_deduct() : "0")+"元");
+            printerDevice.printlnText(format, "交易笔数："+ ((data.getPay_swipe() != null) ? data.getPay_swipe().getTrade_num() : "0")+"笔");
+            printerDevice.printlnText(format, "实收金额："+ ((data.getPay_swipe() != null) ? StringUtils.formatIntMoney(data.getPay_swipe().getReal_pay_money()) : "0")+"元");
+            printerDevice.printlnText(format, "优惠券抵扣金额："+ ((data.getPay_swipe() != null) ? StringUtils.formatIntMoney(data.getPay_swipe().getCoupon_deduct()) : "0")+"元");
+            printerDevice.printlnText(format, "积分抵扣金额："+ ((data.getPay_swipe() != null) ? StringUtils.formatIntMoney(data.getPay_swipe().getIntergral_deduct()) : "0")+"元");
 
             printerDevice.printlnText(format, "--------------------------------");
             printerDevice.printlnText(format, "现金：");
             printerDevice.printlnText(format, "交易笔数："+ ((data.getPay_cash() != null) ? data.getPay_cash().getTrade_num() : "0")+"笔");
-            printerDevice.printlnText(format, "实收金额："+ ((data.getPay_cash() != null) ? data.getPay_cash().getReal_pay_money() : "0") +"元");
-            printerDevice.printlnText(format, "优惠券抵扣金额："+ ((data.getPay_cash() != null) ? data.getPay_cash().getCoupon_deduct() : "0")+"元");
-            printerDevice.printlnText(format, "积分抵扣金额："+ ((data.getPay_cash() != null) ? data.getPay_cash().getIntergral_deduct()  : "0")+"元");
+            printerDevice.printlnText(format, "实收金额："+ ((data.getPay_cash() != null) ? StringUtils.formatIntMoney(data.getPay_cash().getReal_pay_money()) : "0") +"元");
+            printerDevice.printlnText(format, "优惠券抵扣金额："+ ((data.getPay_cash() != null) ? StringUtils.formatIntMoney(data.getPay_cash().getCoupon_deduct()) : "0")+"元");
+            printerDevice.printlnText(format, "积分抵扣金额："+ ((data.getPay_cash() != null) ? StringUtils.formatIntMoney(data.getPay_cash().getIntergral_deduct())  : "0")+"元");
 
 
             printerDevice.printlnText(format, "--------------------------------");
             printerDevice.printlnText(format, "微信：");
             printerDevice.printlnText(format, "交易笔数："+ ((data.getPay_wx() != null) ? data.getPay_wx().getTrade_num() : "0")+"笔");
-            printerDevice.printlnText(format, "实收金额："+ ((data.getPay_wx() != null) ? data.getPay_wx().getReal_pay_money() : "0") +"元");
-            printerDevice.printlnText(format, "优惠券抵扣金额："+ ((data.getPay_wx() != null) ? data.getPay_wx().getCoupon_deduct() : "0")+"元");
-            printerDevice.printlnText(format, "积分抵扣金额："+ ((data.getPay_wx() != null) ? data.getPay_wx().getIntergral_deduct()  : "0")+"元");
+            printerDevice.printlnText(format, "实收金额："+ ((data.getPay_wx() != null) ? StringUtils.formatIntMoney(data.getPay_wx().getReal_pay_money()) : "0") +"元");
+            printerDevice.printlnText(format, "优惠券抵扣金额："+ ((data.getPay_wx() != null) ? StringUtils.formatIntMoney(data.getPay_wx().getCoupon_deduct()) : "0")+"元");
+            printerDevice.printlnText(format, "积分抵扣金额："+ ((data.getPay_wx() != null) ? StringUtils.formatIntMoney(data.getPay_wx().getIntergral_deduct())  : "0")+"元");
 
 
             printerDevice.printlnText(format, "--------------------------------");
             printerDevice.printlnText(format, "支付宝：");
             printerDevice.printlnText(format, "交易笔数："+ ((data.getPay_aly() != null) ? data.getPay_aly().getTrade_num() : "0")+"笔");
-            printerDevice.printlnText(format, "实收金额："+ ((data.getPay_aly() != null) ? data.getPay_aly().getReal_pay_money() : "0") +"元");
-            printerDevice.printlnText(format, "优惠券抵扣金额："+ ((data.getPay_aly() != null) ? data.getPay_aly().getCoupon_deduct() : "0")+"元");
-            printerDevice.printlnText(format, "积分抵扣金额："+ ((data.getPay_aly() != null) ? data.getPay_aly().getIntergral_deduct()  : "0")+"元");
+            printerDevice.printlnText(format, "实收金额："+ ((data.getPay_aly() != null) ? StringUtils.formatIntMoney(data.getPay_aly().getReal_pay_money()) : "0") +"元");
+            printerDevice.printlnText(format, "优惠券抵扣金额："+ ((data.getPay_aly() != null) ? StringUtils.formatIntMoney(data.getPay_aly().getCoupon_deduct()) : "0")+"元");
+            printerDevice.printlnText(format, "积分抵扣金额："+ ((data.getPay_aly() != null) ? StringUtils.formatIntMoney(data.getPay_aly().getIntergral_deduct())  : "0")+"元");
 
 
             printerDevice.printlnText(format, "--------------------------------");
             printerDevice.printlnText(format, "钱包：");
             printerDevice.printlnText(format, "交易笔数："+ ((data.getPay_qb() != null) ? data.getPay_qb().getTrade_num() : "0")+"笔");
-            printerDevice.printlnText(format, "实收金额："+ ((data.getPay_qb() != null) ? data.getPay_qb().getReal_pay_money() : "0") +"元");
-            printerDevice.printlnText(format, "优惠券抵扣金额："+ ((data.getPay_qb() != null) ? data.getPay_qb().getCoupon_deduct() : "0")+"元");
-            printerDevice.printlnText(format, "积分抵扣金额："+ ((data.getPay_qb() != null) ? data.getPay_qb().getIntergral_deduct()  : "0")+"元");
+            printerDevice.printlnText(format, "实收金额："+ ((data.getPay_qb() != null) ? StringUtils.formatIntMoney(data.getPay_qb().getReal_pay_money()) : "0") +"元");
+            printerDevice.printlnText(format, "优惠券抵扣金额："+ ((data.getPay_qb() != null) ? StringUtils.formatIntMoney(data.getPay_qb().getCoupon_deduct()) : "0")+"元");
+            printerDevice.printlnText(format, "积分抵扣金额："+ ((data.getPay_qb() != null) ? StringUtils.formatIntMoney(data.getPay_qb().getIntergral_deduct())  : "0")+"元");
 
 
             printerDevice.printlnText(format, "--------------------------------");
             printerDevice.printlnText(format, "刷卡撤销：");
             printerDevice.printlnText(format, "交易笔数："+ ((data.getPay_unswipe() != null) ? data.getPay_unswipe().getTrade_num() : "0")+"笔");
-            printerDevice.printlnText(format, "撤销金额："+ ((data.getPay_unswipe() != null) ? data.getPay_unswipe().getReal_pay_money() : "0") +"元");
+            printerDevice.printlnText(format, "撤销金额："+ ((data.getPay_unswipe() != null) ? StringUtils.formatIntMoney(data.getPay_unswipe().getReal_undo_money()) : "0") +"元");
 
 
             printerDevice.printlnText(format, "--------------------------------");
             printerDevice.printlnText(format, "微信撤销：");
             printerDevice.printlnText(format, "交易笔数："+ ((data.getPay_unwx() != null) ? data.getPay_unwx().getTrade_num() : "0")+"笔");
-            printerDevice.printlnText(format, "撤销金额："+ ((data.getPay_unwx() != null) ? data.getPay_unwx().getReal_pay_money() : "0") +"元");
+            printerDevice.printlnText(format, "撤销金额："+ ((data.getPay_unwx() != null) ? StringUtils.formatIntMoney(data.getPay_unwx().getReal_undo_money()) : "0") +"元");
 
 
             printerDevice.printlnText(format, "--------------------------------");
             printerDevice.printlnText(format, "支付宝撤销：");
             printerDevice.printlnText(format, "交易笔数："+ ((data.getPay_unaly() != null) ? data.getPay_unaly().getTrade_num() : "0")+"笔");
-            printerDevice.printlnText(format, "撤销金额："+ ((data.getPay_unaly() != null) ? data.getPay_unaly().getReal_pay_money() : "0") +"元");
+            printerDevice.printlnText(format, "撤销金额："+ ((data.getPay_unaly() != null) ? StringUtils.formatIntMoney(data.getPay_unaly().getReal_undo_money()) : "0") +"元");
 
 
             printerDevice.printlnText(format, "--------------------------------");
             printerDevice.printlnText(format, "钱包撤销：");
             printerDevice.printlnText(format, "交易笔数："+ ((data.getPay_unqb() != null) ? data.getPay_unqb().getTrade_num() : "0")+"笔");
-            printerDevice.printlnText(format, "撤销金额："+ ((data.getPay_unqb() != null) ? data.getPay_unqb().getReal_pay_money() : "0") +"元");
+            printerDevice.printlnText(format, "撤销金额："+ ((data.getPay_unqb() != null) ? StringUtils.formatIntMoney(data.getPay_unqb().getReal_undo_money()) : "0") +"元");
 
             printerDevice.printlnText(format, "--------------------------------");
             printerDevice.printlnText(format, "交易统计：");
             printerDevice.printlnText(format, "交易总笔数："+ ((data.getTotal() != null) ? data.getTotal().getTrade_num() : "0")+"笔");
-            printerDevice.printlnText(format, "实收总金额："+ ((data.getTotal() != null) ? data.getTotal().getReal_pay_money() : "0")+"元");
-            printerDevice.printlnText(format, "交易撤销总金额："+ ((data.getTotal() != null) ? data.getTotal().getReal_undo_money() : "0")+"元");
-            printerDevice.printlnText(format, "优惠券抵扣总金额："+ ((data.getTotal() != null) ? data.getTotal().getCoupon_deduct() : "0")+"元");
-            printerDevice.printlnText(format, "积分抵扣总金额："+ ((data.getTotal() != null) ? data.getTotal().getIntergral_deduct() : "0") +"元");
+            printerDevice.printlnText(format, "实收总金额："+ ((data.getTotal() != null) ? StringUtils.formatIntMoney(data.getTotal().getReal_pay_money()) : "0")+"元");
+            printerDevice.printlnText(format, "交易撤销总金额："+ ((data.getTotal() != null) ? StringUtils.formatIntMoney(data.getTotal().getReal_undo_money()) : "0")+"元");
+            printerDevice.printlnText(format, "优惠券抵扣总金额："+ ((data.getTotal() != null) ? StringUtils.formatIntMoney(data.getTotal().getCoupon_deduct()) : "0")+"元");
+            printerDevice.printlnText(format, "积分抵扣总金额："+ ((data.getTotal() != null) ? StringUtils.formatIntMoney(data.getTotal().getIntergral_deduct()) : "0") +"元");
 
 
 

@@ -70,7 +70,9 @@ public class MyRecordsAdapter extends CommonAdapter<SbsPrinterData> {
 //        if (sbsPrinterData.isStatus()){
 //            return "交易未知";
 //        }
-        if (sbsPrinterData.getPayType() == Constants.PAY_WAY_UNDO){
+        if (sbsPrinterData.getPayType() == Constants.PAY_WAY_UNDO ||
+                sbsPrinterData.getPayType() == Constants.PAY_WAY_AUTHCANCEL||
+                sbsPrinterData.getPayType() == Constants.PAY_WAY_VOID_AUTHCOMPLETE){
             if (!sbsPrinterData.isRefundUpload()){
                 return "流水上送失败";
             }

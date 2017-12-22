@@ -758,6 +758,50 @@ public class SbsAction {
         });
     }
 
+    /**
+     * 券码核销冲正
+     *
+     * @param context
+     * @param sid
+     * @param cardNo
+     * @param sn
+     * @param listener
+     */
+    public void ticketRefund(final Context context, Long sid, String cardNo, String sn, final ActionCallbackListener<String> listener) {
+        final LoadingDialog dialog = new LoadingDialog(context);
+        dialog.show("加载中...");
+
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("sid", sid);
+        paramsMap.put("couponCode", cardNo);
+        paramsMap.put("terminalSerial", sn);
+
+        String data = CommonFunc.getJsonStr("couponRefund", paramsMap, "verify", Config.md5_key);
+        LogUtils.e(TAG, "URL: " + Config.SBS_URL);
+
+        MyOkHttp.get().postJson(context, Config.SBS_URL, data, new GsonResponseHandler<ApiResponse<Object>>() {
+            @Override
+            public void onSuccess(int statusCode, ApiResponse<Object> response) {
+                dialog.dismiss();
+                if (response != null) {
+                    if (response.getCode().equals("A00006")) {
+                        listener.onSuccess(response.getMsg());
+                    } else {
+                        listener.onFailure(response.getCode(), response.getMsg());
+                    }
+                } else {
+                    listener.onFailure("", "链接服务器异常");
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, String error_msg) {
+                dialog.dismiss();
+                listener.onFailure("" + statusCode, error_msg);
+            }
+        });
+    }
+
 
     /**
      * 开卡、换卡

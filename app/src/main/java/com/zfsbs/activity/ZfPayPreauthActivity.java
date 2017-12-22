@@ -595,6 +595,7 @@ public class ZfPayPreauthActivity extends BaseActivity implements OnClickListene
         String orderId = CommonFunc.getNewClientSn();
         printerData.setClientOrderNo(orderId);
         printerData.setOldOrderId(orderNo);
+        request.setSid(MyApplication.getInstance().getLoginData().getSid());
         request.setAction("2");
         request.setOld_trade_order_num(orderNo);
         request.setNew_trade_order_num(orderId);

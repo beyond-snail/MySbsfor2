@@ -25,7 +25,7 @@ public class ShiftRoomShowitemActivity extends BaseActivity implements View.OnCl
 
     private EditText tvStartTime;
     private EditText tvEndTime;
-    private TextView title;
+//    private TextView title;
     private Button btnPrinter;
     private Button btnGet;
     private ShiftRoom shiftRoom;
@@ -46,7 +46,7 @@ public class ShiftRoomShowitemActivity extends BaseActivity implements View.OnCl
 //        AppManager.getAppManager().addActivity(this);
         initTitle("班结统计");
 
-        title = (TextView) findViewById(R.id.activity_title);
+//        title = (TextView) findViewById(R.id.activity_title);
         lv = (ListView) findViewById(R.id.show_shift_room_list);
 
         tvStartTime = (EditText) findViewById(R.id.id_start_time);
@@ -69,7 +69,7 @@ public class ShiftRoomShowitemActivity extends BaseActivity implements View.OnCl
         tvStartTime.setText(StringUtils.timeStamp2Date1(start_time + ""));
         tvEndTime.setText(StringUtils.timeStamp2Date1(end_time + ""));
 
-        title.setText("班结统计");
+//        title.setText("班结统计");
 
 
 
@@ -98,10 +98,9 @@ public class ShiftRoomShowitemActivity extends BaseActivity implements View.OnCl
                         shiftRoom.getPay_swipe().getIntergral_deduct(), 1);
             }else {
                 setShowData("刷卡", 0,
-                        "0",
-                        "0",
-                        "0",
-                        "0", 1);
+                        0, 0,
+                        0,
+                        0, 1);
             }
 
             if(shiftRoom.getPay_cash() != null) {
@@ -112,10 +111,9 @@ public class ShiftRoomShowitemActivity extends BaseActivity implements View.OnCl
                         shiftRoom.getPay_cash().getIntergral_deduct(), 1);
             }else {
                 setShowData("现金", 0,
-                        "0",
-                        "0",
-                        "0",
-                        "0", 1);
+                        0, 0,
+                        0,
+                        0, 1);
             }
 
             if (shiftRoom.getPay_wx() != null) {
@@ -126,10 +124,9 @@ public class ShiftRoomShowitemActivity extends BaseActivity implements View.OnCl
                         shiftRoom.getPay_wx().getIntergral_deduct(), 1);
             }else {
                 setShowData("微信", 0,
-                        "0",
-                        "0",
-                        "0",
-                        "0", 1);
+                        0, 0,
+                        0,
+                        0, 1);
             }
 
             if (shiftRoom.getPay_aly() != null) {
@@ -140,10 +137,9 @@ public class ShiftRoomShowitemActivity extends BaseActivity implements View.OnCl
                         shiftRoom.getPay_aly().getIntergral_deduct(), 1);
             }else {
                 setShowData("支付宝", 0,
-                        "0",
-                        "0",
-                        "0",
-                        "0", 1);
+                        0, 0,
+                        0,
+                        0, 1);
             }
 
             if (shiftRoom.getPay_qb() != null) {
@@ -154,10 +150,9 @@ public class ShiftRoomShowitemActivity extends BaseActivity implements View.OnCl
                         shiftRoom.getPay_qb().getIntergral_deduct(), 1);
             }else {
                 setShowData("钱包", 0,
-                        "0",
-                        "0",
-                        "0",
-                        "0", 1);
+                        0, 0,
+                        0,
+                        0, 1);
             }
 
             if (shiftRoom.getPay_unswipe() != null) {
@@ -168,10 +163,9 @@ public class ShiftRoomShowitemActivity extends BaseActivity implements View.OnCl
                         shiftRoom.getPay_unswipe().getIntergral_deduct(), 1);
             }else {
                 setShowData("刷卡撤销", 0,
-                        "0",
-                        "0",
-                        "0",
-                        "0", 1);
+                        0, 0,
+                        0,
+                        0, 1);
             }
 
             if (shiftRoom.getPay_unwx() != null) {
@@ -182,10 +176,9 @@ public class ShiftRoomShowitemActivity extends BaseActivity implements View.OnCl
                         shiftRoom.getPay_unwx().getIntergral_deduct(), 1);
             }else {
                 setShowData("微信撤销", 0,
-                        "0",
-                        "0",
-                        "0",
-                        "0", 1);
+                        0, 0,
+                        0,
+                        0, 1);
             }
 
             if (shiftRoom.getPay_unaly() != null) {
@@ -196,10 +189,9 @@ public class ShiftRoomShowitemActivity extends BaseActivity implements View.OnCl
                         shiftRoom.getPay_unaly().getIntergral_deduct(), 1);
             }else {
                 setShowData("支付宝撤销", 0,
-                        "0",
-                        "0",
-                        "0",
-                        "0", 1);
+                        0, 0,
+                        0,
+                        0, 1);
             }
 
             if (shiftRoom.getPay_unqb() != null) {
@@ -210,10 +202,9 @@ public class ShiftRoomShowitemActivity extends BaseActivity implements View.OnCl
                         shiftRoom.getPay_unqb().getIntergral_deduct(), 1);
             }else {
                 setShowData("钱包撤销", 0,
-                        "0",
-                        "0",
-                        "0",
-                        "0", 1);
+                        0, 0,
+                        0,
+                        0, 1);
             }
 
             if (shiftRoom.getTotal() != null) {
@@ -224,10 +215,9 @@ public class ShiftRoomShowitemActivity extends BaseActivity implements View.OnCl
                         shiftRoom.getTotal().getIntergral_deduct(), 2);
             }else {
                 setShowData("交易总计", 0,
-                        "0",
-                        "0",
-                        "0",
-                        "0", 2);
+                        0, 0,
+                        0,
+                        0, 2);
             }
 
 
@@ -240,14 +230,14 @@ public class ShiftRoomShowitemActivity extends BaseActivity implements View.OnCl
 
 
 
-    private void setShowData(String name, int trade_num, String real_pay_money, String real_undo_money, String coupon_deduct, String Intergral_deduct, int type){
+    private void setShowData(String name, int trade_num, int real_pay_money, int real_undo_money, int coupon_deduct, int Intergral_deduct, int type){
         ShiftRoomShow shiftRoomShow = new ShiftRoomShow();
         shiftRoomShow.setName(name);
         shiftRoomShow.setTrade_num(trade_num);
-        shiftRoomShow.setReal_pay_money(real_pay_money);
-        shiftRoomShow.setCoupon_deduct(coupon_deduct);
-        shiftRoomShow.setIntergral_deduct(Intergral_deduct);
-        shiftRoomShow.setReal_undo_money(real_undo_money);
+        shiftRoomShow.setReal_pay_money(StringUtils.formatIntMoney(real_pay_money));
+        shiftRoomShow.setCoupon_deduct(StringUtils.formatIntMoney(coupon_deduct));
+        shiftRoomShow.setIntergral_deduct(StringUtils.formatIntMoney(Intergral_deduct));
+        shiftRoomShow.setReal_undo_money(StringUtils.formatIntMoney(real_undo_money));
 
         if (type == 1){
             shiftRoomShow.setTrade_num_key("交易笔数: ");
