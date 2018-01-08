@@ -337,6 +337,8 @@ public class SbsAction {
 
         String data = CommonFunc.getJsonStr("tranUploadPos", paramsMap, "verify", Config.md5_key);
 
+        LogUtils.e(data);
+
         MyOkHttp.get().postJson(context, Config.SBS_URL, data, new GsonResponseHandler<ApiResponse<TransUploadResponse>>() {
             @Override
             public void onFailure(int statusCode, String error_msg) {

@@ -495,6 +495,7 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
                 data.setPoint(0);
                 data.setPass("");
                 data.setStkCardNo("");
+                data.setCouponSns(couponCode);
                 CommonFunc.setBackMemberInfo(InputAmountActivity.this, data);
 
                 CommonFunc.startAction(InputAmountActivity.this, ZfPayActivity.class, true);

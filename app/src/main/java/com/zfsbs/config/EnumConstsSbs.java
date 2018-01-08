@@ -175,6 +175,7 @@ public class EnumConstsSbs {
 
 
 	public enum CouponUseStatus{
+		waitGet("待领取", 0),
 		Verified("已核销", 1),
 		//UnVerify("未核销", 2),
 		Received("已领取", 3),
@@ -187,18 +188,14 @@ public class EnumConstsSbs {
 		private int type;
 		static Map<Integer, CouponUseStatus> allCouponUseStatuss;
 		private CouponUseStatus(String name, int type){
-			this.name
-
-					= name;
+			this.name= name;
 			this.type = type;
 		}
 		public String getName() {
 			return name;
 		}
 		public void setName(String name) {
-			this.name
-
-					= name;
+			this.name= name;
 		}
 		public int getType() {
 			return type;
