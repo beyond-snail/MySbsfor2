@@ -20,14 +20,14 @@ import com.zfsbs.myapplication.MyApplication;
 public class VerificationActivity extends BaseActivity implements View.OnClickListener {
 
     private LinearLayout ll;
-    private TextView tType;
+//    private TextView tType;
     private TextView tName;
     private TextView tOldPrice;
     private TextView tPayPrice;
-    private TextView tGet;
+//    private TextView tGet;
     private TextView tStatus;
     private EditText tNo;
-    private int status;
+//    private int status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +44,24 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
         button(R.id.id_sure).setOnClickListener(this);
         button(R.id.id_cz).setOnClickListener(this);
         ll = linearLayout(R.id.id_ll_ticket);
-        tType = textView(R.id.id_ticket_type);
+//        tType = textView(R.id.id_ticket_type);
         tName = textView(R.id.id_ticket_name);
         tOldPrice = textView(R.id.id_ticket_old_price);
         tPayPrice = textView(R.id.id_ticket_pay_price);
-        tGet = textView(R.id.id_ticket_get);
+//        tGet = textView(R.id.id_ticket_get);
         tStatus = textView(R.id.id_ticket_status);
 
         imageView(R.id.id_scan).setOnClickListener(this);
 
+    }
+
+    private void reset(){
+        tName.setText("");
+        tOldPrice.setText("");
+        tPayPrice.setText("");
+        tStatus.setText("");
+        tNo.setText("");
+        ll.setVisibility(View.GONE);
     }
 
     @Override
@@ -143,7 +152,8 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onSuccess(String data) {
                 ToastUtils.CustomShow(VerificationActivity.this, data);
-                onBackPressed();
+//                onBackPressed();
+                reset();
             }
 
             @Override
@@ -186,7 +196,7 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
                 tOldPrice.setText(StringUtils.formatIntMoney(data.getPayAmount()));
 //                tGet.setText(data.getGetWay());
                 tStatus.setText(data.getStatusName());
-                status = data.getStatus();
+//                status = data.getStatus();
             }
 
             @Override
