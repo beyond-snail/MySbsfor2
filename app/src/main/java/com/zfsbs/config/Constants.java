@@ -123,8 +123,8 @@ public class Constants {
 	public static final String DEFAULT_INS_CD = "08M0064989";
 	public static final String DEFAULT_FY_MERCHANT_NO = "0001100F0370523";
 //	public static final String DEFAULT_FY_IP = "121.40.224.25:9091"; //测试
-//	public static final String DEFAULT_FY_IP = "121.40.64.120:9090";
-	public static final String DEFAULT_FY_IP = "121.40.84.2:8380";
+	public static final String DEFAULT_FY_IP = "121.40.64.120:9090";
+//	public static final String DEFAULT_FY_IP = "121.40.84.2:8380";
 
 
 

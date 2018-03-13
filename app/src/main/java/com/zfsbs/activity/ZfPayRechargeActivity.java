@@ -16,7 +16,8 @@ import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
-import com.yzq.testzxing.zxing.android.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.zfsbs.R;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Config;
@@ -586,17 +587,17 @@ public class ZfPayRechargeActivity extends BaseActivity implements View.OnClickL
             }
                 break;
             case REQUEST_CAPTURE_WX:
-                String result_wx = data.getExtras().getString(CaptureActivity.SCAN_RESULT);
+                String result_wx = data.getExtras().getString(CodeUtils.RESULT_STRING);
                 LogUtils.e("result", result_wx);
                 FyWxPay1(result_wx);
                 break;
             case REQUEST_CAPTURE_ALY:
-                String result_aly = data.getExtras().getString(CaptureActivity.SCAN_RESULT);
+                String result_aly = data.getExtras().getString(CodeUtils.RESULT_STRING);
                 LogUtils.e("result", result_aly);
                 FyAlyPay1(result_aly);
                 break;
             case REQUEST_CAPTURE_UNIPAY:
-                String result_uni = data.getExtras().getString(CaptureActivity.SCAN_RESULT);
+                String result_uni = data.getExtras().getString(CodeUtils.RESULT_STRING);
                 LogUtils.e("result", result_uni);
                 FyUnionPay1(result_uni);
                 break;

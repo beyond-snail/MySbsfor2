@@ -10,7 +10,6 @@ import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
-import com.wosai.upay.bean.UpayResult;
 import com.zfsbs.activity.SaleMainActivity;
 import com.zfsbs.config.Constants;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
@@ -372,59 +371,59 @@ public class LoginAction {
 
     // 激活BAT
     protected void ActivateCode() {
-        String sm_type = MyApplication.getInstance().getLoginData().getScanPayType();
-
-        if (!StringUtils.isEmpty(sm_type) && StringUtils.isEquals(sm_type, Constants.SM_TYPE_FY)) {
-            ui.UiAction(mContext, SaleMainActivity.class, true);
-            return;
-        } else if (!StringUtils.isEmpty(sm_type) && StringUtils.isEquals(sm_type, Constants.SM_TYPE_SQB)) {
-            boolean flag = MyApplication.getInstance().getLoginData().isActive();
-            if (!flag) {
-                bat.activite(new BatInterface() {
-
-                    @Override
-                    public void success_bat(UpayResult result) {
-                        // 调用激活反馈接口
-                        activateAction(1);
-                        // 保存激活状态
-                        MyApplication.getInstance().getLoginData().setActive(true);
-                        // 更新到数据库
-                        ContentValues values = new ContentValues();
-                        values.put("isActive", true);
-                        DataSupport.update(LoginApiResponse.class, values,
-                                MyApplication.getInstance().getLoginData().getId());
-
-                    }
-
-                    @Override
-                    public void failed_bat(String error_code, String error_msg) {
-                        // 调用激活反馈接口
-                        activateAction(0);
-                        // 这里反馈没有成功，那就让这个激活码的状态为false ，重新签到的时候再次去激活，反馈
-                        // 保存激活状态
-                        MyApplication.getInstance().getLoginData().setActive(false);
-                        MyApplication.getInstance().getLoginData().setActiveCode("");
-                        // 更新到数据库
-                        ContentValues values = new ContentValues();
-                        values.put("isActive", false);
-                        values.put("activeCode", "");
-                        DataSupport.update(LoginApiResponse.class, values,
-                                MyApplication.getInstance().getLoginData().getId());
-                    }
-
-                    @Override
-                    public void onLogin() {
-
-                    }
-                });
-                return;
-            } else {
-                ui.UiAction(mContext, SaleMainActivity.class, true);
-            }
-        } else {
-            ui.UiAction(mContext, SaleMainActivity.class, true);
-            return;
-        }
+//        String sm_type = MyApplication.getInstance().getLoginData().getScanPayType();
+//
+//        if (!StringUtils.isEmpty(sm_type) && StringUtils.isEquals(sm_type, Constants.SM_TYPE_FY)) {
+//            ui.UiAction(mContext, SaleMainActivity.class, true);
+//            return;
+//        } else if (!StringUtils.isEmpty(sm_type) && StringUtils.isEquals(sm_type, Constants.SM_TYPE_SQB)) {
+//            boolean flag = MyApplication.getInstance().getLoginData().isActive();
+//            if (!flag) {
+//                bat.activite(new BatInterface() {
+//
+//                    @Override
+//                    public void success_bat(UpayResult result) {
+//                        // 调用激活反馈接口
+//                        activateAction(1);
+//                        // 保存激活状态
+//                        MyApplication.getInstance().getLoginData().setActive(true);
+//                        // 更新到数据库
+//                        ContentValues values = new ContentValues();
+//                        values.put("isActive", true);
+//                        DataSupport.update(LoginApiResponse.class, values,
+//                                MyApplication.getInstance().getLoginData().getId());
+//
+//                    }
+//
+//                    @Override
+//                    public void failed_bat(String error_code, String error_msg) {
+//                        // 调用激活反馈接口
+//                        activateAction(0);
+//                        // 这里反馈没有成功，那就让这个激活码的状态为false ，重新签到的时候再次去激活，反馈
+//                        // 保存激活状态
+//                        MyApplication.getInstance().getLoginData().setActive(false);
+//                        MyApplication.getInstance().getLoginData().setActiveCode("");
+//                        // 更新到数据库
+//                        ContentValues values = new ContentValues();
+//                        values.put("isActive", false);
+//                        values.put("activeCode", "");
+//                        DataSupport.update(LoginApiResponse.class, values,
+//                                MyApplication.getInstance().getLoginData().getId());
+//                    }
+//
+//                    @Override
+//                    public void onLogin() {
+//
+//                    }
+//                });
+//                return;
+//            } else {
+//                ui.UiAction(mContext, SaleMainActivity.class, true);
+//            }
+//        } else {
+//            ui.UiAction(mContext, SaleMainActivity.class, true);
+//            return;
+//        }
 
     }
 

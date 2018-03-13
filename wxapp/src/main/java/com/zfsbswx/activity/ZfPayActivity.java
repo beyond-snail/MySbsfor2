@@ -28,8 +28,8 @@ import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
-import com.wosai.upay.bean.UpayResult;
-import com.yzq.testzxing.zxing.android.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.zfsbswx.R;
 import com.zfsbswx.common.CommonFunc;
 import com.zfsbswx.config.Config;
@@ -463,88 +463,88 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
         //收钱吧
         boolean flag = MyApplication.getInstance().getLoginData().isActive();
         if (!flag) {
-            bat.activite(new BatInterface() {
-
-                @Override
-                public void success_bat(UpayResult result) {
-                    MyApplication.getInstance().getLoginData().setActive(true);
-                    // 更新到数据库
-                    ContentValues values = new ContentValues();
-                    values.put("isActive", true);
-                    DataSupport.update(LoginApiResponse.class, values,
-                            MyApplication.getInstance().getLoginData().getId());
-                    activateAction(1);
-                }
-
-                @Override
-                public void failed_bat(String error_code, String error_msg) {
-                    ToastUtils.CustomShow(ZfPayActivity.this, error_code + "#" + error_msg);
-                    // 保存激活状态
-                    MyApplication.getInstance().getLoginData().setActive(false);
-                    MyApplication.getInstance().getLoginData().setActiveCode("");
-                    // 更新到数据库
-                    ContentValues values = new ContentValues();
-                    values.put("isActive", false);
-                    values.put("activeCode", "");
-                    DataSupport.update(LoginApiResponse.class, values,
-                            MyApplication.getInstance().getLoginData().getId());
-                    activateAction(0);
-                }
-
-                @Override
-                public void onLogin() {
-
-                }
-            });
-            return;
+//            bat.activite(new BatInterface() {
+//
+//                @Override
+//                public void success_bat(UpayResult result) {
+//                    MyApplication.getInstance().getLoginData().setActive(true);
+//                    // 更新到数据库
+//                    ContentValues values = new ContentValues();
+//                    values.put("isActive", true);
+//                    DataSupport.update(LoginApiResponse.class, values,
+//                            MyApplication.getInstance().getLoginData().getId());
+//                    activateAction(1);
+//                }
+//
+//                @Override
+//                public void failed_bat(String error_code, String error_msg) {
+//                    ToastUtils.CustomShow(ZfPayActivity.this, error_code + "#" + error_msg);
+//                    // 保存激活状态
+//                    MyApplication.getInstance().getLoginData().setActive(false);
+//                    MyApplication.getInstance().getLoginData().setActiveCode("");
+//                    // 更新到数据库
+//                    ContentValues values = new ContentValues();
+//                    values.put("isActive", false);
+//                    values.put("activeCode", "");
+//                    DataSupport.update(LoginApiResponse.class, values,
+//                            MyApplication.getInstance().getLoginData().getId());
+//                    activateAction(0);
+//                }
+//
+//                @Override
+//                public void onLogin() {
+//
+//                }
+//            });
+//            return;
         }
         // 设置订单号
-        bat.setMyOrderId(CommonFunc.getNewClientSn(this, type));
-        bat.pay(type, CommonFunc.recoveryMemberInfo(this).getRealMoney(), new BatInterface() {
-
-            @Override
-            public void success_bat(UpayResult result) {
-                paySqb1(result);
-            }
-
-            @Override
-            public void failed_bat(String error_code, String error_msg) {
-                ToastUtils.CustomShowLong(ZfPayActivity.this, error_code + "#" + error_msg);
-                //支付失败直接跳出
-                CommonFunc.startAction(ZfPayActivity.this, InputAmountActivity.class, true);
-            }
-
-            @Override
-            public void onLogin() {
-                ToastUtils.CustomShow(ZfPayActivity.this, "登录失效，请重新登录。。。");
-                AppManager.getAppManager().finishAllActivity();
-                if (Config.OPERATOR_UI_BEFORE) {
-                    CommonFunc.startAction(ZfPayActivity.this, OperatorLoginActivity.class, false);
-                } else {
-                    CommonFunc.startAction(ZfPayActivity.this, OperatorLoginActivity1.class, false);
-                }
-            }
-        });
+//        bat.setMyOrderId(CommonFunc.getNewClientSn(this, type));
+//        bat.pay(type, CommonFunc.recoveryMemberInfo(this).getRealMoney(), new BatInterface() {
+//
+//            @Override
+//            public void success_bat(UpayResult result) {
+//                paySqb1(result);
+//            }
+//
+//            @Override
+//            public void failed_bat(String error_code, String error_msg) {
+//                ToastUtils.CustomShowLong(ZfPayActivity.this, error_code + "#" + error_msg);
+//                //支付失败直接跳出
+//                CommonFunc.startAction(ZfPayActivity.this, InputAmountActivity.class, true);
+//            }
+//
+//            @Override
+//            public void onLogin() {
+//                ToastUtils.CustomShow(ZfPayActivity.this, "登录失效，请重新登录。。。");
+//                AppManager.getAppManager().finishAllActivity();
+//                if (Config.OPERATOR_UI_BEFORE) {
+//                    CommonFunc.startAction(ZfPayActivity.this, OperatorLoginActivity.class, false);
+//                } else {
+//                    CommonFunc.startAction(ZfPayActivity.this, OperatorLoginActivity1.class, false);
+//                }
+//            }
+//        });
     }
 
 
-    private void paySqb1(UpayResult result) {
-
-        setBatPrintData1(result);
-
-        TransUploadRequest request = CommonFunc.setTransUploadData(printerData,
-                CommonFunc.recoveryMemberInfo(ZfPayActivity.this),
-                bat.getMyOrderId(),
-                printerData.getTransNo(), printerData.getAuthCode());
-        if (app_type == Config.APP_Richer_e) {
-
-            Richer_transUploadAction(request);
-        } else {
-            transUploadAction1(request);
-        }
-
-
-    }
+//    private void paySqb1(UpayResult result) {
+//
+//        setBatPrintData1(result);
+//
+//        TransUploadRequest request = CommonFunc.setTransUploadData(printerData,
+//                CommonFunc.recoveryMemberInfo(ZfPayActivity.this),
+//                bat.getMyOrderId(),
+//                printerData.getTransNo(), printerData.getAuthCode());
+//        if (app_type == Config.APP_Richer_e) {
+//
+//            Richer_transUploadAction(request);
+//        } else {
+//            transUploadAction1(request);
+//        }
+//
+//
+//    }
 
 
     /**
@@ -723,17 +723,17 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
 
                 break;
             case REQUEST_CAPTURE_WX:
-                String result_wx = data.getExtras().getString(CaptureActivity.SCAN_RESULT);
+                String result_wx = data.getExtras().getString(CodeUtils.RESULT_STRING);
                 LogUtils.e("result", result_wx);
                 FyWxPay1(result_wx);
                 break;
             case REQUEST_CAPTURE_ALY:
-                String result_aly = data.getExtras().getString(CaptureActivity.SCAN_RESULT);
+                String result_aly = data.getExtras().getString(CodeUtils.RESULT_STRING);
                 LogUtils.e("result", result_aly);
                 FyAlyPay1(result_aly);
                 break;
             case REQUEST_CAPTURE_QB:
-                String result_qb = data.getExtras().getString(CaptureActivity.SCAN_RESULT);
+                String result_qb = data.getExtras().getString(CodeUtils.RESULT_STRING);
                 LogUtils.e("result", result_qb);
                 ZfQbPay1(result_qb);
 
@@ -1048,30 +1048,30 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
     }
 
 
-    protected void setBatPrintData1(UpayResult result) {
-        printerData.setMerchantName(MyApplication.getInstance().getLoginData().getActivateCodemerchantName());
-        printerData.setMerchantNo(MyApplication.getInstance().getLoginData().getActivateCodeMerchantNo());
-        printerData.setTerminalId(MyApplication.getInstance().getLoginData().getActiveCode());
-        printerData.setOperatorNo((String) SPUtils.get(this, Constants.USER_NAME, ""));
-        printerData.setClientOrderNo(result.getClient_sn());
-        printerData.setTransNo(result.getTrade_no());
-        printerData.setAuthCode(result.getSn());
-        printerData.setDateTime(StringUtils.getCurTime());
-        printerData.setOrderAmount(CommonFunc.recoveryMemberInfo(this).getTradeMoney());
-        printerData.setAmount(StringUtils.formatStrMoney(result.getNet_amount()));
-        printerData.setPointCoverMoney(CommonFunc.recoveryMemberInfo(this).getPointCoverMoney());
-        printerData.setCouponCoverMoney(CommonFunc.recoveryMemberInfo(this).getCouponCoverMoney());
-        printerData.setScanPayType(MyApplication.getInstance().getLoginData().getScanPayType());
-        if (result.getPayway().equals(Constants.PAY_WAY_ALY + "")) {
-            printerData.setPayType(Constants.PAY_WAY_ALY);
-        } else if (result.getPayway().equals(Constants.PAY_WAY_WX + "")) {
-            printerData.setPayType(Constants.PAY_WAY_WX);
-        } else if (result.getPayway().equals(Constants.PAY_WAY_BFB + "")) {
-            printerData.setPayType(Constants.PAY_WAY_BFB);
-        } else if (result.getPayway().equals(Constants.PAY_WAY_JD + "")) {
-            printerData.setPayType(Constants.PAY_WAY_JD);
-        }
-    }
+//    protected void setBatPrintData1(UpayResult result) {
+//        printerData.setMerchantName(MyApplication.getInstance().getLoginData().getActivateCodemerchantName());
+//        printerData.setMerchantNo(MyApplication.getInstance().getLoginData().getActivateCodeMerchantNo());
+//        printerData.setTerminalId(MyApplication.getInstance().getLoginData().getActiveCode());
+//        printerData.setOperatorNo((String) SPUtils.get(this, Constants.USER_NAME, ""));
+//        printerData.setClientOrderNo(result.getClient_sn());
+//        printerData.setTransNo(result.getTrade_no());
+//        printerData.setAuthCode(result.getSn());
+//        printerData.setDateTime(StringUtils.getCurTime());
+//        printerData.setOrderAmount(CommonFunc.recoveryMemberInfo(this).getTradeMoney());
+//        printerData.setAmount(StringUtils.formatStrMoney(result.getNet_amount()));
+//        printerData.setPointCoverMoney(CommonFunc.recoveryMemberInfo(this).getPointCoverMoney());
+//        printerData.setCouponCoverMoney(CommonFunc.recoveryMemberInfo(this).getCouponCoverMoney());
+//        printerData.setScanPayType(MyApplication.getInstance().getLoginData().getScanPayType());
+//        if (result.getPayway().equals(Constants.PAY_WAY_ALY + "")) {
+//            printerData.setPayType(Constants.PAY_WAY_ALY);
+//        } else if (result.getPayway().equals(Constants.PAY_WAY_WX + "")) {
+//            printerData.setPayType(Constants.PAY_WAY_WX);
+//        } else if (result.getPayway().equals(Constants.PAY_WAY_BFB + "")) {
+//            printerData.setPayType(Constants.PAY_WAY_BFB);
+//        } else if (result.getPayway().equals(Constants.PAY_WAY_JD + "")) {
+//            printerData.setPayType(Constants.PAY_WAY_JD);
+//        }
+//    }
 
 
     private void setFySmPay1(FyMicropayResponse data) {

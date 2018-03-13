@@ -13,18 +13,13 @@ import com.tool.utils.dialog.MemberNoDialog;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
-import com.yzq.testzxing.zxing.android.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.zfsbs.R;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Config;
 import com.zfsbs.config.Constants;
-import com.zfsbs.core.myinterface.ActionCallbackListener;
-import com.zfsbs.model.CouponsResponse;
 import com.zfsbs.model.MemberTransAmountResponse;
-import com.zfsbs.myapplication.MyApplication;
-
-import static com.zfsbs.common.CommonFunc.startAction;
-import static com.zfsbs.common.CommonFunc.startResultAction;
 
 
 public class InputAmountActivity2 extends BaseActivity implements OnClickListener {
@@ -239,7 +234,7 @@ public class InputAmountActivity2 extends BaseActivity implements OnClickListene
         switch (requestCode) {
             case REQUEST_CAPTURE:
                 // 处理扫描结果（在界面上显示）
-                String phoneNo = data.getStringExtra(CaptureActivity.SCAN_RESULT);
+                String phoneNo = data.getStringExtra(CodeUtils.RESULT_STRING);
                 MemberNoDialog.setMemberNo(phoneNo);
                 break;
 

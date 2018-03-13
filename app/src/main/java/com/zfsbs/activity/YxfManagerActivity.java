@@ -40,7 +40,6 @@ import android.widget.EditText;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
-import com.wosai.upay.ui.BaseActivity;
 import com.zfsbs.R;
 import com.zfsbs.config.Config;
 

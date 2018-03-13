@@ -7,8 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.toollibrary.R;
-import com.zxing.activity.MyCaptureActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -22,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_main);
 
         initView();
 
@@ -31,16 +29,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
 
-        mTv = (TextView) findViewById(R.id.id_text);
-
-        mBtn = (Button) findViewById(R.id.id_scan);
-        mBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, MyCaptureActivity.class);
-                startActivityForResult(intent, REQUEST_CAPTURE_CODE);
-            }
-        });
+//        mTv = (TextView) findViewById(R.id.id_text);
+//
+//        mBtn = (Button) findViewById(R.id.id_scan);
+//        mBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+////                startActivityForResult(intent, REQUEST_CAPTURE_CODE);
+//            }
+//        });
 
 
     }
@@ -55,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
         }
         switch (requestCode){
             case REQUEST_CAPTURE_CODE:
-                String result = data.getExtras().getString(MyCaptureActivity.SCAN_RESULT);
-                mTv.setText(result);
+//                String result = data.getExtras().getString(CodeUtils.RESULT_STRING);
+//                mTv.setText(result);
                 break;
             default:
                 break;

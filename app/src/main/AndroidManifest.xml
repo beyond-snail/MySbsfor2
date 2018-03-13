@@ -23,6 +23,14 @@
     <uses-permission android:name="android.permission.CLOUDPOS_SAFE_MODULE" />
     <uses-permission android:name="android.permission.CLOUDPOS_SETTIME" />
     <uses-permission android:name="com.wizarpos.keyposclient.permission.LOCAL_TMK_SERVICE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.REORDER_TASKS" />
 
     <application
         android:name=".myapplication.MyApplication"

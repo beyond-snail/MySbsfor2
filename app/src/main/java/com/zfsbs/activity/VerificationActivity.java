@@ -1,20 +1,24 @@
 package com.zfsbs.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
-import com.yzq.testzxing.zxing.android.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.zfsbs.R;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
 import com.zfsbs.model.TicektResponse;
 import com.zfsbs.myapplication.MyApplication;
+import com.zfsbs.view.MyDialog;
 
 
 public class VerificationActivity extends BaseActivity implements View.OnClickListener {
@@ -28,6 +32,9 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
     private TextView tStatus;
     private EditText tNo;
 //    private int status;
+
+    private Button id_sure;
+    private Button id_cz;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,9 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
         tStatus = textView(R.id.id_ticket_status);
 
         imageView(R.id.id_scan).setOnClickListener(this);
+
+        id_sure = button(R.id.id_sure);
+        id_cz = button(R.id.id_cz);
 
     }
 
@@ -103,7 +113,7 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
         }
         switch (requestCode) {
             case 1:
-                String result = data.getExtras().getString(CaptureActivity.SCAN_RESULT);
+                String result = data.getExtras().getString(CodeUtils.RESULT_STRING);
                 tNo.setText(result);
                 checkTicket();
                 break;
@@ -122,12 +132,28 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onSuccess(String data) {
                 ToastUtils.CustomShow(VerificationActivity.this, data);
-                onBackPressed();
+//                onBackPressed();
+                reset();
             }
 
             @Override
             public void onFailure(String errorEvent, String message) {
-                ToastUtils.CustomShow(VerificationActivity.this, message);
+//                ToastUtils.CustomShow(VerificationActivity.this, message);
+                MyDialog.Builder builder = new MyDialog.Builder(mContext);
+                builder.setTitle("提示");
+                builder.setMessage(message);
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int arg1) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
             }
 
             @Override
@@ -158,7 +184,22 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
 
             @Override
             public void onFailure(String errorEvent, String message) {
-                ToastUtils.CustomShow(VerificationActivity.this, message);
+//                ToastUtils.CustomShow(VerificationActivity.this, message);
+                MyDialog.Builder builder = new MyDialog.Builder(mContext);
+                builder.setTitle("提示");
+                builder.setMessage(message);
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int arg1) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
             }
 
             @Override
@@ -197,11 +238,38 @@ public class VerificationActivity extends BaseActivity implements View.OnClickLi
 //                tGet.setText(data.getGetWay());
                 tStatus.setText(data.getStatusName());
 //                status = data.getStatus();
+
+                if (data.getStatus() == 2){
+                    id_sure.setVisibility(View.GONE);
+                }else{
+                    id_sure.setVisibility(View.VISIBLE);
+                }
+
+                if (data.isCorrect()){
+                    id_cz.setVisibility(View.GONE);
+                }else{
+                    id_cz.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
             public void onFailure(String errorEvent, String message) {
-                ToastUtils.CustomShow(VerificationActivity.this, message);
+//                ToastUtils.CustomShow(VerificationActivity.this, message);
+                MyDialog.Builder builder = new MyDialog.Builder(mContext);
+                builder.setTitle("提示");
+                builder.setMessage(message);
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int arg1) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
             }
 
             @Override

@@ -17,7 +17,8 @@ import com.tool.utils.utils.NumberInputHelper;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
 import com.tool.utils.view.MyGridView;
-import com.yzq.testzxing.zxing.android.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.zfsbs.R;
 import com.zfsbs.adapter.AdapterOilCardMeal;
 import com.zfsbs.common.CommonFunc;
@@ -239,7 +240,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
         switch (requestCode) {
             case REQUEST_CAPTURE:
                 // 处理扫描结果（在界面上显示）
-                String phoneNo = data.getStringExtra(CaptureActivity.SCAN_RESULT);
+                String phoneNo = data.getStringExtra(CodeUtils.RESULT_STRING);
                 etCardNo.setText(phoneNo);
                 break;
 

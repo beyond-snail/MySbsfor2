@@ -51,6 +51,7 @@ public class TicektResponse {
     private int payAmount;
     private int status;
     private String statusName;
+    private boolean isCorrect;
 
     public String getGoodName() {
         return goodName;
@@ -90,5 +91,13 @@ public class TicektResponse {
 
     public void setStatusName(String statusName) {
         this.statusName = statusName;
+    }
+
+    public boolean isCorrect() {
+        return isCorrect;
+    }
+
+    public void setCorrect(boolean correct) {
+        isCorrect = correct;
     }
 }

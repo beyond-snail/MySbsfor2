@@ -10,7 +10,8 @@ import android.widget.TextView;
 import com.hd.enums.EnumConsts;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
-import com.yzq.testzxing.zxing.android.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.zfsbs.R;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.EnumConstsSbs;
@@ -97,7 +98,7 @@ public class YyVerificationActivity extends BaseActivity implements View.OnClick
         }
         switch (requestCode) {
             case 1:
-                String result = data.getExtras().getString(CaptureActivity.SCAN_RESULT);
+                String result = data.getExtras().getString(CodeUtils.RESULT_STRING);
                 tNo.setText(result);
                 checkTicket();
                 break;

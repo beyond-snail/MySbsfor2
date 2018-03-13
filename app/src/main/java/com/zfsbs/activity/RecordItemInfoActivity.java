@@ -29,7 +29,6 @@ import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
-import com.wosai.upay.bean.UpayResult;
 import com.zfsbs.R;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Config;
@@ -995,59 +994,59 @@ public class RecordItemInfoActivity extends BaseActivity implements View.OnClick
                 }
             }
 
-            BATPay bat = new BATPay(this);
+//            BATPay bat = new BATPay(this);
 
 
-            bat.refund(recordData.getAuthCode(), recordData.getClientOrderNo(), amount + "", new BatInterface() {
-                @Override
-                public void success_bat(UpayResult result) {
-                    // 更新到数据库
-                    ContentValues values = new ContentValues();
-                    values.put("isRefund", true);
-                    values.put("refund_order_no", result.getTrade_no());
-                    DataSupport.update(SbsPrinterData.class, values, recordData.getId());
-
-                    //记录当前成功的订单号，用于如果退款流水上送失败，再次流水上送用。
-                    refund_order_no = result.getTrade_no();
-
-                    recordData.setRefund(true);
-
-                    myintent.putExtra("refund_order_no", refund_order_no);
-
-//                    Intent intent = new Intent();
-//                    intent.putExtra("isRefund", true);
-//                    setResult(Activity.RESULT_OK, intent);
-
-                    LogUtils.e("退款成功");
-                    ToastUtils.CustomShow(RecordItemInfoActivity.this, "退款成功");
-                    if (recordData.getPayType() == Constants.PAY_WAY_ALY) {
-                        setTransCancel(Constants.PAY_WAY_REFUND_ALY, result.getTrade_no());
-                    } else if (recordData.getPayType() == Constants.PAY_WAY_WX) {
-                        setTransCancel(Constants.PAY_WAY_REFUND_WX, result.getTrade_no());
-                    } else if (recordData.getPayType() == Constants.PAY_WAY_UNIPAY) {
-                        setTransCancel(Constants.PAY_WAY_REFUND_UNIPAY, result.getTrade_no());
-                    }
-
-                }
-
-                @Override
-                public void failed_bat(String error_code, String error_msg) {
-                    ToastUtils.CustomShow(RecordItemInfoActivity.this, error_code + "#" + error_msg);
-                    LogUtils.e("退款失败" + error_msg);
-                }
-
-                @Override
-                public void onLogin() {
-                    ToastUtils.CustomShow(RecordItemInfoActivity.this, "登录失效，请重新登录。。。");
-                    AppManager.getAppManager().finishAllActivity();
-
-                    if (Config.OPERATOR_UI_BEFORE) {
-                        CommonFunc.startAction(RecordItemInfoActivity.this, OperatorLoginActivity.class, false);
-                    } else {
-                        CommonFunc.startAction(RecordItemInfoActivity.this, OperatorLoginActivity1.class, false);
-                    }
-                }
-            });
+//            bat.refund(recordData.getAuthCode(), recordData.getClientOrderNo(), amount + "", new BatInterface() {
+//                @Override
+//                public void success_bat(UpayResult result) {
+//                    // 更新到数据库
+//                    ContentValues values = new ContentValues();
+//                    values.put("isRefund", true);
+//                    values.put("refund_order_no", result.getTrade_no());
+//                    DataSupport.update(SbsPrinterData.class, values, recordData.getId());
+//
+//                    //记录当前成功的订单号，用于如果退款流水上送失败，再次流水上送用。
+//                    refund_order_no = result.getTrade_no();
+//
+//                    recordData.setRefund(true);
+//
+//                    myintent.putExtra("refund_order_no", refund_order_no);
+//
+////                    Intent intent = new Intent();
+////                    intent.putExtra("isRefund", true);
+////                    setResult(Activity.RESULT_OK, intent);
+//
+//                    LogUtils.e("退款成功");
+//                    ToastUtils.CustomShow(RecordItemInfoActivity.this, "退款成功");
+//                    if (recordData.getPayType() == Constants.PAY_WAY_ALY) {
+//                        setTransCancel(Constants.PAY_WAY_REFUND_ALY, result.getTrade_no());
+//                    } else if (recordData.getPayType() == Constants.PAY_WAY_WX) {
+//                        setTransCancel(Constants.PAY_WAY_REFUND_WX, result.getTrade_no());
+//                    } else if (recordData.getPayType() == Constants.PAY_WAY_UNIPAY) {
+//                        setTransCancel(Constants.PAY_WAY_REFUND_UNIPAY, result.getTrade_no());
+//                    }
+//
+//                }
+//
+//                @Override
+//                public void failed_bat(String error_code, String error_msg) {
+//                    ToastUtils.CustomShow(RecordItemInfoActivity.this, error_code + "#" + error_msg);
+//                    LogUtils.e("退款失败" + error_msg);
+//                }
+//
+//                @Override
+//                public void onLogin() {
+//                    ToastUtils.CustomShow(RecordItemInfoActivity.this, "登录失效，请重新登录。。。");
+//                    AppManager.getAppManager().finishAllActivity();
+//
+//                    if (Config.OPERATOR_UI_BEFORE) {
+//                        CommonFunc.startAction(RecordItemInfoActivity.this, OperatorLoginActivity.class, false);
+//                    } else {
+//                        CommonFunc.startAction(RecordItemInfoActivity.this, OperatorLoginActivity1.class, false);
+//                    }
+//                }
+//            });
         }
     }
 
