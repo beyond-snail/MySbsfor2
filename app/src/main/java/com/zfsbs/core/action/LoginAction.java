@@ -109,7 +109,9 @@ public class LoginAction {
 //                }
                 ToastUtils.CustomShow(mContext, "获取信息成功");
                 // 激活BAT
-                ActivateCode();
+//                ActivateCode();
+                ui.UiAction(mContext, SaleMainActivity.class, true);
+                return;
             }
 
             @Override
