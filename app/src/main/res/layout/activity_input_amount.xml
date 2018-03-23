@@ -59,7 +59,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:background="@color/btn_purple_normal_cancel" >
 
@@ -80,18 +80,33 @@
         android:id="@+id/ll_show_yy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginRight="10dp"
         android:visibility="gone">
         <TextView
             android:id="@+id/id_show_yy"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:layout_gravity="center_vertical"
-            android:gravity="right"
+            android:padding="5dp"
             android:text="异业联盟优惠券"
             android:textSize="18sp"/>
+        <TextView
+            android:id="@+id/tv_del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:background="@color/btn_purple_normal_cancel"
+            android:text="删除"
+            android:textColor="@color/white"
+            android:textSize="14sp"/>
     </LinearLayout>
 
     <LinearLayout

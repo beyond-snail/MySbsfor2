@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tool.utils.msrcard.MsrCard;
+import com.tool.utils.utils.MoneyUtil;
 import com.tool.utils.utils.NumberInputHelper;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
@@ -47,9 +48,12 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
     private EditText etOperator;
     private EditText etAmount;
     private TextView tv;
+    private TextView tv_detail;
 
     private RelativeLayout ll_amount;
     private LinearLayout ll_tv;
+
+    private LinearLayout ll_detail;
 //    private LinearLayout ll_meal;
     private MyGridView gridview;
 
@@ -137,11 +141,12 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 
 
         tv = (TextView) findViewById(R.id.id_tv_amount);
+        tv_detail = (TextView) findViewById(R.id.tv_detail);
 
         ll_amount = (RelativeLayout) findViewById(R.id.id_ll_amount);
 //        ll_meal = (LinearLayout) findViewById(R.id.id_ll_meal);
         ll_tv = (LinearLayout) findViewById(R.id.id_ll_tv);
-
+        ll_detail = (LinearLayout) findViewById(R.id.ll_detail);
 
         button(R.id.id_btn_recharge).setOnClickListener(this);
         imageView(R.id.id_scan).setOnClickListener(this);
@@ -288,6 +293,8 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
                     ll_amount.setVisibility(View.VISIBLE);
                     ll_tv.setVisibility(View.VISIBLE);
                     gridview.setVisibility(View.GONE);
+                    ll_detail.setVisibility(View.VISIBLE);
+                    setDetail(data.getPercentageInfo());
                 }else if (data.getRechargeType() == 3){
                     list.clear();
                     ll_tv.setVisibility(View.VISIBLE);
@@ -321,6 +328,16 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
     }
 
 
+    private void setDetail(List<RechargeAmount> percentageInfo) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("充值活动说明\r\n\r\n");
+        for (int i = 0; i < percentageInfo.size(); i++){
+            builder.append("充值金额不小于");
+            builder.append(StringUtils.formatIntMoney(percentageInfo.get(i).getReal_pay_money())+"元送");
+            builder.append(MoneyUtil.moneydiv(percentageInfo.get(i).getReal_get_money()+"", "100")+"%\r\n");
+        }
+        tv_detail.setText(builder.toString());
+    }
 
 
 

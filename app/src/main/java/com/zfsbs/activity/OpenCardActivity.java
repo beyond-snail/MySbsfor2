@@ -137,6 +137,11 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
         final String memberCard = etCard.getText().toString().trim();
         final String memberPhone = etPhone.getText().toString().trim();
 
+        if (StringUtils.isBlank(memberPhone)) {
+            ToastUtils.CustomShow(mContext, "会员手机号不为空");
+            return;
+        }
+
         if (StringUtils.isBlank(memberCard)) {
             ToastUtils.CustomShow(mContext, "会员卡号不为空");
             return;
@@ -202,6 +207,12 @@ public class OpenCardActivity extends BaseActivity implements View.OnClickListen
         String memberName = etName.getText().toString().trim();
         final String memberCard = etCard.getText().toString().trim();
         final String memberPhone = etPhone.getText().toString().trim();
+
+
+        if (StringUtils.isBlank(memberPhone)) {
+            ToastUtils.CustomShow(mContext, "会员手机号不为空");
+            return;
+        }
 
         if (StringUtils.isBlank(memberCard)) {
             ToastUtils.CustomShow(mContext, "会员卡号不为空");

@@ -61,11 +61,14 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
     private TextView tKeyblack;
     private TextView tKeyCaculate;
     private TextView tAmount;
+    private TextView tv_del;
 
     private int amount = 0;
 
     private int yyAmount = 0;
     private Long yyId;
+    private int limitAmount;
+
     private String couponCode;
 
     private int app_type = 0;
@@ -133,6 +136,7 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
         tKeyblack = (TextView) findViewById(R.id.id_key_back);
         tKeyCaculate = (TextView) findViewById(R.id.id_key_caculate);
         tAmount = (TextView) findViewById(R.id.id_tv_amount);
+        tv_del = (TextView) findViewById(R.id.tv_del);
     }
 
     private void addLinstener() {
@@ -149,6 +153,7 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
         tKey9.setOnClickListener(this);
         tKeyblack.setOnClickListener(this);
         tKeyCaculate.setOnClickListener(this);
+        tv_del.setOnClickListener(this);
     }
 
     @Override
@@ -197,6 +202,11 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
             case R.id.id_edit:
                 CommonFunc.startResultAction(InputAmountActivity.this, YyVerificationActivity.class, null, 1);
                 break;
+            case R.id.tv_del:
+                linearLayout(R.id.ll_show_yy).setVisibility(View.GONE);
+                textView(R.id.id_show_yy).setText("");
+                yy_flag = false;
+                break;
             default:
                 break;
         }
@@ -220,6 +230,10 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
 
         //是否使用异业优惠券
         if (yy_flag){
+            if (limitAmount > amount){
+                ToastUtils.showShort(mContext, "该券满"+StringUtils.formatIntMoney(limitAmount)+"元使用");
+                return;
+            }
             memberTransAmountAction();
             return;
         }
@@ -277,6 +291,7 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
                 String name = data.getStringExtra("name");
                 yyAmount = Integer.valueOf(data.getStringExtra("amount")).intValue();
                 yyId = data.getLongExtra("yyId", 0);
+                limitAmount = data.getIntExtra("limitAmount", 0);
                 couponCode = data.getStringExtra("couponCode");
                 linearLayout(R.id.ll_show_yy).setVisibility(View.VISIBLE);
                 textView(R.id.id_show_yy).setText(name+":"+StringUtils.formatIntMoney(yyAmount)+"元");
