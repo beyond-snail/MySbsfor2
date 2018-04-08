@@ -1,10 +1,13 @@
 package com.zfsbs.activity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.tool.utils.activityManager.AppManager;
+import com.tool.utils.utils.AlertUtils;
 import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
@@ -47,7 +50,31 @@ public class ShiftRoomActivity extends BaseActivity {
         btnShitRoomDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getShiftRoomDay();
+
+                final View view = ShiftRoomActivity.this.getLayoutInflater().inflate(R.layout.activity_password, null);
+                AlertUtils.alertSetPassword(mContext, "请输入主管理员密码。", "确定", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        // 获取EditView中的输入内容
+                        EditText edit_text = (EditText) view.findViewById(R.id.et_password);
+
+                        String pass = (String) SPUtils.get(mContext, Constants.MASTER_PASS, Constants.DEFAULT_MASTER_PASS);
+                        if (StringUtils.isEmpty(edit_text.getText().toString())) {
+                            ToastUtils.CustomShow(mContext, "请输入主管理密码");
+                            return;
+                        }
+                        if (!StringUtils.isEquals(pass, edit_text.getText().toString())) {
+                            ToastUtils.CustomShow(mContext, "主管理密码错误");
+                            return;
+                        }
+                        dialog.dismiss();
+                        getShiftRoomDay();
+                    }
+
+                }, view);
+
             }
         });
 
