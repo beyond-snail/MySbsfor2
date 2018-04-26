@@ -47,9 +47,9 @@ public class Config {
     public static final String md5_key = "dtradezaq12wsx";
 //    public final static String SBS_URL = "http://api.eboss007.com/api/index.php";//"http://api.eboss007.com/api/index.php";//"http://sbs.xun-ao.com/dtrade/api/";//"http://wqapi.xun-ao.com/";// "http://wqapi.xun-ao.com/";//"http://sbs.xun-ao.com/dtrade/api/";//"http://121.40.224.25:83/dtrade/api/";//"http://sbs.xun-ao.com/dtrade/api/";//"http://www.eboss007.com/dtrade/api/";//"http://wqapi.xun-ao.com/index.php/api/index";
 //    public final static String SBS_URL = "http://192.168.1.3:2020/EBosService/service/api/pos";
-    public final static String SBS_URL = "http://sbs-test.eboss007.com/EBosService/service/api/pos"; //测试
+//    public final static String SBS_URL = "http://sbs-test.eboss007.com/EBosService/service/api/pos"; //测试
 //    public final static String SBS_URL = "http://sbs-pre.eboss007.com/EBosService/service/api/pos"; //预发
-//    public final static String SBS_URL = "http://sbs.eboss007.com/EBosService/service/api/pos"; //正式
+    public final static String SBS_URL = "http://sbs.eboss007.com/EBosService/service/api/pos"; //正式
     public final static String SBS_URL_QB = SBS_URL;
 
 
