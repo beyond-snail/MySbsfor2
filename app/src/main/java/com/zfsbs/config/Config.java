@@ -54,7 +54,7 @@ public class Config {
 
 
     //配置当前为哪个收单，确定一个其他都为false
-    public static final boolean isHs = true;
+    public static final boolean isHs =true;
     public static final boolean isFy = false;
     public static final boolean isLianDong = false;
 
