@@ -2,6 +2,7 @@ package com.zfsbs.activity;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -70,6 +71,7 @@ import com.zfsbs.model.TransUploadRequest;
 import com.zfsbs.model.TransUploadResponse;
 import com.zfsbs.model.ZfQbResponse;
 import com.zfsbs.myapplication.MyApplication;
+import com.zfsbs.view.MyDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -939,14 +941,30 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
             @Override
             public void failed(String error) {
 //                ToastUtils.CustomShow(ZfPayActivity.this, error);
-                final CommonDialog confirmDialog = new CommonDialog(ZfPayActivity.this, error);
-                confirmDialog.show();
-                confirmDialog.setClicklistener(new CommonDialog.ClickListenerInterface() {
-                    @Override
-                    public void doConfirm() {
+//                final CommonDialog confirmDialog = new CommonDialog(ZfPayActivity.this, error);
+//                confirmDialog.show();
+//                confirmDialog.setClicklistener(new CommonDialog.ClickListenerInterface() {
+//                    @Override
+//                    public void doConfirm() {
+//
+//                    }
+//                });
 
+                MyDialog.Builder builder = new MyDialog.Builder(mContext);
+                builder.setTitle("提示");
+                builder.setMessage(error);
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                     }
                 });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int arg1) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
             }
         });
 
