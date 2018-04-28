@@ -248,17 +248,19 @@ public class MemberActivity extends BaseActivity implements View.OnClickListener
             case R.id.id_no_used:
 
                 //备份订单号
-                SetClientOrder order = new SetClientOrder();
-                order.setStatus(false);
-                CommonFunc.setMemberClientOrderNo(this, order);
-
-                MemberTransAmountResponse member = new MemberTransAmountResponse();
-                member.setRealMoney(amount);
-                member.setTradeMoney(amount);
-                member.setMemberCardNo(couponResponse.isMember() ? couponResponse.getMemberCardNo() : "");
-                member.setStkCardNo(couponResponse.getIcCardNo());
-                CommonFunc.setBackMemberInfo(this, member);
-                CommonFunc.startAction(this, ZfPayActivity.class, true);
+//                SetClientOrder order = new SetClientOrder();
+//                order.setStatus(false);
+//                CommonFunc.setMemberClientOrderNo(this, order);
+//
+//                MemberTransAmountResponse member = new MemberTransAmountResponse();
+//                member.setRealMoney(amount);
+//                member.setTradeMoney(amount);
+//                member.setMemberCardNo(couponResponse.isMember() ? couponResponse.getMemberCardNo() : "");
+//                member.setStkCardNo(couponResponse.getIcCardNo());
+//                CommonFunc.setBackMemberInfo(this, member);
+//                CommonFunc.startAction(this, ZfPayActivity.class, true);
+                point = 0;
+                memberTransAmountAction();
                 break;
             case R.id.id_isUsed_point:
                 if (tIsUsedPoint.isSelected()) {
