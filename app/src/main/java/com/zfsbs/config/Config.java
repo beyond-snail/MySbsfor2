@@ -64,6 +64,9 @@ public class Config {
     //是否签名
     public static final boolean isSign = false;
 
+    //中阿栏定制
+    public static final boolean isZal = true;
+
 
     //当前的UI
     public static final int APP_SBS_UI_SBS = 0;

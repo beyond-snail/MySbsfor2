@@ -90,7 +90,14 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 			Menu menu = new Menu();
 			menu.setBg(EnumConstsSbs.SystemMenuType.values()[i].getBg());
 			menu.setName(EnumConstsSbs.SystemMenuType.values()[i].getName());
-			list.add(menu);
+			if (Config.isZal == true){
+				if (EnumConstsSbs.SystemMenuType.values()[i].getCode() != EnumConstsSbs.SystemMenuType.SYS_MENU_6.getCode() &&
+						EnumConstsSbs.SystemMenuType.values()[i].getCode() != EnumConstsSbs.SystemMenuType.SYS_MENU_7.getCode()){
+					list.add(menu);
+				}
+			}else {
+				list.add(menu);
+			}
 		}
 
 

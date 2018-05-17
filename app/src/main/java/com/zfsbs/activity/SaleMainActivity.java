@@ -262,10 +262,14 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
                 switch (index){
                     case 1:
                         SPUtils.put(SaleMainActivity.this, Config.APP_TYPE, Config.APP_SBS);
-                        if (isCheckStatus()) {
+                        if (Config.isZal == true) {
                             CommonFunc.startAction(SaleMainActivity.this, InputAmountActivity.class, false);
-                        } else {
-                            CommonFunc.startAction(SaleMainActivity.this, HsSaleManagerActivity.class, false);
+                        }else{
+                            if (isCheckStatus()) {
+                                CommonFunc.startAction(SaleMainActivity.this, InputAmountActivity.class, false);
+                            } else {
+                                CommonFunc.startAction(SaleMainActivity.this, HsSaleManagerActivity.class, false);
+                            }
                         }
                         break;
                     case 2:
