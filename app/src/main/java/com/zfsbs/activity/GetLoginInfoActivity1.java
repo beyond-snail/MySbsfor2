@@ -13,8 +13,13 @@ import com.mycommonlib.core.PayCommon;
 import com.mycommonlib.model.ComTransInfo;
 import com.tool.utils.utils.LogUtils;
 import com.tool.utils.utils.NetUtils;
+import com.tool.utils.utils.SPUtils;
+import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
 import com.zfsbs.R;
+import com.zfsbs.common.CommonFunc;
+import com.zfsbs.config.Config;
+import com.zfsbs.config.Constants;
 import com.zfsbs.core.action.LoginAction;
 import com.zfsbs.core.myinterface.UiAction;
 import com.zfsbs.myapplication.MyApplication;
@@ -63,7 +68,14 @@ public class GetLoginInfoActivity1 extends BaseActivity implements OnClickListen
             @Override
             public void UiAction(Activity context, Class<?> cls, boolean flag) {
                 LogUtils.e("UiAction02");
-                setPayParam(GetLoginInfoActivity1.this);
+                if (Config.isZal == true) {
+                    // 登录成功 保存今天的时间
+                    SPUtils.put(GetLoginInfoActivity1.this, Constants.HS_LOGIN_TIME, StringUtils.getCurDate());
+                    CommonFunc.startAction(GetLoginInfoActivity1.this, InputAmountActivity.class, false);
+                    finish();
+                }else {
+                    setPayParam(GetLoginInfoActivity1.this);
+                }
 
             }
         });

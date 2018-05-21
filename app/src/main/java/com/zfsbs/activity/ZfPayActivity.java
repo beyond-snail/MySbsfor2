@@ -223,8 +223,7 @@ public class ZfPayActivity extends BaseActivity implements OnClickListener {
             type.setName(EnumConstsSbs.PaymentType.values()[i].getName());
             if (Config.isZal == true){
                 if (EnumConstsSbs.PaymentType.values()[i].getCode() != EnumConstsSbs.PaymentType.BankCard.getCode() &&
-                        EnumConstsSbs.PaymentType.values()[i].getCode() != EnumConstsSbs.PaymentType.UnionBank.getCode() &&
-                        EnumConstsSbs.PaymentType.values()[i].getCode() != EnumConstsSbs.PaymentType.STK.getCode()){
+                        EnumConstsSbs.PaymentType.values()[i].getCode() != EnumConstsSbs.PaymentType.UnionBank.getCode()){
                     list.add(type);
                 }
             }else {
