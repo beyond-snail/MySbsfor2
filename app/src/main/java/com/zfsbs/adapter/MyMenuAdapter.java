@@ -41,6 +41,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -91,13 +92,13 @@ public class MyMenuAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.item_menu, parent, false);
 
             //指定Item的宽高
-            DisplayMetrics dm = new DisplayMetrics();
-            ((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(dm);
-            int width = dm.widthPixels;
-            int height = dm.heightPixels - ScreenUtils.dp2px(100, mContext);//高度
-
-            AbsListView.LayoutParams param = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height / 3);
-            convertView.setLayoutParams(param);
+//            DisplayMetrics dm = new DisplayMetrics();
+//            ((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(dm);
+//            int width = dm.widthPixels;
+//            int height = dm.heightPixels - ScreenUtils.dp2px(100, mContext);//高度
+//
+//            AbsListView.LayoutParams param = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height / 3);
+//            convertView.setLayoutParams(param);
 
 
 //            WindowManager wm = ((Activity) mContext).getWindowManager();
@@ -109,16 +110,15 @@ public class MyMenuAdapter extends BaseAdapter {
 
             holder.ll = (LinearLayout) convertView.findViewById(R.id.id_ll_tv);
             holder.tv = (TextView) convertView.findViewById(R.id.id_tv);
+            holder.img = (ImageView) convertView.findViewById(R.id.img);
             convertView.setTag(holder);
 
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
         Menu vo = list.get(position);
-
-        holder.ll.setBackgroundColor(mContext.getResources().getColor(vo.getBg()));
+        holder.img.setImageResource(vo.getBg());
         holder.tv.setText(vo.getName());
-        holder.tv.setTextSize(16f);
 
 
         return convertView;
@@ -126,6 +126,7 @@ public class MyMenuAdapter extends BaseAdapter {
 
     private static final class ViewHolder {
         LinearLayout ll;
+        ImageView img;
         TextView tv;
     }
 }

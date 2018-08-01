@@ -1,5 +1,6 @@
 package com.zfsbs.activity;
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,6 +39,7 @@ import com.zfsbs.model.RicherGetMember;
 import com.zfsbs.model.SbsPrinterData;
 import com.zfsbs.model.TransUploadRequest;
 import com.zfsbs.myapplication.MyApplication;
+import com.zfsbs.view.MyDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -198,14 +200,31 @@ public class SaleUndoActivity extends BaseActivity implements OnClickListener {
 
             @Override
             public void failed(String error) {
-                final CommonDialog confirmDialog = new CommonDialog(SaleUndoActivity.this, error);
-                confirmDialog.show();
-                confirmDialog.setClicklistener(new CommonDialog.ClickListenerInterface() {
-                    @Override
-                    public void doConfirm() {
 
-                    }
-                });
+                    MyDialog.Builder builder = new MyDialog.Builder(mContext);
+                    builder.setTitle("提示");
+                    builder.setMessage(StringUtils.isBlank(error) ? "失败" : error);
+                    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int arg1) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.create().show();
+
+//                final CommonDialog confirmDialog = new CommonDialog(SaleUndoActivity.this, error);
+//                confirmDialog.show();
+//                confirmDialog.setClicklistener(new CommonDialog.ClickListenerInterface() {
+//                    @Override
+//                    public void doConfirm() {
+//
+//                    }
+//                });
             }
         });
     }
