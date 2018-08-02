@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -24,8 +25,10 @@ import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
 import com.tool.utils.view.MyGridView;
+import com.tool.utils.view.MyListView;
 import com.zfsbs.R;
 import com.zfsbs.adapter.MyMenuAdapter;
+import com.zfsbs.adapter.MyMenuListAdapter;
 import com.zfsbs.common.CommonFunc;
 import com.zfsbs.config.Config;
 import com.zfsbs.config.Constants;
@@ -64,8 +67,10 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 	private String TAG = "SysMainActivity";
 
 	private List<Menu> list = new ArrayList<Menu>();
-	private MyGridView gridView;
-	private MyMenuAdapter adapter;
+//	private MyGridView gridView;
+//	private MyMenuAdapter adapter;
+	private MyListView listView;
+	private MyMenuListAdapter adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,22 +95,14 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 			Menu menu = new Menu();
 			menu.setBg(EnumConstsSbs.SystemMenuType.values()[i].getBg());
 			menu.setName(EnumConstsSbs.SystemMenuType.values()[i].getName());
-			if (Config.isZal == true){
-				if (EnumConstsSbs.SystemMenuType.values()[i].getCode() != EnumConstsSbs.SystemMenuType.SYS_MENU_6.getCode() &&
-						EnumConstsSbs.SystemMenuType.values()[i].getCode() != EnumConstsSbs.SystemMenuType.SYS_MENU_7.getCode()){
-					list.add(menu);
-				}
-			}else {
-				list.add(menu);
-			}
+			list.add(menu);
 		}
 
 
-
-		gridView = (MyGridView) findViewById(R.id.id_gridview);
-		adapter = new MyMenuAdapter(mContext, list);
-		gridView.setAdapter(adapter);
-		gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		listView = (MyListView) findViewById(R.id.id_gridview);
+		adapter = new MyMenuListAdapter(mContext, list, R.layout.my_list_item);
+		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -11,26 +11,42 @@
         layout="@layout/layout_header_with_back" />
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    <com.tool.utils.view.MyGridView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.tool.utils.view.MyListView
         android:id="@+id/id_gridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
-        android:cacheColorHint="@android:color/transparent"
-        android:divider="@null"
-        android:dividerHeight="0dp"
-        android:horizontalSpacing="10dp"
-        android:listSelector="#00000000"
-        android:numColumns="2"
-        android:padding="10dp"
-        android:verticalSpacing="10dp">
-
-    </com.tool.utils.view.MyGridView>
-
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:divider="#f5f5f5"
+        android:dividerHeight="1px"
+        android:listSelector="@android:color/transparent"
+        android:scrollbars="none"
+        android:visibility="visible" />
     </ScrollView>
+
+    <!--<ScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+    <!--<com.tool.utils.view.MyGridView-->
+        <!--android:id="@+id/id_gridview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+
+        <!--android:cacheColorHint="@android:color/transparent"-->
+        <!--android:divider="@null"-->
+        <!--android:dividerHeight="0dp"-->
+        <!--android:horizontalSpacing="10dp"-->
+        <!--android:listSelector="#00000000"-->
+        <!--android:numColumns="2"-->
+        <!--android:padding="10dp"-->
+        <!--android:verticalSpacing="10dp">-->
+
+    <!--</com.tool.utils.view.MyGridView>-->
+
+    <!--</ScrollView>-->
     <!--<LinearLayout-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="0dp"-->

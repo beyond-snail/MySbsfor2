@@ -5,18 +5,7 @@
     android:background="@color/frenchGrey"
     android:orientation="vertical">
 
-    <!--<TextView-->
-    <!--android:id="@+id/activity_title"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginLeft="5dp"-->
-    <!--android:layout_marginRight="5dp"-->
-    <!--android:layout_marginTop="5dp"-->
-    <!--android:background="@color/darkcyan"-->
-    <!--android:gravity="center"-->
-    <!--android:text="@string/pay"-->
-    <!--android:textColor="@color/white"-->
-    <!--android:textSize="28sp" />-->
+
     <include
         android:id="@+id/titlelayout"
         layout="@layout/layout_header_with_back" />
@@ -24,13 +13,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/relay_bg"
+        android:background="@color/header_bg_color"
         android:baselineAligned="false"
-        android:orientation="vertical"
-        android:padding="2dp">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,80 +24,25 @@
             android:layout_marginTop="5dp"
             android:gravity="center_vertical"
             android:text="@string/pay_data"
-            android:textColor="@color/black"
-            android:textSize="18sp"></TextView>
-
-        <!-- <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text="@string/pay_order_id"
-                android:textColor="@color/black"
-                android:textSize="15sp" >
-            </TextView>
-
-            <TextView
-                android:id="@+id/id_orderid"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text="20101111111111111111111"
-                android:textColor="@color/black"
-                android:textSize="15sp" >
-            </TextView>
-        </LinearLayout> -->
+            android:textColor="@color/white"
+            android:textSize="14sp"></TextView>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text="@string/pay_amount_total"
-                android:textColor="@color/black"
-                android:textSize="15sp"></TextView>
-
-            <TextView
-                android:id="@+id/id_orderAmount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text="--"
-                android:textColor="@color/black"
-                android:textSize="15sp"></TextView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="4dp"
-            android:orientation="horizontal">
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="10dp"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:text="@string/pay_amount"
-                android:textColor="@color/black"
-                android:textSize="15sp"></TextView>
+                android:textColor="@color/white"
+                android:textSize="14sp"></TextView>
 
             <TextView
                 android:id="@+id/id_payAmount"
@@ -120,79 +50,118 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:text="--"
-                android:textColor="@color/black"
-                android:textSize="15sp"></TextView>
+                android:textColor="@color/white"
+                android:textSize="18sp"></TextView>
         </LinearLayout>
-
         <LinearLayout
-            android:id="@+id/id_ll_pointAmount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="4dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginBottom="5dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text="@string/pay_point_amount"
-                android:textColor="@color/black"
-                android:textSize="15sp"></TextView>
+                android:text="@string/pay_amount_total"
+                android:textColor="@color/white"
+                android:textSize="13sp"></TextView>
 
             <TextView
-                android:id="@+id/id_pointAmount"
+                android:id="@+id/id_orderAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
                 android:text="--"
-                android:textColor="@color/black"
-                android:textSize="15sp"></TextView>
+                android:textColor="@color/white"
+                android:textSize="13sp"></TextView>
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white"/>
 
         <LinearLayout
-            android:id="@+id/id_ll_coupon_amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="4dp"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:gravity="center"
             android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/id_ll_pointAmount"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text="@string/pay_coupons_amount"
-                android:textColor="@color/black"
-                android:textSize="15sp"></TextView>
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/id_coupon_amount"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pay_point_amount"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"></TextView>
+
+                <TextView
+                    android:id="@+id/id_pointAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"></TextView>
+            </LinearLayout>
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:background="@color/white"/>
+            <LinearLayout
+                android:id="@+id/id_ll_coupon_amount"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text="--"
-                android:textColor="@color/black"
-                android:textSize="15sp"></TextView>
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pay_coupons_amount"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"></TextView>
+
+                <TextView
+                    android:id="@+id/id_coupon_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"></TextView>
+            </LinearLayout>
         </LinearLayout>
+
+
     </LinearLayout>
 
     <ScrollView
         android:id="@+id/ll_pay_type"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none"
+        android:fillViewport="true">
+
 
         <LinearLayout
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
             android:background="@drawable/relay_bg"
             android:baselineAligned="false"
             android:orientation="vertical"
@@ -207,7 +176,7 @@
                 android:gravity="center_vertical"
                 android:text="@string/pay_type"
                 android:textColor="@color/black"
-                android:textSize="18sp"></TextView>
+                android:textSize="14sp"></TextView>
 
 
             <com.tool.utils.view.MyGridView
@@ -226,184 +195,7 @@
 
             </com.tool.utils.view.MyGridView>
 
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:baselineAligned="false"-->
-                <!--android:orientation="horizontal">-->
 
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/pay_flot"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1.01"-->
-                    <!--android:background="@drawable/pay_bg"-->
-                    <!--android:clickable="true"-->
-                    <!--android:orientation="vertical"-->
-                    <!--android:padding="10dp">-->
-
-                    <!--<Button-->
-
-                        <!--android:layout_width="@dimen/pay_icon_width"-->
-                        <!--android:layout_height="@dimen/pay_icon_height"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:background="@drawable/pay_flot_bg"-->
-                        <!--android:clickable="false"></Button>-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:layout_marginTop="3dp"-->
-                        <!--android:text="@string/pay_flot"-->
-                        <!--android:textColor="@color/black"-->
-                        <!--android:textSize="15sp"></TextView>-->
-                <!--</LinearLayout>-->
-
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/pay_wx"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:background="@drawable/pay_bg"-->
-                    <!--android:clickable="true"-->
-                    <!--android:orientation="vertical"-->
-                    <!--android:padding="10dp">-->
-
-                    <!--<Button-->
-                        <!--android:layout_width="@dimen/pay_icon_width"-->
-                        <!--android:layout_height="@dimen/pay_icon_height"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:background="@drawable/pay_weixin_bg"-->
-                        <!--android:clickable="false"></Button>-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:layout_marginTop="3dp"-->
-                        <!--android:text="@string/pay_wx"-->
-                        <!--android:textColor="@color/black"-->
-                        <!--android:textSize="15sp"></TextView>-->
-                <!--</LinearLayout>-->
-
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/pay_aly"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:background="@drawable/pay_bg"-->
-                    <!--android:clickable="true"-->
-                    <!--android:orientation="vertical"-->
-                    <!--android:padding="10dp">-->
-
-                    <!--<Button-->
-                        <!--android:layout_width="@dimen/pay_icon_width"-->
-                        <!--android:layout_height="@dimen/pay_icon_height"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:background="@drawable/pay_aly_bg"-->
-                        <!--android:clickable="false"></Button>-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:layout_marginTop="3dp"-->
-                        <!--android:text="@string/pay_aly"-->
-                        <!--android:textColor="@color/black"-->
-                        <!--android:textSize="15sp"></TextView>-->
-                <!--</LinearLayout>-->
-            <!--</LinearLayout>-->
-
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:baselineAligned="false"-->
-                <!--android:orientation="horizontal">-->
-
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/pay_cash"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:background="@drawable/pay_bg"-->
-                    <!--android:focusable="true"-->
-                    <!--android:orientation="vertical"-->
-                    <!--android:padding="10dp">-->
-
-                    <!--<Button-->
-                        <!--android:layout_width="@dimen/pay_icon_width"-->
-                        <!--android:layout_height="@dimen/pay_icon_height"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:background="@drawable/pay_cash_bg"-->
-                        <!--android:clickable="false"></Button>-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:layout_marginTop="3dp"-->
-                        <!--android:text="@string/pay_cash"-->
-                        <!--android:textColor="@color/black"-->
-                        <!--android:textSize="15sp"></TextView>-->
-                <!--</LinearLayout>-->
-
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/pay_qb"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:background="@drawable/pay_bg"-->
-                    <!--android:clickable="true"-->
-                    <!--android:orientation="vertical"-->
-                    <!--android:padding="10dp"-->
-                    <!--android:visibility="visible">-->
-
-                    <!--<Button-->
-                        <!--android:layout_width="@dimen/pay_icon_width"-->
-                        <!--android:layout_height="@dimen/pay_icon_height"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:background="@mipmap/icon_qb"-->
-                        <!--android:clickable="false"></Button>-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:layout_marginTop="3dp"-->
-                        <!--android:text="@string/pay_qb"-->
-                        <!--android:textColor="@color/black"-->
-                        <!--android:textSize="15sp"></TextView>-->
-                <!--</LinearLayout>-->
-
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/id_pay_stk"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:background="@drawable/pay_bg"-->
-                    <!--android:clickable="true"-->
-                    <!--android:orientation="vertical"-->
-                    <!--android:padding="10dp"-->
-                    <!--android:visibility="visible">-->
-
-                    <!--<Button-->
-                        <!--android:layout_width="@dimen/pay_icon_width"-->
-                        <!--android:layout_height="@dimen/pay_icon_height"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:background="@mipmap/stk_card"-->
-                        <!--android:clickable="false"></Button>-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:layout_marginTop="3dp"-->
-                        <!--android:text="@string/pay_stk"-->
-                        <!--android:textColor="@color/black"-->
-                        <!--android:textSize="15sp"></TextView>-->
-                <!--</LinearLayout>-->
-            <!--</LinearLayout>-->
         </LinearLayout>
     </ScrollView>
 

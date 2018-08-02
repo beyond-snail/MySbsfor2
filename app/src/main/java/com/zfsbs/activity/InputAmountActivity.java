@@ -448,14 +448,28 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
      */
     private void memberInfoAction(String phone) {
         Long sid = MyApplication.getInstance().getLoginData().getSid();
-
-        this.sbsAction.getMemberInfo(this, sid, phone, amount, "",new ActionCallbackListener<CouponsResponse>() {
+        final String clientNo =  getNewClientSn();
+        this.sbsAction.getMemberInfo(this, sid, phone, amount, "",clientNo, new ActionCallbackListener<MemberTransAmountResponse>() {
             @Override
-            public void onSuccess(CouponsResponse data) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("member", data);
-                bundle.putString("amount", tAmount.getText().toString());
-                startAction(InputAmountActivity.this, MemberActivity.class, bundle, true);
+            public void onSuccess(MemberTransAmountResponse data) {
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("member", data);
+//                bundle.putString("amount", tAmount.getText().toString());
+//                startAction(InputAmountActivity.this, MemberActivity.class, bundle, true);
+
+
+                //备份订单号
+                SetClientOrder order = new SetClientOrder();
+                order.setStatus(true);
+                order.setClientNo(clientNo);
+                CommonFunc.setMemberClientOrderNo(InputAmountActivity.this, order);
+
+
+//                data.setPoint(data);
+//                data.setStkCardNo(data.getStkCardNo());
+                CommonFunc.setBackMemberInfo(InputAmountActivity.this, data);
+
+                startAction(InputAmountActivity.this, ZfPayActivity.class, true);
             }
 
             @Override

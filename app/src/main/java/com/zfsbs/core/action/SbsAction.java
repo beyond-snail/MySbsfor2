@@ -71,6 +71,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.zfsbs.common.CommonFunc.getNewClientSn;
+
 
 /**********************************************************
  * *
@@ -172,8 +174,8 @@ public class SbsAction {
      * @param tradeMoney
      * @param listener
      */
-    public void getMemberInfo(final Context context, Long sid, String mobile, int tradeMoney, String icCardNo,
-                              final ActionCallbackListener<CouponsResponse> listener) {
+    public void getMemberInfo(final Context context, Long sid, String mobile, int tradeMoney, String icCardNo, String clientNo,
+                              final ActionCallbackListener<MemberTransAmountResponse> listener) {
         final LoadingDialog dialog = new LoadingDialog(context);
         dialog.show("正在获取会员信息...");
 
@@ -184,11 +186,12 @@ public class SbsAction {
         paramsMap.put("operator_num", SPUtils.get(context, Constants.USER_NAME, ""));
         paramsMap.put("serialNum", StringUtils.getSerial());
         paramsMap.put("icCardNo", icCardNo);
+        paramsMap.put("clientOrderNo",clientNo);
 
 
-        String data = CommonFunc.getJsonStr("benefits", paramsMap, "verify", Config.md5_key);
+        String data = CommonFunc.getJsonStr("getRealPay", paramsMap, "verify", Config.md5_key);
 
-        MyOkHttp.get().postJson(context, Config.SBS_URL, data, new GsonResponseHandler<ApiResponse<CouponsResponse>>() {
+        MyOkHttp.get().postJson(context, Config.SBS_URL, data, new GsonResponseHandler<ApiResponse<MemberTransAmountResponse>>() {
             @Override
             public void onFailure(int statusCode, String error_msg) {
                 dialog.dismiss();
@@ -196,7 +199,7 @@ public class SbsAction {
             }
 
             @Override
-            public void onSuccess(int statusCode, ApiResponse<CouponsResponse> response) {
+            public void onSuccess(int statusCode, ApiResponse<MemberTransAmountResponse> response) {
                 dialog.dismiss();
                 if (response != null) {
                     if (response.getCode().equals("A00006")) {

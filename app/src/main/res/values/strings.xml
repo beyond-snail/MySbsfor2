@@ -69,7 +69,7 @@
     <string name="pay_order_amount">订单金额：</string>
     <string name="pay_point_amount">积分抵扣：</string>
     <string name="pay_coupons_amount">优惠券抵扣：</string>
-    <string name="pay_amount">支付金额：</string>
+    <string name="pay_amount">支付金额</string>
     <string name="pay_type">支付方式</string>
     <string name="pay_flot">刷卡</string>
     <string name="pay_cash">现金</string>
