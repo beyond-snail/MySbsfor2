@@ -40,4 +40,10 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
+    <style name="CustomCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <!--<item name="android:button">@drawable/check_remember</item>-->
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/check_remember</item>
+    </style>
+
 </resources>
