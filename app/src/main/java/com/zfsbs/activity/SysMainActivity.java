@@ -1,6 +1,7 @@
 package com.zfsbs.activity;
 
 
+import android.content.ContentValues;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,6 +22,7 @@ import com.tool.utils.dialog.LoadingDialog;
 import com.tool.utils.dialog.SignDialog;
 import com.tool.utils.utils.ALog;
 import com.tool.utils.utils.LogUtils;
+import com.tool.utils.utils.NetUtils;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
@@ -187,6 +189,11 @@ public class SysMainActivity extends BaseActivity implements OnClickListener {
 //				break;
 		}
 	}
+
+
+
+
+
 
 	/**
 	 * 末笔查询

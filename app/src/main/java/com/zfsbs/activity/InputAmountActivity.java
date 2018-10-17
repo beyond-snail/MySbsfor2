@@ -665,7 +665,7 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
     //    String[] mlistText = { "全选", "积分", "优惠券" };
     ArrayList<Map<String, Object>> mData = new ArrayList<Map<String, Object>>();
     SimpleAdapter adapter;
-    Boolean[] bl = { false, false, false };
+    Boolean[] bl = { true, true, true };
 
 
 
@@ -783,7 +783,7 @@ public class InputAmountActivity extends BaseActivity implements OnClickListener
                 memberTransAmountAction2(data, point, coupon);
             }
         });
-//        builder.setNegativeButton("取消", new DialogOnClick());
+        builder.setNegativeButton("取消", new DialogOnClick());
         builder.create().show();
 
     }

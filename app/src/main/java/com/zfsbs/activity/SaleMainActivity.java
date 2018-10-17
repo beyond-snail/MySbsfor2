@@ -1,5 +1,6 @@
 package com.zfsbs.activity;
 
+import android.content.ContentValues;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,6 +27,7 @@ import com.tool.utils.dialog.LoadingDialog;
 import com.tool.utils.dialog.SignDialog;
 import com.tool.utils.utils.EncryptMD5Util;
 import com.tool.utils.utils.LogUtils;
+import com.tool.utils.utils.NetUtils;
 import com.tool.utils.utils.SPUtils;
 import com.tool.utils.utils.StringUtils;
 import com.tool.utils.utils.ToastUtils;
@@ -40,6 +42,7 @@ import com.zfsbs.core.action.FyBat;
 import com.zfsbs.core.action.Printer;
 import com.zfsbs.core.action.RicherQb;
 import com.zfsbs.core.myinterface.ActionCallbackListener;
+import com.zfsbs.model.ChargeBlance;
 import com.zfsbs.model.Couponsn;
 import com.zfsbs.model.FyMicropayRequest;
 import com.zfsbs.model.FyMicropayResponse;
@@ -47,6 +50,7 @@ import com.zfsbs.model.FyQueryRequest;
 import com.zfsbs.model.FyQueryResponse;
 import com.zfsbs.model.FyRefundResponse;
 import com.zfsbs.model.Menu;
+import com.zfsbs.model.RechargeUpLoad;
 import com.zfsbs.model.RicherGetMember;
 import com.zfsbs.model.SbsPrinterData;
 import com.zfsbs.model.TransUploadRequest;
@@ -152,6 +156,159 @@ public class SaleMainActivity extends BaseActivity implements OnClickListener {
 //            startService(intent);
 //        }
     }
+
+
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        LogUtils.e("saleMainActivity initData");
+        checkFailTrans();
+    }
+
+
+    private void checkFailTrans(){
+
+        if (!NetUtils.isConnected(this)){
+            return;
+        }
+        String where = "UploadFlag=1";
+        List<SbsPrinterData> list =  DataSupport.where(where).find(SbsPrinterData.class);
+
+
+        upload(list);
+
+
+    }
+
+
+    private void upload(final List<SbsPrinterData> recordInfos){
+
+        if (recordInfos.size() <= 0){
+            return;
+        }
+
+
+
+        final SbsPrinterData recordInfo = recordInfos.get(0);
+
+
+        if (recordInfo.getPayType() == Constants.PAY_WAY_RECHARGE_ALY ||
+                recordInfo.getPayType() == Constants.PAY_WAY_RECHARGE_WX ||
+                recordInfo.getPayType() == Constants.PAY_WAY_RECHARGE_UNIPAY ||
+                recordInfo.getPayType() == Constants.PAY_WAY_PAY_FLOT ||
+                recordInfo.getPayType() == Constants.PAY_WAY_RECHARGE_CASH) {
+            Gson gson = new Gson();
+            final RechargeUpLoad request = gson.fromJson(recordInfo.getRechargeUpload(), RechargeUpLoad.class);
+//            rechargeUpload(request, recordInfo);
+            if (request == null){
+                return;
+            }
+
+            sbsAction.rechargePay(mContext, request, new ActionCallbackListener<ChargeBlance>() {
+                @Override
+                public void onSuccess(ChargeBlance data) {
+                    //更新
+                    ContentValues values = new ContentValues();
+                    values.put("promotion_num", request.getPromotion_num());
+                    values.put("pacektRemian", data.getPacektRemian());
+                    values.put("realize_card_num", data.getRealize_card_num());
+                    values.put("member_name", data.getMember_name());
+                    values.put("UploadFlag", false);
+                    DataSupport.update(SbsPrinterData.class, values, recordInfo.getId());
+
+
+                    recordInfos.remove(0);
+
+                    upload(recordInfos);
+                }
+
+                @Override
+                public void onFailure(String errorEvent, String message) {
+
+                }
+
+                @Override
+                public void onFailurTimeOut(String s, String error_msg) {
+
+                }
+
+                @Override
+                public void onLogin() {
+
+                }
+            });
+
+
+        } else {
+            Gson gson = new Gson();
+            TransUploadRequest data = gson.fromJson(recordInfo.getTransUploadData(), TransUploadRequest.class);
+//            transUploadAction(data, recordInfo);
+            if (data == null) {
+                return;
+            }
+            LogUtils.e(data.toString());
+
+
+            this.sbsAction.transUpload(this, data, new ActionCallbackListener<TransUploadResponse>() {
+                @Override
+                public void onSuccess(TransUploadResponse data) {
+
+
+                    Gson gson = new GsonBuilder().serializeNulls().create();
+                    String counponStr = gson.toJson(data.getCoupon());
+
+                    //更新
+                    ContentValues values = new ContentValues();
+                    values.put("point_url", data.getPoint_url());
+                    values.put("point", data.getPoint());
+                    values.put("pointCurrent", data.getPointCurrent());
+                    values.put("couponData", counponStr);
+                    values.put("backAmt", data.getBackAmt());
+                    values.put("UploadFlag", false);
+                    DataSupport.update(SbsPrinterData.class, values, recordInfo.getId());
+
+
+                    recordInfos.remove(0);
+
+                    upload(recordInfos);
+
+
+
+                }
+
+                @Override
+                public void onFailure(String errorEvent, String message) {
+
+                }
+
+                @Override
+                public void onFailurTimeOut(String s, String error_msg) {
+
+                }
+
+                @Override
+                public void onLogin() {
+
+                }
+            });
+        }
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
 
     /**
      * 设置参数
