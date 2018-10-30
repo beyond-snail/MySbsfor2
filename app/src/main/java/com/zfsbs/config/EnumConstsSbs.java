@@ -13,7 +13,7 @@ public class EnumConstsSbs {
 
 		MENU_1(1, R.mipmap.menu1,"收银"),
 		MENU_5(5, R.mipmap.menu5,"券码核销"),
-		MENU_3(3, R.mipmap.menu3,"会员充值"),
+//		MENU_3(3, R.mipmap.menu3,"会员充值"),
 		MENU_4(4, R.mipmap.menu4,"开卡/绑卡"),
 		MENU_2(2, R.mipmap.menu2,"交易记录"),
 		MENU_6(6, R.mipmap.menu6,"系统设置"),;
